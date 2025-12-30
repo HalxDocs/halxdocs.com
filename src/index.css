@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+/* Tailwind v4 configuration */
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Light mode (default) */
+  --color-background: #ffffff;
+  --color-foreground: #0a0a0a;
+}
+
+/* Dark mode colors */
+.dark {
+  --color-background: #0a0a0a;
+  --color-foreground: #fafafa;
+}
+
+/* Apply background to html and body */
+html {
+  background-color: var(--color-background);
+  transition: background-color 0.3s ease;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
