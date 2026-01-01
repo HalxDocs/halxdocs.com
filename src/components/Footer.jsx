@@ -13,7 +13,7 @@ export default function Footer() {
               HalxDocs
             </p>
             <p className="mt-2 text-sm text-black/60 dark:text-white/60">
-              © 2025 HalxDocs. All rights reserved.
+              © 2026 HalxDocs. All rights reserved.
             </p>
           </div>
 
