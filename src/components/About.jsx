@@ -97,8 +97,8 @@ export default function About() {
           <div className="mt-12 flex gap-8">
             {[
               { icon: <FiTwitter />, href: "https://x.com/halxdocs", label: "X" },
-              { icon: <FiLinkedin />, href: "...", label: "In" },
-              { icon: <FiGithub />, href: "...", label: "Git" }
+              { icon: <FiLinkedin />, href: "https://www.linkedin.com/in/halx-docs-633272344", label: "In" },
+              { icon: <FiGithub />, href: "https://github.com/HalxDocs", label: "Git" }
             ].map((social, i) => (
               <motion.a
                 key={i}

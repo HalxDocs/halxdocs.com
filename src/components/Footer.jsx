@@ -40,7 +40,7 @@ export default function Footer() {
             </a>
 
             <a
-              href="https://www.linkedin.com/in/halx-docs-633272344/"
+              href="https://www.linkedin.com/in/halx-docs-633272344"
               target="_blank"
               rel="noreferrer"
               className="hover:text-black dark:hover:text-white transition-colors"

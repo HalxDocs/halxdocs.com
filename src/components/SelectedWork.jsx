@@ -10,6 +10,12 @@ const items = [
     image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&q=80&w=800",
   },
   {
+    label: "Thinking mirror",
+    title: "Cortex",
+    href: "https://corte-x.vercel.app",
+    image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&q=80&w=800",
+  },
+  {
     label: "Chrome extension",
     title: "Ai Dev Helper",
     href: "https://github.com/HalxDocs/Aidevhelper",
