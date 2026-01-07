@@ -38,7 +38,7 @@ export default function Hero() {
             />
           </div>
 
-          {/* Dark overlay - always the same */}
+          {/* Overlay */}
           <div className="absolute inset-0 bg-black/25" />
 
           {/* Content */}
@@ -77,9 +77,7 @@ export default function Hero() {
             >
               High-Impact Digital Products
               <br />
-              <span className="text-white">
-                {phrases[index]} ✽
-              </span>
+              <span>{phrases[index]} ✽</span>
             </motion.h1>
 
             {/* Subtext */}
@@ -97,18 +95,30 @@ export default function Hero() {
               on real business growth and long-term impact.
             </motion.p>
 
-            {/* CTA */}
+            {/* CTA — SAME PILL SYSTEM */}
             <motion.a
               href="https://cal.com/kamsy-ejindu-qdidgy/15min"
-              whileHover={{ scale: 1.04 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.97 }}
               className="
-                mt-10 inline-flex items-center justify-center
-                px-8 py-4 rounded-full
-                bg-white text-black
-                font-medium
+                mt-10 inline-flex items-center gap-3
+                px-6 py-3 rounded-full
+                bg-white/20
+                border border-white/30
+                backdrop-blur
+                text-white
+                transition-all
               "
             >
-              Book a call
+              {/* Ping dot */}
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-400" />
+              </span>
+
+              <span className="text-xs uppercase tracking-widest font-medium">
+                Book a call
+              </span>
             </motion.a>
 
           </div>
