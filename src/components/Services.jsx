@@ -1,131 +1,105 @@
 import {
   motion,
-  useSpring,
   useMotionValue,
+  useSpring,
   useTransform,
 } from "framer-motion";
-import { memo, useCallback } from "react";
+import { memo, useRef } from "react";
 
-/* -------------------- Animation Variants -------------------- */
+/* -------------------- Animations -------------------- */
 
 const containerVariants = {
-  hidden: { opacity: 0 },
+  hidden: {},
   visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.12,
-      delayChildren: 0.2,
-    },
+    transition: { staggerChildren: 0.12 },
   },
 };
 
 const rowVariants = {
-  hidden: {
-    opacity: 0,
-    y: 60,
-    clipPath: "inset(100% 0% 0% 0%)",
-  },
+  hidden: { opacity: 0, y: 40 },
   visible: {
     opacity: 1,
     y: 0,
-    clipPath: "inset(0% 0% 0% 0%)",
     transition: {
-      duration: 0.9,
-      ease: [0.16, 1, 0.3, 1],
+      duration: 0.7,
+      ease: [0.22, 1, 0.36, 1],
     },
   },
 };
 
 /* -------------------- Service Row -------------------- */
 
-const ServiceRow = memo(({ left, right, video }) => {
-  // Detect touch devices (mobile performance)
-  const isTouch =
-    typeof window !== "undefined" &&
-    window.matchMedia("(hover: none)").matches;
+const ServiceRow = memo(function ServiceRow({
+  left,
+  right,
+  video,
+  index,
+}) {
+  const rowRef = useRef(null);
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  const spring = { damping: 30, stiffness: 180 };
-  const xSpring = useSpring(mouseX, spring);
-  const ySpring = useSpring(mouseY, spring);
+  const spring = { stiffness: 140, damping: 20 };
+  const x = useSpring(mouseX, spring);
+  const y = useSpring(mouseY, spring);
 
-  const rotateX = useTransform(ySpring, [-40, 40], [8, -8]);
-  const rotateY = useTransform(xSpring, [-40, 40], [-8, 8]);
+  const rotateX = useTransform(y, [-40, 40], [8, -8]);
+  const rotateY = useTransform(x, [-40, 40], [-8, 8]);
 
-  const handleMouseMove = useCallback(
-    (e) => {
-      if (isTouch) return;
+  const onMove = (e) => {
+    const r = rowRef.current.getBoundingClientRect();
+    mouseX.set(e.clientX - (r.left + r.width / 2));
+    mouseY.set(e.clientY - (r.top + r.height / 2));
+  };
 
-      const rect = e.currentTarget.getBoundingClientRect();
-      mouseX.set(e.clientX - (rect.left + rect.width / 2));
-      mouseY.set(e.clientY - (rect.top + rect.height / 2));
-    },
-    [isTouch, mouseX, mouseY]
-  );
-
-  const handleMouseLeave = useCallback(() => {
+  const onLeave = () => {
     mouseX.set(0);
     mouseY.set(0);
-  }, [mouseX, mouseY]);
+  };
 
   return (
     <motion.div
+      ref={rowRef}
       variants={rowVariants}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
+      onMouseMove={onMove}
+      onMouseLeave={onLeave}
       className="
         group relative
-        flex flex-row items-center justify-between
-        gap-3 sm:gap-12
-        py-8 sm:py-10
-        border-b border-black/5 dark:border-white/5
-        last:border-0
-        overflow-hidden
+        flex flex-col lg:flex-row
+        items-center
+        justify-between
+        gap-10 lg:gap-16
+        py-14 sm:py-20
+        border-b border-black/10 dark:border-white/10
+        last:border-none
       "
     >
-      {/* Left Text */}
-      <motion.h3
-        style={{ x: useTransform(xSpring, (v) => v * -0.08) }}
+      {/* Left */}
+      <h3
         className="
-          flex-1
-          text-[clamp(1.4rem,6vw,5rem)]
-          sm:text-[clamp(2rem,7vw,5rem)]
-          font-bold tracking-tighter
-          text-black/30 dark:text-white/20
+          text-center lg:text-left
+          text-[11vw] sm:text-[4.5vw]
+          font-extrabold uppercase tracking-tight
+          text-black/25 dark:text-white/15
           group-hover:text-black dark:group-hover:text-white
-          transition-colors duration-300
-          italic sm:not-italic
-          text-left
-          whitespace-nowrap
+          transition-colors duration-500
         "
       >
         {left}
-      </motion.h3>
+      </h3>
 
       {/* Media */}
       <motion.div
-        style={
-          isTouch
-            ? undefined
-            : {
-                x: xSpring,
-                y: ySpring,
-                rotateX,
-                rotateY,
-                perspective: 900,
-              }
-        }
+        style={{ x, y, rotateX, rotateY }}
         className="
           relative z-10
-          w-[70px] h-[50px]
-          sm:w-[160px] sm:h-[110px]
-          shrink-0
-          rounded-full overflow-hidden
-          border border-black dark:border-white
+          w-[240px] h-[140px]
+          sm:w-[300px] sm:h-[180px]
+          rounded-2xl overflow-hidden
+          border border-black/20 dark:border-white/20
           shadow-xl
-          will-change-transform
+          shrink-0
         "
       >
         <video
@@ -134,39 +108,38 @@ const ServiceRow = memo(({ left, right, video }) => {
           loop
           muted
           playsInline
-          preload="metadata"
           className="
             w-full h-full object-cover
-            grayscale
-            group-hover:grayscale-0
-            transition-all duration-500
+            grayscale group-hover:grayscale-0
+            scale-110 group-hover:scale-100
+            transition-all duration-700
           "
         />
-        <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+        <span className="
+          absolute top-3 left-3
+          text-xs font-mono
+          text-white mix-blend-difference
+        ">
+          0{index + 1}
+        </span>
       </motion.div>
 
-      {/* Right Text */}
-      <motion.h3
-        style={{ x: useTransform(xSpring, (v) => v * 0.08) }}
+      {/* Right */}
+      <h3
         className="
-          flex-1
-          text-[clamp(1.4rem,6vw,5rem)]
-          sm:text-[clamp(2rem,7vw,5rem)]
-          font-bold tracking-tighter
-          text-black/30 dark:text-white/20
+          text-center lg:text-right
+          text-[11vw] sm:text-[4.5vw]
+          font-extrabold uppercase tracking-tight
+          text-black/25 dark:text-white/15
           group-hover:text-black dark:group-hover:text-white
-          transition-colors duration-300
-          text-right
-          whitespace-nowrap
+          transition-colors duration-500
         "
       >
         {right}
-      </motion.h3>
+      </h3>
     </motion.div>
   );
 });
-
-ServiceRow.displayName = "ServiceRow";
 
 /* -------------------- Services Section -------------------- */
 
@@ -174,38 +147,25 @@ export default function Services() {
   return (
     <section
       id="services"
-      className="relative bg-white dark:bg-black py-32 sm:py-48 overflow-hidden"
+      className="relative bg-white dark:bg-black py-24 sm:py-32"
     >
-      {/* Ambient background */}
-      <div className="absolute inset-0 pointer-events-none">
-        <motion.div
-          animate={{ x: [0, 40, 0], y: [0, 30, 0] }}
-          transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-1/4 -left-24 w-[40vw] h-[40vw] rounded-full bg-blue-400/10 blur-[120px] dark:bg-blue-600/5"
-        />
-        <motion.div
-          animate={{ x: [0, -40, 0], y: [0, -30, 0] }}
-          transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-1/4 -right-24 w-[40vw] h-[40vw] rounded-full bg-purple-400/10 blur-[120px] dark:bg-purple-600/5"
-        />
-      </div>
+      <div className="max-w-[1400px] mx-auto px-5 sm:px-8">
 
-      <div className="relative z-10 mx-auto max-w-7xl px-4">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
+        <motion.header
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-32 text-center"
+          className="mb-20 sm:mb-32"
         >
-          <span className="block text-xs font-bold tracking-[0.3em] uppercase opacity-50 mb-4">
-            Expertise
+          <span className="block mb-4 text-xs tracking-[0.4em] uppercase opacity-60">
+            Services
           </span>
-          <h2 className="text-4xl md:text-5xl font-light tracking-tight">
-            Crafting digital{" "}
-            <span className="font-serif italic">excellence</span>.
+
+          <h2 className="text-4xl sm:text-6xl font-medium tracking-tight">
+            Services I Offer
           </h2>
-        </motion.div>
+        </motion.header>
 
         {/* Services */}
         <motion.div
@@ -213,26 +173,43 @@ export default function Services() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-80px" }}
-          className="flex flex-col"
         >
-          <ServiceRow left="Web" right="Development" video="/web_develop.mp4" />
           <ServiceRow
-            left="Interface"
-            right="Design"
-            video="/interface_design.mp4"
+            index={0}
+            left="Web"
+            right="Platforms"
+            video="/web_develop.mp4"
           />
+
           <ServiceRow
-            left="Backend"
-            right="Architecture"
-            video="/3d_web_experiences.mp4"
-          />
-          <ServiceRow
+            index={1}
             left="Mobile"
-            right="Applications"
+            right="Apps"
             video="/solid_engineering.mp4"
           />
-          <ServiceRow left="Motion" right="Graphics" video="/web_develop.mp4" />
+
+          <ServiceRow
+            index={2}
+            left="Product"
+            right="Engineering"
+            video="/3d_web_experiences.mp4"
+          />
+
+          <ServiceRow
+            index={3}
+            left="Backend"
+            right="Systems"
+            video="/interface_design.mp4"
+          />
+
+          <ServiceRow
+            index={4}
+            left="Growth"
+            right="Optimization"
+            video="/web_develop.mp4"
+          />
         </motion.div>
+
       </div>
     </section>
   );

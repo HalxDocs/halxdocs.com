@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Silk from "./Silk";
 
-const phrases = ["built to scale", "built to convert", "built to impress"];
+const phrases = [
+  "designed to scale",
+  "engineered to convert",
+  "built for real growth",
+];
 
 export default function Hero() {
   const [index, setIndex] = useState(0);
@@ -10,115 +14,126 @@ export default function Hero() {
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((i) => (i + 1) % phrases.length);
-    }, 2600);
+    }, 3000);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <section className="relative bg-white text-black dark:bg-black dark:text-white pt-16 pb-40">
-      <div className="mx-auto px-2 sm:px-4 max-w-[96rem]">
+    <section className="relative bg-white text-black dark:bg-black dark:text-white pt-6 sm:pt-10 pb-12 sm:pb-20">
+      <div className="mx-auto px-4 sm:px-6 max-w-[90rem]">
         <div
           className="
             relative w-full
-            h-[85vh] sm:h-[600px] md:h-[650px]
-            rounded-[36px] sm:rounded-[40px]
+            h-[80vh] min-h-[550px] sm:h-[480px] lg:h-[560px]
+            rounded-[40px] sm:rounded-[50px]
             overflow-hidden
             bg-black
-            border border-black/10 dark:border-white/10
+            border border-white/5
           "
         >
-          {/* Silk background */}
+          {/* Liquid Silk Background */}
           <div className="absolute inset-0">
             <Silk
-              speed={5}
-              scale={1}
-              color="#5721ECFF"
-              noiseIntensity={1.5}
-              rotation={0}
+              speed={0.35} 
+              scale={0.6}
+              color="#000000"
+              noiseIntensity={0.4}
+              rotation={45}
             />
           </div>
 
-          {/* Overlay */}
-          <div className="absolute inset-0 bg-black/25" />
+          {/* Vignette Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/80" />
 
-          {/* Content */}
+          {/* Content Container */}
           <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 sm:px-6">
 
-            {/* Availability pill */}
-            <div
+            {/* Rebranded Context Pill */}
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              whileHover={{ scale: 1.02, backgroundColor: "rgba(255, 255, 255, 0.08)" }}
               className="
-                mb-8 inline-flex items-center gap-3
-                px-5 py-2.5 rounded-full
-                bg-white/15
-                border border-white/25
-                backdrop-blur
+                mb-6 sm:mb-8
+                inline-flex items-center gap-3
+                px-4 py-2
+                rounded-full
+                bg-white/5 backdrop-blur-md
+                border border-white/10
+                cursor-default transition-colors
               "
             >
-              <span className="relative flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-400" />
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-full w-full bg-blue-400" />
               </span>
-              <p className="text-xs uppercase tracking-widest text-white">
-                Available for new projects
+              <p className="text-[10px] uppercase tracking-[0.15em] font-medium text-white/90">
+                Working with founders & product teams
               </p>
-            </div>
+            </motion.div>
 
             {/* Headline */}
-            <motion.h1
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="
-                max-w-4xl
-                text-4xl sm:text-5xl md:text-6xl
-                font-semibold leading-tight
-                text-white
-              "
-            >
-              High-Impact Digital Products
-              <br />
-              <span>{phrases[index]} ✽</span>
-            </motion.h1>
+            <h1 className="w-full max-w-5xl text-[34px] leading-[1.1] sm:text-5xl lg:text-7xl font-semibold tracking-tight text-white">
+              High-Impact <br className="sm:hidden" /> Digital Products
+              
+              <div className="relative block w-full h-[1.2em] mt-1 sm:mt-2 overflow-hidden">
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={phrases[index]}
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: -20, opacity: 0 }}
+                    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                    className="
+                      absolute inset-0 block 
+                      text-[28px] sm:text-[40px] lg:text-[56px]
+                      font-light italic text-white/60 
+                      whitespace-nowrap
+                    "
+                  >
+                    {phrases[index]} <span className="not-italic opacity-40 ml-1">✽</span>
+                  </motion.span>
+                </AnimatePresence>
+              </div>
+            </h1>
 
             {/* Subtext */}
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.25 }}
+              transition={{ delay: 0.4 }}
               className="
-                mt-6 max-w-2xl
-                text-base sm:text-lg
-                text-white/85
+                mt-6 sm:mt-8 max-w-[300px] sm:max-w-lg lg:max-w-2xl
+                text-sm sm:text-base lg:text-lg
+                leading-relaxed text-white/50
               "
             >
-              We design and build digital products that focus
-              on real business growth and long-term impact.
+              I design and engineer digital products for founders — 
+              focused on <span className="text-white/80">performance and clarity.</span>
             </motion.p>
 
-            {/* CTA — SAME PILL SYSTEM */}
+            {/* CTA */}
             <motion.a
               href="https://cal.com/kamsy-ejindu-qdidgy/15min"
-              whileHover={{ scale: 1.05 }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.6 }}
+              whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               className="
-                mt-10 inline-flex items-center gap-3
-                px-6 py-3 rounded-full
-                bg-white/20
-                border border-white/30
-                backdrop-blur
-                text-white
-                transition-all
+                mt-8 sm:mt-10 group relative
+                inline-flex items-center gap-4
+                px-8 py-3.5 rounded-2xl
+                bg-white text-black
+                transition-all hover:shadow-[0_0_20px_rgba(255,255,255,0.2)]
               "
             >
-              {/* Ping dot */}
-              <span className="relative flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-400" />
-              </span>
-
-              <span className="text-xs uppercase tracking-widest font-medium">
-                Book a call
-              </span>
+              <span className="text-xs uppercase tracking-widest font-bold">Book a call</span>
+              <div className="flex items-center justify-center w-5 h-5 rounded-full bg-black/5 group-hover:translate-x-1 transition-transform">
+                <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
+                  <path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
             </motion.a>
 
           </div>

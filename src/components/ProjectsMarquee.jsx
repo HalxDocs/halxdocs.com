@@ -2,6 +2,12 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { marqueeProjects } from "../data/marqueeProjects";
 import { memo, useState, useEffect, useRef } from "react";
 
+/* -------------------- Utils -------------------- */
+
+const isTouch =
+  typeof window !== "undefined" &&
+  window.matchMedia("(hover: none)").matches;
+
 /* -------------------- Project Card -------------------- */
 
 const ProjectCard = memo(function ProjectCard({ src, index }) {
@@ -16,19 +22,34 @@ const ProjectCard = memo(function ProjectCard({ src, index }) {
         border border-black/5 dark:border-white/10
         shadow-[0_8px_30px_rgb(0,0,0,0.04)]
         dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)]
+        will-change-transform
       "
-      whileHover={{
-        y: -10,
-        rotate: index % 2 === 0 ? 1 : -1,
-        transition: { type: "spring", stiffness: 400, damping: 12 }
-      }}
+      whileHover={
+        isTouch
+          ? undefined
+          : {
+              y: -10,
+              rotate: index % 2 === 0 ? 1 : -1,
+              transition: {
+                type: "spring",
+                stiffness: 400,
+                damping: 14,
+              },
+            }
+      }
     >
       <div className="relative overflow-hidden rounded-xl aspect-video w-[220px] sm:w-[300px] md:w-[380px] lg:w-[420px]">
         <img
           src={src}
           alt={`Project ${index + 1}`}
-          className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+          loading="lazy"
+          decoding="async"
           draggable={false}
+          className="
+            w-full h-full object-cover
+            transition-transform duration-500
+            hover:scale-110
+          "
         />
         <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent pointer-events-none" />
       </div>
@@ -42,19 +63,24 @@ export default function MarqueeProjects() {
   const containerRef = useRef(null);
   const [duration, setDuration] = useState(60);
 
-  /* Scroll-based depth drift (NOT x) */
+  /* Scroll-based depth drift */
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"],
   });
 
-  const yParallax = useTransform(scrollYProgress, [0, 1], [0, -60]);
+  /* Reduce parallax strength on mobile */
+  const yParallax = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [0, isTouch ? -30 : -60]
+  );
 
   useEffect(() => {
     const updateDuration = () => {
       const w = window.innerWidth;
-      if (w < 640) setDuration(20);
-      else if (w < 1024) setDuration(35);
+      if (w < 640) setDuration(24);
+      else if (w < 1024) setDuration(36);
       else setDuration(50);
     };
 
@@ -81,10 +107,10 @@ export default function MarqueeProjects() {
 
           {/* Scroll depth layer */}
           <motion.div
-            style={{ y: yParallax }}
+            style={{ y: yParallax, willChange: "transform" }}
             className="relative"
           >
-            {/* Auto marquee (ONLY x lives here) */}
+            {/* Auto marquee */}
             <motion.div
               className="flex gap-4 md:gap-8 w-max px-4 pt-4 pb-12"
               animate={{ x: ["0%", "-50%"] }}
@@ -93,12 +119,11 @@ export default function MarqueeProjects() {
                 ease: "linear",
                 repeat: Infinity,
               }}
+              style={{ willChange: "transform" }}
             >
-              {[...marqueeProjects, ...marqueeProjects, ...marqueeProjects].map(
-                (src, i) => (
-                  <ProjectCard key={`project-${i}`} src={src} index={i} />
-                )
-              )}
+              {[...marqueeProjects, ...marqueeProjects].map((src, i) => (
+                <ProjectCard key={`project-${i}`} src={src} index={i} />
+              ))}
             </motion.div>
           </motion.div>
         </motion.div>

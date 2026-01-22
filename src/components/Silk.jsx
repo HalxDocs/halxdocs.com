@@ -1,23 +1,11 @@
 /* eslint-disable react/no-unknown-property */
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { forwardRef, useRef, useMemo, useLayoutEffect } from 'react';
-import { Color } from 'three';
-
-const hexToNormalizedRGB = hex => {
-  hex = hex.replace('#', '');
-  return [
-    parseInt(hex.slice(0, 2), 16) / 255,
-    parseInt(hex.slice(2, 4), 16) / 255,
-    parseInt(hex.slice(4, 6), 16) / 255
-  ];
-};
+import { forwardRef, useRef, useMemo, useLayoutEffect, useEffect } from 'react';
+import * as THREE from 'three';
 
 const vertexShader = `
 varying vec2 vUv;
-varying vec3 vPosition;
-
 void main() {
-  vPosition = position;
   vUv = uv;
   gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
 }
@@ -25,8 +13,6 @@ void main() {
 
 const fragmentShader = `
 varying vec2 vUv;
-varying vec3 vPosition;
-
 uniform float uTime;
 uniform vec3  uColor;
 uniform float uSpeed;
@@ -34,82 +20,119 @@ uniform float uScale;
 uniform float uRotation;
 uniform float uNoiseIntensity;
 
-const float e = 2.71828182845904523536;
-
-float noise(vec2 texCoord) {
-  float G = e;
-  vec2  r = (G * sin(G * texCoord));
-  return fract(r.x * r.y * (1.0 + texCoord.x));
-}
-
-vec2 rotateUvs(vec2 uv, float angle) {
-  float c = cos(angle);
-  float s = sin(angle);
-  mat2  rot = mat2(c, -s, s, c);
-  return rot * uv;
+vec2 rotate(vec2 v, float a) {
+  float s = sin(a);
+  float c = cos(a);
+  mat2 m = mat2(c, -s, s, c);
+  return m * v;
 }
 
 void main() {
-  float rnd        = noise(gl_FragCoord.xy);
-  vec2  uv         = rotateUvs(vUv * uScale, uRotation);
-  vec2  tex        = uv * uScale;
-  float tOffset    = uSpeed * uTime;
+  vec2 uv = vUv - 0.5;
+  uv = rotate(uv, uRotation);
+  
+  float t = uTime * uSpeed;
+  
+  // High-performance domain warping for liquid movement
+  for(float i = 1.0; i < 4.0; i++){
+    uv.x += 0.35 / i * sin(i * 3.0 * uv.y + t);
+    uv.y += 0.35 / i * cos(i * 3.0 * uv.x + t);
+  }
 
-  tex.y += 0.03 * sin(8.0 * tex.x - tOffset);
+  // Create high-contrast ripple peaks
+  float strength = sin(7.0 * (uv.x + uv.y) * uScale);
+  
+  // Smoothstep creates the 'silver streaks' on the peaks of the waves
+  // We narrow the range to make the gray pops more distinct from the black
+  float ripples = smoothstep(-0.3, 0.7, strength);
+  
+  // The 'Specular' highlight - this is what makes it look like liquid metal
+  float spec = pow(ripples, 5.0) * 0.45;
+  
+  // We define a hard black and a mid-tone silver
+  vec3 baseBlack = vec3(0.01, 0.01, 0.02);
+  vec3 silverHighlight = vec3(0.4, 0.4, 0.45); // This is your "gray stuff"
+  
+  // Mix based on ripples, then add the spec highlight for extra shine
+  vec3 finalColor = mix(baseBlack, silverHighlight, ripples * 0.4) + spec;
 
-  float pattern = 0.6 +
-                  0.4 * sin(5.0 * (tex.x + tex.y +
-                                   cos(3.0 * tex.x + 5.0 * tex.y) +
-                                   0.02 * tOffset) +
-                           sin(20.0 * (tex.x + tex.y - 0.1 * tOffset)));
-
-  vec4 col = vec4(uColor, 1.0) * vec4(pattern) - rnd / 15.0 * uNoiseIntensity;
-  col.a = 1.0;
-  gl_FragColor = col;
+  // Final dither to keep gradients smooth on mobile
+  float noise = fract(sin(dot(vUv, vec2(12.9898, 78.233))) * 43758.5453) * 0.07 * uNoiseIntensity;
+  
+  gl_FragColor = vec4(finalColor - noise, 1.0);
 }
 `;
 
-const SilkPlane = forwardRef(function SilkPlane({ uniforms }, ref) {
+const SilkPlane = forwardRef(({ uniforms }, ref) => {
   const { viewport } = useThree();
 
   useLayoutEffect(() => {
     if (ref.current) {
       ref.current.scale.set(viewport.width, viewport.height, 1);
     }
-  }, [ref, viewport]);
+  }, [viewport]);
 
-  useFrame((_, delta) => {
-    ref.current.material.uniforms.uTime.value += 0.1 * delta;
+  useFrame((state) => {
+    if (ref.current) {
+      ref.current.material.uniforms.uTime.value = state.clock.getElapsedTime();
+    }
   });
 
   return (
     <mesh ref={ref}>
-      <planeGeometry args={[1, 1, 1, 1]} />
-      <shaderMaterial uniforms={uniforms} vertexShader={vertexShader} fragmentShader={fragmentShader} />
+      <planeGeometry args={[1, 1]} />
+      <shaderMaterial
+        uniforms={uniforms}
+        vertexShader={vertexShader}
+        fragmentShader={fragmentShader}
+        transparent={true}
+      />
     </mesh>
   );
 });
+
 SilkPlane.displayName = 'SilkPlane';
 
-const Silk = ({ speed = 5, scale = 1, color = '#7B7481', noiseIntensity = 1.5, rotation = 0 }) => {
+const Silk = ({ 
+  speed = 0.35,          // Slow, viscous speed
+  scale = 0.6,           // Scale for prominent ripples
+  color = '#000000',     // Base color set to pure black
+  noiseIntensity = 0.4, 
+  rotation = 45 
+}) => {
   const meshRef = useRef();
 
-  const uniforms = useMemo(
-    () => ({
-      uSpeed: { value: speed },
-      uScale: { value: scale },
-      uNoiseIntensity: { value: noiseIntensity },
-      uColor: { value: new Color(...hexToNormalizedRGB(color)) },
-      uRotation: { value: rotation },
-      uTime: { value: 0 }
-    }),
-    [speed, scale, noiseIntensity, color, rotation]
-  );
+  const uniforms = useMemo(() => ({
+    uTime: { value: 0 },
+    uSpeed: { value: speed },
+    uScale: { value: scale },
+    uNoiseIntensity: { value: noiseIntensity },
+    uRotation: { value: (rotation * Math.PI) / 180 },
+    uColor: { value: new THREE.Color(color) }
+  }), []);
+
+  useEffect(() => {
+    uniforms.uSpeed.value = speed;
+    uniforms.uScale.value = scale;
+    uniforms.uNoiseIntensity.value = noiseIntensity;
+    uniforms.uRotation.value = (rotation * Math.PI) / 180;
+    uniforms.uColor.value.set(color);
+  }, [speed, scale, noiseIntensity, color, rotation, uniforms]);
 
   return (
-    <Canvas dpr={[1, 2]} frameloop="always">
-      <SilkPlane ref={meshRef} uniforms={uniforms} />
-    </Canvas>
+    <div className="absolute inset-0 w-full h-full pointer-events-none opacity-90">
+      <Canvas
+        camera={{ position: [0, 0, 1] }}
+        dpr={[1, 1.5]} // Capped for smoother mobile performance
+        gl={{ 
+          antialias: false, 
+          alpha: true,
+          powerPreference: "high-performance" 
+        }}
+      >
+        <SilkPlane ref={meshRef} uniforms={uniforms} />
+      </Canvas>
+    </div>
   );
 };
 
