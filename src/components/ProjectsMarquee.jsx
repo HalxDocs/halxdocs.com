@@ -1,135 +1,90 @@
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { marqueeProjects } from "../data/marqueeProjects";
-import { memo, useState, useEffect, useRef } from "react";
-
-/* -------------------- Utils -------------------- */
-
-const isTouch =
-  typeof window !== "undefined" &&
-  window.matchMedia("(hover: none)").matches;
+import { memo, useRef, useState } from "react";
 
 /* -------------------- Project Card -------------------- */
-
 const ProjectCard = memo(function ProjectCard({ src, index }) {
   return (
-    <motion.div
+    <div
       className="
         shrink-0
-        bg-white/80 dark:bg-zinc-900/80
-        backdrop-blur-md
-        p-2 md:p-3
-        rounded-2xl
-        border border-black/5 dark:border-white/10
-        shadow-[0_8px_30px_rgb(0,0,0,0.04)]
-        dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)]
+        bg-white dark:bg-zinc-900
+        /* Internal padding to show off the thick border */
+        p-2.5 
+        rounded-[1.5rem]
+        
+        border-[3px] md:border-[4px] 
+        border-black/10 dark:border-white/20
         will-change-transform
       "
-      whileHover={
-        isTouch
-          ? undefined
-          : {
-              y: -10,
-              rotate: index % 2 === 0 ? 1 : -1,
-              transition: {
-                type: "spring",
-                stiffness: 400,
-                damping: 14,
-              },
-            }
-      }
     >
-      <div className="relative overflow-hidden rounded-xl aspect-video w-[220px] sm:w-[300px] md:w-[380px] lg:w-[420px]">
+      <div className="relative overflow-hidden rounded-[0.9rem] aspect-video w-[200px] sm:w-[280px] md:w-[320px]">
         <img
           src={src}
           alt={`Project ${index + 1}`}
           loading="lazy"
-          decoding="async"
-          draggable={false}
-          className="
-            w-full h-full object-cover
-            transition-transform duration-500
-            hover:scale-110
-          "
+          style={{ transform: "translateZ(0)" }}
+          className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent pointer-events-none" />
       </div>
-    </motion.div>
+    </div>
   );
 });
 
-/* -------------------- Marquee -------------------- */
-
+/* -------------------- Marquee Section -------------------- */
 export default function MarqueeProjects() {
   const containerRef = useRef(null);
-  const [duration, setDuration] = useState(60);
+  const [isHovered, setIsHovered] = useState(false);
 
-  /* Scroll-based depth drift */
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"],
   });
 
-  /* Reduce parallax strength on mobile */
-  const yParallax = useTransform(
-    scrollYProgress,
-    [0, 1],
-    [0, isTouch ? -30 : -60]
-  );
+  const smoothScroll = useSpring(scrollYProgress, {
+    stiffness: 45,
+    damping: 25,
+    restDelta: 0.001
+  });
 
-  useEffect(() => {
-    const updateDuration = () => {
-      const w = window.innerWidth;
-      if (w < 640) setDuration(24);
-      else if (w < 1024) setDuration(36);
-      else setDuration(50);
-    };
-
-    updateDuration();
-    window.addEventListener("resize", updateDuration);
-    return () => window.removeEventListener("resize", updateDuration);
-  }, []);
+  const xOffset = useTransform(smoothScroll, [0, 1], [80, -80]);
 
   return (
     <section
       ref={containerRef}
-      className="relative z-20 w-full overflow-hidden py-12 md:py-24 bg-transparent"
+      className="relative z-30 w-full overflow-hidden bg-transparent"
+      style={{ marginTop: "-120px" }} 
     >
-      <div style={{ perspective: "1200px" }} className="w-full">
-        <motion.div
-          initial={{ rotateX: 0 }}
-          whileInView={{ rotateX: 14 }}
-          viewport={{ once: false, margin: "-100px" }}
-          className="relative w-full overflow-hidden"
-        >
-          {/* Edge fades */}
-          <div className="absolute inset-y-0 left-0 w-1/4 z-10 bg-gradient-to-r from-white dark:from-black to-transparent pointer-events-none" />
-          <div className="absolute inset-y-0 right-0 w-1/4 z-10 bg-gradient-to-l from-white dark:from-black to-transparent pointer-events-none" />
+      <motion.div 
+        style={{ x: xOffset }} 
+        className="py-8"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <div className="relative flex items-center">
+          
+          {/* Edge Blurs */}
+          <div className="absolute inset-y-0 left-0 w-[12%] z-20  to-transparent pointer-events-none" />
+          <div className="absolute inset-y-0 right-0 w-[12%] z-20   to-transparent pointer-events-none" />
 
-          {/* Scroll depth layer */}
           <motion.div
-            style={{ y: yParallax, willChange: "transform" }}
-            className="relative"
+            className="flex gap-5 md:gap-8 w-max px-4"
+            animate={{
+              x: ["0%", "-50%"],
+            }}
+            transition={{
+              duration: 70, // Even slower for a more premium, gallery feel
+              ease: "linear",
+              repeat: Infinity,
+              paused: isHovered 
+            }}
           >
-            {/* Auto marquee */}
-            <motion.div
-              className="flex gap-4 md:gap-8 w-max px-4 pt-4 pb-12"
-              animate={{ x: ["0%", "-50%"] }}
-              transition={{
-                duration,
-                ease: "linear",
-                repeat: Infinity,
-              }}
-              style={{ willChange: "transform" }}
-            >
-              {[...marqueeProjects, ...marqueeProjects].map((src, i) => (
-                <ProjectCard key={`project-${i}`} src={src} index={i} />
-              ))}
-            </motion.div>
+            {[...marqueeProjects, ...marqueeProjects].map((src, i) => (
+              <ProjectCard key={`project-${i}`} src={src} index={i} />
+            ))}
           </motion.div>
-        </motion.div>
-      </div>
-
-      <div className="mx-auto w-3/4 h-px bg-gradient-to-r from-transparent via-black/10 dark:via-white/10 to-transparent" />
+        </div>
+      </motion.div>
     </section>
   );
 }

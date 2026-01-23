@@ -19,12 +19,14 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative bg-white text-black dark:bg-black dark:text-white pt-6 sm:pt-10 pb-12 sm:pb-20">
+    /* Removed large bottom padding so the marquee can lap naturally */
+    <section className="relative bg-white text-black dark:bg-black dark:text-white pt-6 sm:pt-10 pb-0">
       <div className="mx-auto px-4 sm:px-6 max-w-[90rem]">
         <div
           className="
             relative w-full
-            h-[80vh] min-h-[550px] sm:h-[480px] lg:h-[560px]
+            /* Increased height and added more bottom space inside the card */
+            h-[85vh] min-h-[650px] sm:h-[600px] lg:h-[720px]
             rounded-[40px] sm:rounded-[50px]
             overflow-hidden
             bg-black
@@ -43,10 +45,10 @@ export default function Hero() {
           </div>
 
           {/* Vignette Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/80" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/90" />
 
-          {/* Content Container */}
-          <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 sm:px-6">
+          {/* Content Container - Adjusted padding-bottom to keep text centered but allow room for lap */}
+          <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 sm:px-6 pb-20">
 
             {/* Rebranded Context Pill */}
             <motion.div
