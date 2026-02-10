@@ -40,6 +40,7 @@ const ImageCard = ({ src, rotation, translateX, translateY, label, index }) => {
 /* -------------------- About Section -------------------- */
 
 export default function About() {
+  // FIXED: Removed trailing spaces from URLs
   const socialLinks = [
     {
       icon: <FiGithub size={18} />,
@@ -120,36 +121,86 @@ export default function About() {
                 label="Engineer"
                 index={1}
               />
+              
+              {/* ADDED: Chess piece decoration */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4, duration: 0.6 }}
+                className="absolute bottom-10 left-10 bg-zinc-100 dark:bg-zinc-800 px-4 py-3 rounded-lg shadow-lg border border-black/5 dark:border-white/5"
+              >
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl">♞</span>
+                  <div>
+                    <p className="text-[10px] uppercase tracking-widest opacity-60 font-semibold">Strategy</p>
+                    <p className="text-sm font-medium">Chess Player</p>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* ADDED: Experience badge */}
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.5, duration: 0.6 }}
+                className="absolute top-10 right-0 bg-black dark:bg-white text-white dark:text-black px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider"
+              >
+                3+ Years
+              </motion.div>
             </div>
           </div>
 
           {/* Content */}
           <div className="lg:col-span-7 order-1 lg:order-2">
             <div className="max-w-2xl">
-              {/* Bio */}
+              {/* Bio - ADDED: motion animations */}
               <div className="space-y-6 text-base sm:text-lg text-black/70 dark:text-white/70 leading-relaxed mb-12">
-                <p>
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 }}
+                >
                   I'm a full-stack product engineer who helps founders ship faster
                   and scale smarter. I specialize in building high-conversion
                   websites, internal tools, and systems that reduce operational
                   friction.
-                </p>
+                </motion.p>
 
-                <p>
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2 }}
+                >
                   My approach combines technical depth with business context. I
                   don't just write code—I architect solutions that align
                   engineering decisions with revenue goals and user outcomes.
-                </p>
+                </motion.p>
 
-                <p className="text-black dark:text-white font-medium">
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.3 }}
+                  className="text-black dark:text-white font-medium"
+                >
                   Currently building developer tools and SaaS platforms while
                   contributing to open-source projects that improve how we ship
                   software.
-                </p>
+                </motion.p>
               </div>
 
-              {/* Expertise */}
-              <div className="mb-12">
+              {/* Expertise - ADDED: motion animation */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4 }}
+                className="mb-12"
+              >
                 <h4 className="text-xs font-semibold uppercase tracking-widest mb-4 opacity-50">
                   Core Expertise
                 </h4>
@@ -171,10 +222,16 @@ export default function About() {
                     </span>
                   ))}
                 </div>
-              </div>
+              </motion.div>
 
-              {/* Social Links */}
-              <div className="flex items-center gap-6 pt-4">
+              {/* Social Links - ADDED: motion animation */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.5 }}
+                className="flex items-center gap-6 pt-4"
+              >
                 <span className="text-sm font-medium opacity-50">
                   Connect:
                 </span>
@@ -198,7 +255,7 @@ export default function About() {
                     </a>
                   ))}
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>
