@@ -220,33 +220,14 @@ export default function About() {
                 </div>
               </motion.div>
 
-              {/* Social Links */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.5 }}
-                className="flex items-center gap-6"
-              >
+           <div className="flex items-center gap-6 pt-8">
                 <span className="text-sm font-medium opacity-50">Connect:</span>
                 <div className="flex gap-4">
-                  <SocialLink 
-                    icon={<FiGithub size={18} />} 
-                    href="https://github.com/halxdocs" 
-                    label="GitHub" 
-                  />
-                  <SocialLink 
-                    icon={<FiInstagram size={18} />} 
-                    href="https://instagram.com/halxdocs_" 
-                    label="Instagram" 
-                  />
-                  <SocialLink 
-                    icon={<FiLinkedin size={18} />} 
-                    href="https://www.linkedin.com/in/halx-docs-633272344" 
-                    label="LinkedIn" 
-                  />
+                  <SocialLink icon={<FiGithub size={18} />} href="https://github.com/halxdocs" label="GitHub" />
+                  <SocialLink icon={<FiInstagram size={18} />} href="https://instagram.com/halxdocs_" label="Instagram" />
+                  <SocialLink icon={<FiLinkedin size={18} />} href="https://www.linkedin.com/in/halx-docs-633272344" label="LinkedIn" />
                 </div>
-              </motion.div>
+              </div>
 
             </div>
           </div>
