@@ -1,8 +1,5 @@
 import {
   motion,
-  useMotionValue,
-  useSpring,
-  useTransform,
 } from "framer-motion";
 import { memo, useRef } from "react";
 
@@ -37,33 +34,10 @@ const ServiceRow = memo(function ServiceRow({
 }) {
   const rowRef = useRef(null);
 
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  const spring = { stiffness: 140, damping: 20 };
-  const x = useSpring(mouseX, spring);
-  const y = useSpring(mouseY, spring);
-
-  const rotateX = useTransform(y, [-40, 40], [8, -8]);
-  const rotateY = useTransform(x, [-40, 40], [-8, 8]);
-
-  const onMove = (e) => {
-    const r = rowRef.current.getBoundingClientRect();
-    mouseX.set(e.clientX - (r.left + r.width / 2));
-    mouseY.set(e.clientY - (r.top + r.height / 2));
-  };
-
-  const onLeave = () => {
-    mouseX.set(0);
-    mouseY.set(0);
-  };
-
   return (
     <motion.div
       ref={rowRef}
       variants={rowVariants}
-      onMouseMove={onMove}
-      onMouseLeave={onLeave}
       className="
         group relative
         flex flex-col lg:flex-row
@@ -89,9 +63,8 @@ const ServiceRow = memo(function ServiceRow({
         {left}
       </h3>
 
-      {/* Media */}
-      <motion.div
-        style={{ x, y, rotateX, rotateY }}
+      {/* Media - Static */}
+      <div
         className="
           relative z-10
           w-[240px] h-[140px]
@@ -122,7 +95,7 @@ const ServiceRow = memo(function ServiceRow({
         ">
           0{index + 1}
         </span>
-      </motion.div>
+      </div>
 
       {/* Right */}
       <h3
