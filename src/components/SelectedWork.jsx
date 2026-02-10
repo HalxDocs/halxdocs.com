@@ -16,7 +16,7 @@ const items = [
     title: "Jsonstack.dev",
     description:
       "A toolkit that helps developers validate, format, and compare JSON faster—reducing errors and saving debugging time.",
-    href: "https://jsonstack.dev",
+    href: "https://jsonstack.dev ",
     image: "/jsonstack.png",
   },
   {
@@ -24,7 +24,7 @@ const items = [
     title: "SavBites",
     description:
       "A conversion-focused restaurant website designed to showcase menus, ambience, and drive customer engagement.",
-    href: "https://sav-six.vercel.app",
+    href: "https://sav-six.vercel.app ",
     image: "/savbites.png",
   },
   {
@@ -32,7 +32,7 @@ const items = [
     title: "Cortex",
     description:
       "An AI-powered reflection tool built to help users organize thoughts, improve clarity, and make better decisions.",
-    href: "https://corte-x.vercel.app",
+    href: "https://corte-x.vercel.app ",
     image: "/cortex.png",
   },
   {
@@ -40,7 +40,7 @@ const items = [
     title: "Medcare",
     description:
       "A medical web platform for managing patients, appointments, and healthcare workflows efficiently.",
-    href: "https://med-iota-neon.vercel.app/",
+    href: "https://med-iota-neon.vercel.app/ ",
     image: "/med.png",
   },
   {
@@ -48,7 +48,7 @@ const items = [
     title: "AI Dev Helper",
     description:
       "A Chrome extension that provides inline AI assistance to developers without leaving the browser.",
-    href: "https://github.com/HalxDocs/Aidevhelper",
+    href: "https://github.com/HalxDocs/Aidevhelper ",
     image: "/aidevhelper.png",
   },
   {
@@ -56,7 +56,7 @@ const items = [
     title: "Zryl",
     description:
       "A CLI tool that records terminal activity—commands, timestamps, OS—and generates a shareable session link.",
-    href: "https://zryl.vercel.app",
+    href: "https://zryl.vercel.app ",
     image: "/zryl.png",
   },
 ];
@@ -225,11 +225,11 @@ export default function SelectedWork() {
               Selected Work
             </p>
             <h2 className="text-5xl md:text-8xl font-black tracking-tighter italic font-serif">
-              Real Products.<br />Real Problems Solved.
+              Built to Ship.<br />Built to Scale.
             </h2>
           </div>
           <p className="hidden md:block max-w-[260px] text-sm text-black/40 dark:text-white/40 text-right">
-            A collection of tools, platforms, and systems built for real-world use.
+            Production-grade systems that handle real traffic, real users, and real revenue.
           </p>
         </div>
 
@@ -250,7 +250,7 @@ export default function SelectedWork() {
         >
           <motion.a
             ref={ref}
-            href="https://github.com/HalxDocs"
+            href="https://github.com/HalxDocs "
             target="_blank"
             rel="noreferrer"
             onMouseMove={handleMagneticMove}
