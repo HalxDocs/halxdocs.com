@@ -1,29 +1,34 @@
 import { motion } from "framer-motion";
-import { FiTwitter, FiLinkedin, FiGithub } from "react-icons/fi";
+import { FiInstagram, FiLinkedin, FiGithub } from "react-icons/fi";
 import { memo } from "react";
 
-/* -------------------- Draggable Image -------------------- */
+/* -------------------- Static Image Card -------------------- */
 
-const DraggableImage = ({ src, rotation, initialX, initialY, label, zIndex }) => {
+const ImageCard = ({ src, rotation, translateX, translateY, label, index }) => {
   return (
     <motion.div
-      drag
-      dragElastic={0.12}
-      initial={{ opacity: 0, rotate: rotation, x: initialX, y: 20 }}
-      whileInView={{ opacity: 1, y: initialY }}
-      whileTap={{ scale: 0.95, zIndex: 50 }}
+      initial={{ opacity: 0, y: 40, rotate: rotation }}
+      whileInView={{ opacity: 1, y: 0, rotate: rotation }}
       viewport={{ once: true }}
-      className="absolute cursor-grab active:cursor-grabbing rounded-3xl p-2 bg-white dark:bg-zinc-900 border border-black/10 dark:border-white/10 shadow-2xl overflow-hidden group"
-      style={{ zIndex }}
+      transition={{ 
+        duration: 0.8, 
+        delay: index * 0.15,
+        ease: [0.22, 1, 0.36, 1]
+      }}
+      className="absolute rounded-2xl p-2 bg-white dark:bg-zinc-900 border border-black/10 dark:border-white/10 shadow-xl overflow-hidden"
+      style={{
+        transform: `translate(${translateX}px, ${translateY}px) rotate(${rotation}deg)`,
+        zIndex: index === 0 ? 10 : 20,
+      }}
     >
-      <div className="relative overflow-hidden rounded-2xl w-[180px] h-[240px] sm:w-[220px] sm:h-[300px]">
+      <div className="relative overflow-hidden rounded-xl w-[160px] h-[200px] sm:w-[200px] sm:h-[260px]">
         <img
           src={src}
           alt="HalxDocs"
-          className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+          className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
         />
         {label && (
-          <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/80 dark:bg-black/80 backdrop-blur-md border border-black/10 text-[10px] uppercase tracking-widest font-semibold">
+          <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-white/90 dark:bg-black/90 backdrop-blur-sm border border-black/10 dark:border-white/10 text-[10px] uppercase tracking-widest font-semibold">
             {label}
           </div>
         )}
@@ -32,144 +37,219 @@ const DraggableImage = ({ src, rotation, initialX, initialY, label, zIndex }) =>
   );
 };
 
+/* -------------------- Social Link Component -------------------- */
+
+const SocialLink = ({ icon, href, label }) => {
+  return (
+    <motion.a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      whileHover={{ scale: 1.1, y: -2 }}
+      whileTap={{ scale: 0.95 }}
+      className="flex items-center justify-center w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors duration-300 cursor-pointer"
+      aria-label={label}
+    >
+      {icon}
+    </motion.a>
+  );
+};
+
 /* -------------------- About Section -------------------- */
 
 export default function About() {
   return (
-    <section className="relative bg-white text-black dark:bg-black dark:text-white py-24 sm:py-40 overflow-hidden">
+    <section className="relative bg-white text-black dark:bg-black dark:text-white py-24 sm:py-32 overflow-hidden">
       
-      {/* Subtle Background Wordmark */}
-      <div className="absolute top-24 left-8 opacity-[0.03] dark:opacity-[0.05] pointer-events-none select-none">
-        <h2 className="text-[14vw] font-black uppercase tracking-tighter">
-          HalxDocs
-        </h2>
+      {/* Background Grid Pattern */}
+      <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03]">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `linear-gradient(black 1px, transparent 1px), linear-gradient(90deg, black 1px, transparent 1px)`,
+          backgroundSize: '60px 60px'
+        }} />
       </div>
 
-      <div className="mx-auto max-w-6xl px-4 sm:px-8 grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+      <div className="mx-auto max-w-7xl px-6 sm:px-8">
         
-        {/* Left: Content */}
-        <div className="lg:col-span-7 relative z-10">
-          
-          {/* Eyebrow */}
-          <motion.div
-            initial={{ opacity: 0, x: -16 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="flex items-center gap-4 mb-8"
-          >
+        {/* Section Header - Centered */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-20"
+        >
+          <div className="flex items-center justify-center gap-4 mb-6">
             <div className="h-px w-12 bg-black/20 dark:bg-white/20" />
-            <span className="text-xs uppercase tracking-widest font-semibold opacity-60">
-              About
+            <span className="text-xs uppercase tracking-[0.3em] font-semibold opacity-50">
+              About Me
             </span>
-          </motion.div>
-
-          {/* Heading */}
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-4xl sm:text-6xl font-semibold tracking-tight mb-10"
-          >
-            Building digital products
-            <br />
+            <div className="h-px w-12 bg-black/20 dark:bg-white/20" />
+          </div>
+          
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight max-w-3xl mx-auto">
+            Building systems that{" "}
             <span className="italic font-serif text-black/40 dark:text-white/30">
-              with clarity and intent.
+              outlast trends
             </span>
-          </motion.h2>
+          </h2>
+        </motion.div>
 
-          {/* Body */}
-          <div className="space-y-8 text-base sm:text-lg text-black/70 dark:text-white/70 leading-relaxed max-w-2xl">
-            <motion.p>
-              I’m a full-stack product engineer focused on building high-impact
-              websites, systems, and tools for founders and product teams.
-              My work bridges engineering, design, and business outcomes.
-            </motion.p>
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
+          
+          {/* Left: Images - Stacked Composition */}
+          <div className="lg:col-span-5 relative h-[400px] sm:h-[500px] flex items-center justify-center order-2 lg:order-1">
+            <div className="relative w-full h-full max-w-[400px]">
+              {/* Primary Image */}
+              <ImageCard
+                src="/halxdocspic.jpeg"
+                rotation={-6}
+                translateX={-20}
+                translateY={0}
+                index={0}
+              />
+              
+              {/* Secondary Image - Offset */}
+              <ImageCard
+                src="/halx2.jpeg"
+                rotation={8}
+                translateX={80}
+                translateY={60}
+                label="Engineer"
+                index={1}
+              />
+              
+              {/* Decorative Element */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4, duration: 0.6 }}
+                className="absolute bottom-10 left-10 bg-zinc-100 dark:bg-zinc-800 px-4 py-3 rounded-lg shadow-lg border border-black/5 dark:border-white/5"
+              >
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl">♞</span>
+                  <div>
+                    <p className="text-[10px] uppercase tracking-widest opacity-60 font-semibold">Strategy</p>
+                    <p className="text-sm font-medium">Chess Player</p>
+                  </div>
+                </div>
+              </motion.div>
 
-            <motion.p>
-              I don’t just ship interfaces — I design systems that convert,
-              scale reliably, and solve real operational problems.
-              Every decision is guided by performance, usability, and clarity.
-            </motion.p>
-
-            <motion.p>
-              Alongside client work, I build my own products, tools, and
-              developer utilities — exploring how modern systems are designed,
-              shipped, and maintained in production.
-            </motion.p>
-
-            {/* Meta Grid */}
-            <div className="pt-10 border-t border-black/5 dark:border-white/5 grid grid-cols-2 gap-8">
-              <div>
-                <h4 className="text-xs font-semibold uppercase tracking-widest mb-2 opacity-60">
-                  Focus
-                </h4>
-                <p>Founders · SaaS · Scalable Systems</p>
-              </div>
-              <div>
-                <h4 className="text-xs font-semibold uppercase tracking-widest mb-2 opacity-60">
-                  Outside Work
-                </h4>
-                <p>Chess · Open Source · Writing</p>
-              </div>
+              {/* Experience Badge */}
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.5, duration: 0.6 }}
+                className="absolute top-10 right-0 bg-black dark:bg-white text-white dark:text-black px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider"
+              >
+                3+ Years
+              </motion.div>
             </div>
           </div>
 
-          {/* Social */}
-          <div className="mt-12 flex gap-8">
-            {[
-              { icon: <FiTwitter />, href: "https://x.com/halxdocs", label: "X" },
-              {
-                icon: <FiLinkedin />,
-                href: "https://www.linkedin.com/in/halx-docs-633272344",
-                label: "LinkedIn",
-              },
-              {
-                icon: <FiGithub />,
-                href: "https://github.com/HalxDocs",
-                label: "GitHub",
-              },
-            ].map((social, i) => (
-              <motion.a
-                key={i}
-                href={social.href}
-                target="_blank"
-                rel="noreferrer"
-                whileHover={{ y: -4 }}
-                className="flex items-center gap-2 text-sm font-medium hover:text-blue-600 transition-colors"
+          {/* Right: Content */}
+          <div className="lg:col-span-7 order-1 lg:order-2">
+            <div className="max-w-2xl">
+              
+              {/* Bio Text */}
+              <div className="space-y-6 text-base sm:text-lg text-black/70 dark:text-white/70 leading-relaxed mb-12">
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 }}
+                >
+                  I'm a full-stack product engineer who helps founders ship faster 
+                  and scale smarter. I specialize in building high-conversion websites, 
+                  internal tools, and systems that reduce operational friction.
+                </motion.p>
+
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2 }}
+                >
+                  My approach combines technical depth with business context. I don't 
+                  just write code—I architect solutions that align engineering decisions 
+                  with revenue goals and user outcomes.
+                </motion.p>
+
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.3 }}
+                  className="text-black dark:text-white font-medium"
+                >
+                  Currently building developer tools and SaaS platforms while 
+                  contributing to open-source projects that improve how we ship software.
+                </motion.p>
+              </div>
+
+              {/* Expertise Tags */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4 }}
+                className="mb-12"
               >
-                {social.icon}
-                <span>{social.label}</span>
-              </motion.a>
-            ))}
+                <h4 className="text-xs font-semibold uppercase tracking-widest mb-4 opacity-50">
+                  Core Expertise
+                </h4>
+                <div className="flex flex-wrap gap-2">
+                  {[
+                    "Product Engineering",
+                    "System Architecture",
+                    "Shipping to Production",
+                    "Scalable Backend Systems",
+                    "Frontend Systems for Real Users",
+                    "Performance & Reliability",
+                    "Technical Decision-Making"
+                  ].map((skill, i) => (
+                    <span
+                      key={i}
+                      className="px-3 py-1.5 rounded-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-sm font-medium"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* Social Links */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.5 }}
+                className="flex items-center gap-6"
+              >
+                <span className="text-sm font-medium opacity-50">Connect:</span>
+                <div className="flex gap-4">
+                  <SocialLink 
+                    icon={<FiGithub size={18} />} 
+                    href="https://github.com/halxdocs" 
+                    label="GitHub" 
+                  />
+                  <SocialLink 
+                    icon={<FiInstagram size={18} />} 
+                    href="https://instagram.com/halxdocs_" 
+                    label="Instagram" 
+                  />
+                  <SocialLink 
+                    icon={<FiLinkedin size={18} />} 
+                    href="https://www.linkedin.com/in/halx-docs-633272344" 
+                    label="LinkedIn" 
+                  />
+                </div>
+              </motion.div>
+
+            </div>
           </div>
-        </div>
-
-        {/* Right: Images */}
-        <div className="lg:col-span-5 relative h-[420px] sm:h-[480px] mt-20 lg:mt-0 flex items-center justify-center">
-          <DraggableImage
-            src="/halxdocspic.jpeg"
-            rotation={-8}
-            initialX={-40}
-            initialY={0}
-            zIndex={10}
-          />
-          <DraggableImage
-            src="/halx2.jpeg"
-            rotation={6}
-            initialX={40}
-            initialY={40}
-            label="Founder"
-            zIndex={20}
-          />
-
-          {/* Floating Accent */}
-          <motion.div
-            animate={{ y: [0, -14, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -bottom-10 right-4 bg-zinc-100 dark:bg-zinc-800 p-5 rounded-full shadow-xl border border-black/5"
-          >
-            <span className="text-3xl">♞</span>
-          </motion.div>
         </div>
       </div>
     </section>
