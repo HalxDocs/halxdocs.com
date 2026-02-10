@@ -37,27 +37,31 @@ const ImageCard = ({ src, rotation, translateX, translateY, label, index }) => {
   );
 };
 
-/* -------------------- Social Link Component -------------------- */
-
-const SocialLink = ({ icon, href, label }) => {
-  return (
-    <motion.a
-      href={href}
-      target="_blank"
-      rel="noreferrer"
-      whileHover={{ scale: 1.1, y: -2 }}
-      whileTap={{ scale: 0.95 }}
-      className="flex items-center justify-center w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors duration-300 cursor-pointer"
-      aria-label={label}
-    >
-      {icon}
-    </motion.a>
-  );
-};
-
 /* -------------------- About Section -------------------- */
 
 export default function About() {
+  // Social links data - URLs trimmed of any spaces
+  const socialLinks = [
+    { 
+      icon: <FiGithub size={18} />, 
+      href: "https://github.com/halxdocs", 
+      label: "GitHub",
+      color: "hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
+    },
+    { 
+      icon: <FiInstagram size={18} />, 
+      href: "https://instagram.com/halxdocs_", 
+      label: "Instagram",
+      color: "hover:bg-gradient-to-tr hover:from-purple-500 hover:via-pink-500 hover:to-yellow-500 hover:text-white"
+    },
+    { 
+      icon: <FiLinkedin size={18} />, 
+      href: "https://www.linkedin.com/in/halx-docs-633272344", 
+      label: "LinkedIn",
+      color: "hover:bg-blue-600 hover:text-white"
+    },
+  ];
+
   return (
     <section className="relative bg-white text-black dark:bg-black dark:text-white py-24 sm:py-32 overflow-hidden">
       
@@ -220,14 +224,39 @@ export default function About() {
                 </div>
               </motion.div>
 
-           <div className="flex items-center gap-6 pt-8">
+              {/* Social Links - Fixed */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.5 }}
+                className="flex items-center gap-6 pt-4"
+              >
                 <span className="text-sm font-medium opacity-50">Connect:</span>
-                <div className="flex gap-4">
-                  <SocialLink icon={<FiGithub size={18} />} href="https://github.com/halxdocs" label="GitHub" />
-                  <SocialLink icon={<FiInstagram size={18} />} href="https://instagram.com/halxdocs_" label="Instagram" />
-                  <SocialLink icon={<FiLinkedin size={18} />} href="https://www.linkedin.com/in/halx-docs-633272344" label="LinkedIn" />
+                <div className="flex gap-3">
+                  {socialLinks.map((social, i) => (
+                    <a
+                      key={i}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={social.label}
+                      className={`
+                        flex items-center justify-center w-11 h-11 rounded-full 
+                        bg-black/5 dark:bg-white/10 
+                        border border-transparent
+                        ${social.color}
+                        transition-all duration-300 ease-out
+                        hover:scale-110 hover:-translate-y-1
+                        active:scale-95
+                        shadow-sm hover:shadow-lg
+                      `}
+                    >
+                      {social.icon}
+                    </a>
+                  ))}
                 </div>
-              </div>
+              </motion.div>
 
             </div>
           </div>
