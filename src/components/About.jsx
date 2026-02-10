@@ -67,7 +67,7 @@ export default function About() {
       
       {/* Background Grid Pattern */}
       <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03]">
-        <div className="absolute inset-0" style={{
+        <div className="absolute inset-0 pointer-events-none opacity-[0.02] dark:opacity-[0.03]" style={{
           backgroundImage: `linear-gradient(black 1px, transparent 1px), linear-gradient(90deg, black 1px, transparent 1px)`,
           backgroundSize: '60px 60px'
         }} />
