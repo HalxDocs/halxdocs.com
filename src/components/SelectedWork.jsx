@@ -11,6 +11,14 @@ import { useState, memo, useRef } from "react";
 ---------------------------------------------- */
 
 const items = [
+    {
+    label: "Cosmetics/Makeup platform",
+    title: "Norahsbeautyhub",
+    description:
+      "A full-stack cosmetics e-commerce platform featuring product browsing, cart and wishlist systems, coupon discounts, secure Paystack payments, email notifications, and an admin dashboard for managing products, orders, and analytics.",
+    href: "https://norahsbeautyhub.pxxl.click/",
+    image: "/norahsbeautyhub-hero.png",
+  },
   {
     label: "Developer Tool",
     title: "Jsonstack.dev",
@@ -43,14 +51,7 @@ const items = [
     href: "https://med-iota-neon.vercel.app/ ",
     image: "/med.png",
   },
-  {
-    label: "Browser Extension",
-    title: "AI Dev Helper",
-    description:
-      "A Chrome extension that provides inline AI assistance to developers without leaving the browser.",
-    href: "https://github.com/HalxDocs/Aidevhelper ",
-    image: "/aidevhelper.png",
-  },
+
   {
     label: "CLI Tool",
     title: "Zryl",

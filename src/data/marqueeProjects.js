@@ -1,4 +1,5 @@
 export const marqueeProjects = [
+  "./norahsbeautyhub-hero.png",
   "./cover.png",
   "./jsonstack.png",
   "./med.png",
@@ -6,6 +7,5 @@ export const marqueeProjects = [
   "./savbites.png",
   "./emer.png",
   "./hotel.png",
-  "./bio.png",
   "./threedev.png"
 ];
