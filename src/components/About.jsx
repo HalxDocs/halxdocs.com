@@ -107,14 +107,14 @@ export default function About() {
           <div className="lg:col-span-5 relative h-[400px] sm:h-[500px] flex items-center justify-center order-2 lg:order-1">
             <div className="relative w-full h-full max-w-[400px]">
               <ImageCard
-                src="/halxdocspic.jpeg"
+                src="/halx4.jpeg"
                 rotation={-6}
                 translateX={-20}
                 translateY={0}
                 index={0}
               />
               <ImageCard
-                src="/halx2.jpeg"
+                src="/halx3.jpeg"
                 rotation={8}
                 translateX={80}
                 translateY={60}
@@ -163,7 +163,7 @@ export default function About() {
                   viewport={{ once: true }}
                   transition={{ delay: 0.1 }}
                 >
-                  I'm a full-stack product engineer who helps founders ship faster
+                  I'm a Product engineer who helps founders ship faster
                   and scale smarter. I specialize in building high-conversion
                   websites, internal tools, and systems that reduce operational
                   friction.
