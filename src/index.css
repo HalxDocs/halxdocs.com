@@ -7,6 +7,7 @@
   /* Light mode (default) */
   --color-background: #ffffff;
   --color-foreground: #0a0a0a;
+  --font-sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
 }
 
 /* Dark mode colors */
@@ -24,5 +25,6 @@ html {
 body {
   background-color: var(--color-background);
   color: var(--color-foreground);
+  font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
   transition: background-color 0.3s ease, color 0.3s ease;
 }

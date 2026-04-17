@@ -3,10 +3,12 @@ import Beams from "./Beams";
 
 export default function ContactCTA() {
   return (
-    <section className="relative w-full min-h-[70vh] py-20 sm:py-0 sm:min-h-[85vh] bg-white dark:bg-black overflow-hidden flex items-center">
-      
-      {/* Background - Fixed to ensure it covers the flex container */}
-      <div className="absolute inset-0 bg-black">
+    <section
+      className="relative w-full overflow-hidden flex items-center"
+      style={{ minHeight: "88vh", background: "#000" }}
+    >
+      {/* Beams background */}
+      <div className="absolute inset-0">
         <Beams
           beamWidth={2}
           beamHeight={18}
@@ -19,94 +21,133 @@ export default function ContactCTA() {
         />
       </div>
 
-      {/* Soft overlay */}
-      <div className="absolute inset-0 bg-white/60 dark:bg-black/60" />
+      {/* Gradient vignette */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 80% 70% at 50% 50%, transparent 0%, rgba(0,0,0,0.75) 100%)",
+        }}
+      />
+      <div
+        className="absolute bottom-0 left-0 right-0"
+        style={{ height: "30%", background: "linear-gradient(to top, #000, transparent)" }}
+      />
+      <div
+        className="absolute top-0 left-0 right-0"
+        style={{ height: "20%", background: "linear-gradient(to bottom, #000, transparent)" }}
+      />
 
       {/* Content */}
-      <div className="relative z-10 w-full px-6 lg:px-8">
+      <div className="relative z-10 w-full px-6 sm:px-10 py-24">
         <div className="mx-auto max-w-3xl text-center">
 
-          {/* Eyebrow */}
-          <motion.p
+          {/* Section label */}
+          <motion.div
             initial={{ opacity: 0, y: 8 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.35 }}
-            className="
-              text-[10px] sm:text-xs
-              uppercase tracking-[0.4em]
-              text-black/50 dark:text-white/50
-              mb-6
-            "
+            transition={{ duration: 0.45 }}
+            className="flex items-center justify-center gap-3 mb-10"
           >
-            Start a project
-          </motion.p>
+            <span
+              style={{ width: 16, height: 1, background: "rgba(255,255,255,0.2)", display: "block" }}
+            />
+            <span
+              style={{
+                fontFamily: "'Syne', sans-serif",
+                fontSize: "10px",
+                textTransform: "uppercase",
+                letterSpacing: "0.22em",
+                color: "rgba(255,255,255,0.28)",
+                fontWeight: 500,
+              }}
+            >
+              Start a project
+            </span>
+            <span
+              style={{ width: 16, height: 1, background: "rgba(255,255,255,0.2)", display: "block" }}
+            />
+          </motion.div>
 
-          {/* Headline - Improved scaling for small screens */}
+          {/* Headline */}
           <motion.h2
-            initial={{ opacity: 0, y: 14 }}
+            initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.08, duration: 0.5 }}
-            className="
-              text-4xl sm:text-5xl md:text-6xl
-              font-medium leading-[1.1]
-              tracking-tight
-              text-black dark:text-white
-            "
+            transition={{ delay: 0.1, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            style={{
+              fontFamily: "'Syne', sans-serif",
+              fontSize: "clamp(36px, 7vw, 80px)",
+              fontWeight: 800,
+              letterSpacing: "-0.04em",
+              lineHeight: 1.05,
+              color: "#fff",
+              marginBottom: 0,
+            }}
           >
-            Let’s build something <br className="hidden sm:block" />
-            <span className="text-black/60 dark:text-white/60">that actually matters.</span>
+            Let's build something{" "}
+            <br className="hidden sm:block" />
+            <span
+              style={{
+                color: "rgba(255,255,255,0.28)",
+                fontStyle: "italic",
+                fontWeight: 400,
+              }}
+            >
+              that actually matters.
+            </span>
           </motion.h2>
 
-          {/* Subtext - Better max-width for readability */}
+          {/* Subtext */}
           <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="
-              mt-6
-              text-base sm:text-lg
-              leading-relaxed
-              text-black/70 dark:text-white/70
-              max-w-md sm:max-w-xl mx-auto
-            "
+            transition={{ delay: 0.22, duration: 0.6 }}
+            style={{
+              marginTop: 24,
+              fontSize: "clamp(14px, 1.1vw, 17px)",
+              lineHeight: 1.75,
+              color: "rgba(255,255,255,0.4)",
+              maxWidth: 480,
+              marginInline: "auto",
+            }}
           >
             I work with founders and product teams to design and ship
             focused digital products — built for clarity, performance,
             and long-term growth.
           </motion.p>
 
-          {/* CTAs - Stacked on very small devices, side-by-side on others */}
+          {/* CTAs */}
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
-            className="
-              mt-10
-              flex flex-col sm:flex-row
-              items-center justify-center
-              gap-4 sm:gap-5
-            "
+            transition={{ delay: 0.32, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4"
+            style={{ marginTop: 40 }}
           >
             {/* Primary */}
             <a
               href="https://cal.com/kamsy-ejindu-qdidgy/15min"
-              className="
-                w-full sm:w-auto
-                inline-flex items-center justify-center
-                gap-2
-                px-8 py-4 sm:py-3
-                rounded-full
-                bg-black text-white
-                dark:bg-white dark:text-black
-                text-sm font-semibold
-                transition-all
-                active:scale-95
-                hover:opacity-90
-              "
+              className="w-full sm:w-auto inline-flex items-center justify-center"
+              style={{
+                padding: "14px 32px",
+                borderRadius: 100,
+                background: "#fff",
+                color: "#000",
+                fontFamily: "'Syne', sans-serif",
+                fontSize: "11px",
+                fontWeight: 700,
+                textTransform: "uppercase",
+                letterSpacing: "0.15em",
+                textDecoration: "none",
+                transition: "opacity 0.2s",
+                boxShadow: "0 0 0 1px rgba(255,255,255,0.15), inset 0 1px 0 rgba(255,255,255,0.9)",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.85")}
+              onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
             >
               Book a call
             </a>
@@ -114,21 +155,60 @@ export default function ContactCTA() {
             {/* Secondary */}
             <a
               href="mailto:halxdocs@gmail.com"
-              className="
-                w-full sm:w-auto
-                inline-flex items-center justify-center
-                px-8 py-4 sm:py-3
-                rounded-full
-                border border-black/20 dark:border-white/20
-                text-black dark:text-white
-                text-sm font-semibold
-                transition-all
-                active:scale-95
-                hover:bg-black/5 dark:hover:bg-white/10
-              "
+              className="w-full sm:w-auto inline-flex items-center justify-center"
+              style={{
+                padding: "13px 32px",
+                borderRadius: 100,
+                background: "rgba(255,255,255,0.05)",
+                border: "0.5px solid rgba(255,255,255,0.15)",
+                color: "rgba(255,255,255,0.7)",
+                fontFamily: "'Syne', sans-serif",
+                fontSize: "11px",
+                fontWeight: 700,
+                textTransform: "uppercase",
+                letterSpacing: "0.15em",
+                textDecoration: "none",
+                backdropFilter: "blur(8px)",
+                transition: "background 0.2s, color 0.2s",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "rgba(255,255,255,0.10)";
+                e.currentTarget.style.color = "#fff";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "rgba(255,255,255,0.05)";
+                e.currentTarget.style.color = "rgba(255,255,255,0.7)";
+              }}
             >
               Email me
             </a>
+          </motion.div>
+
+          {/* Availability signal */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5 }}
+            className="flex items-center justify-center gap-2"
+            style={{ marginTop: 28 }}
+          >
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60" />
+              <span className="relative inline-flex rounded-full h-full w-full bg-emerald-400" />
+            </span>
+            <span
+              style={{
+                fontFamily: "'Syne', sans-serif",
+                fontSize: "10px",
+                textTransform: "uppercase",
+                letterSpacing: "0.18em",
+                color: "rgba(255,255,255,0.22)",
+                fontWeight: 500,
+              }}
+            >
+              Available for new projects
+            </span>
           </motion.div>
 
         </div>

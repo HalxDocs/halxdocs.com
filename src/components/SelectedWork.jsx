@@ -1,21 +1,14 @@
-import {
-  motion,
-  useSpring,
-  useMotionValue,
-} from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { motion, useSpring, useMotionValue } from "framer-motion";
 import { useState, memo, useRef } from "react";
 
-/* ---------------------------------------------
-   Project Data (problem-focused)
----------------------------------------------- */
+/* -------------------- Project Data -------------------- */
 
 const items = [
-    {
-    label: "Cosmetics/Makeup platform",
+  {
+    label: "Cosmetics / E-commerce",
     title: "Norahsbeautyhub",
     description:
-      "A full-stack cosmetics e-commerce platform featuring product browsing, cart and wishlist systems, coupon discounts, secure Paystack payments, email notifications, and an admin dashboard for managing products, orders, and analytics.",
+      "Full-stack cosmetics platform with cart, wishlist, Paystack payments, coupon system, email notifications, and an admin dashboard.",
     href: "https://norahsbeautyhub.pxxl.click/",
     image: "/norahsbeautyhub-hero.png",
   },
@@ -23,50 +16,47 @@ const items = [
     label: "Developer Tool",
     title: "Jsonstack.dev",
     description:
-      "A toolkit that helps developers validate, format, and compare JSON faster—reducing errors and saving debugging time.",
-    href: "https://jsonstack.dev ",
+      "A toolkit for validating, formatting, and comparing JSON — reducing errors and saving debugging time.",
+    href: "https://jsonstack.dev",
     image: "/jsonstack.png",
   },
   {
     label: "Business Website",
     title: "SavBites",
     description:
-      "A conversion-focused restaurant website designed to showcase menus, ambience, and drive customer engagement.",
-    href: "https://sav-six.vercel.app ",
+      "Conversion-focused restaurant website designed to showcase menus, ambience, and drive customer engagement.",
+    href: "https://sav-six.vercel.app",
     image: "/savbites.png",
   },
   {
     label: "AI Utility",
     title: "Cortex",
     description:
-      "An AI-powered reflection tool built to help users organize thoughts, improve clarity, and make better decisions.",
-    href: "https://corte-x.vercel.app ",
+      "AI-powered reflection tool to help users organise thoughts, improve clarity, and make better decisions.",
+    href: "https://corte-x.vercel.app",
     image: "/cortex.png",
   },
   {
     label: "Healthcare Platform",
     title: "Medcare",
     description:
-      "A medical web platform for managing patients, appointments, and healthcare workflows efficiently.",
-    href: "https://med-iota-neon.vercel.app/ ",
+      "Medical web platform for managing patients, appointments, and healthcare workflows efficiently.",
+    href: "https://med-iota-neon.vercel.app/",
     image: "/med.png",
   },
-
   {
     label: "CLI Tool",
     title: "Zryl",
     description:
-      "A CLI tool that records terminal activity—commands, timestamps, OS—and generates a shareable session link.",
-    href: "https://zryl.vercel.app ",
+      "Records terminal activity — commands, timestamps, OS — and generates a shareable session link.",
+    href: "https://zryl.vercel.app",
     image: "/zryl.png",
   },
 ];
 
-/* ---------------------------------------------
-   Project Item
----------------------------------------------- */
+/* -------------------- Project Row -------------------- */
 
-const ProjectItem = memo(({ item, index }) => {
+const ProjectItem = memo(function ProjectItem({ item, index }) {
   const [hovered, setHovered] = useState(false);
 
   const isTouch =
@@ -75,7 +65,6 @@ const ProjectItem = memo(({ item, index }) => {
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
-
   const x = useSpring(mouseX, { stiffness: 140, damping: 22 });
   const y = useSpring(mouseY, { stiffness: 140, damping: 22 });
 
@@ -83,7 +72,7 @@ const ProjectItem = memo(({ item, index }) => {
     if (isTouch) return;
     const rect = e.currentTarget.getBoundingClientRect();
     mouseX.set(e.clientX - rect.left - 160);
-    mouseY.set(e.clientY - rect.top - 120);
+    mouseY.set(e.clientY - rect.top - 105);
   };
 
   return (
@@ -94,148 +83,269 @@ const ProjectItem = memo(({ item, index }) => {
       onMouseMove={handleMove}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ delay: index * 0.08 }}
-      className="
-        group relative block
-        border-b border-black/10 dark:border-white/10
-        py-10 md:py-16
-      "
+      transition={{ delay: index * 0.07, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      className="group relative block"
+      style={{
+        borderBottom: "0.5px solid rgba(255,255,255,0.08)",
+        padding: "clamp(28px, 4vw, 56px) 0",
+        textDecoration: "none",
+      }}
     >
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-        {/* LEFT */}
-        <div className="relative z-10 max-w-2xl">
-          <p className="text-[10px] uppercase tracking-[0.25em] text-black/40 dark:text-white/40 font-bold mb-3">
-            {item.label}
-          </p>
 
-          <h3 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tighter mb-3">
+        {/* Left */}
+        <div className="relative z-10 max-w-2xl">
+          {/* Label + index */}
+          <div className="flex items-center gap-3 mb-4">
+            <span
+              style={{
+                fontFamily: "'Syne', sans-serif",
+                fontSize: "10px",
+                textTransform: "uppercase",
+                letterSpacing: "0.2em",
+                color: "rgba(255,255,255,0.25)",
+                fontWeight: 500,
+              }}
+            >
+              {item.label}
+            </span>
+            <span
+              style={{
+                fontFamily: "monospace",
+                fontSize: "10px",
+                color: "rgba(255,255,255,0.15)",
+                letterSpacing: "0.1em",
+              }}
+            >
+              {String(index + 1).padStart(2, "0")}
+            </span>
+          </div>
+
+          {/* Title */}
+          <h3
+            style={{
+              fontFamily: "'Syne', sans-serif",
+              fontSize: "clamp(30px, 6vw, 72px)",
+              fontWeight: 800,
+              letterSpacing: "-0.04em",
+              lineHeight: 1,
+              color: hovered ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.75)",
+              transition: "color 0.4s ease",
+              marginBottom: 12,
+            }}
+          >
             {item.title}
           </h3>
 
-          <p className="text-sm text-black/55 dark:text-white/55 max-w-md leading-relaxed">
+          {/* Description */}
+          <motion.p
+            animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 6 }}
+            transition={{ duration: 0.3 }}
+            style={{
+              fontSize: "13px",
+              lineHeight: 1.7,
+              color: "rgba(255,255,255,0.45)",
+              maxWidth: 420,
+            }}
+          >
             {item.description}
-          </p>
+          </motion.p>
 
-          {/* Mobile Image */}
-          <div className="md:hidden mt-6 aspect-[16/10] rounded-xl overflow-hidden border border-black/10 dark:border-white/10 relative">
+          {/* Mobile image */}
+          <div
+            className="md:hidden mt-5 rounded-xl overflow-hidden"
+            style={{
+              aspectRatio: "16/10",
+              outline: "0.5px solid rgba(255,255,255,0.08)",
+            }}
+          >
             <img
               src={item.image}
               alt={item.title}
               loading="lazy"
-              className="w-full h-full object-cover scale-[1.05]"
+              className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-tr from-black/20 via-transparent to-transparent" />
           </div>
         </div>
 
-        {/* RIGHT CTA */}
-        <div className="relative z-10 flex items-center gap-4">
-          <span className="hidden md:block opacity-0 group-hover:opacity-100 transition-opacity text-sm">
-            View Project
-          </span>
-          <div
-            className="
-              w-12 h-12 md:w-16 md:h-16
-              rounded-full
-              border border-black/10 dark:border-white/20
-              flex items-center justify-center
-              rotate-[-45deg] group-hover:rotate-0
-              group-hover:bg-black group-hover:text-white
-              dark:group-hover:bg-white dark:group-hover:text-black
-              transition-all duration-500
-            "
+        {/* Right — arrow */}
+        <div className="relative z-10 shrink-0 flex items-center gap-3">
+          <motion.span
+            animate={{ opacity: hovered ? 1 : 0, x: hovered ? 0 : 8 }}
+            transition={{ duration: 0.25 }}
+            style={{
+              fontFamily: "'Syne', sans-serif",
+              fontSize: "11px",
+              textTransform: "uppercase",
+              letterSpacing: "0.18em",
+              color: "rgba(255,255,255,0.5)",
+              fontWeight: 500,
+            }}
           >
-            <ArrowUpRight size={24} />
-          </div>
+            View
+          </motion.span>
+
+          <motion.div
+            animate={{
+              background: hovered ? "#fff" : "rgba(255,255,255,0.05)",
+              borderColor: hovered ? "rgba(255,255,255,0)" : "rgba(255,255,255,0.12)",
+            }}
+            transition={{ duration: 0.35 }}
+            className="flex items-center justify-center rounded-full"
+            style={{
+              width: 48,
+              height: 48,
+              border: "0.5px solid rgba(255,255,255,0.12)",
+              flexShrink: 0,
+            }}
+          >
+            <motion.svg
+              animate={{ rotate: hovered ? 0 : -45, color: hovered ? "#000" : "rgba(255,255,255,0.7)" }}
+              transition={{ duration: 0.35 }}
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M7 17L17 7M17 7H7M17 7V17" />
+            </motion.svg>
+          </motion.div>
         </div>
       </div>
 
-      {/* Desktop Hover Preview */}
+      {/* Desktop hover image */}
       {!isTouch && (
         <motion.div
+          animate={{ opacity: hovered ? 1 : 0, scale: hovered ? 1 : 0.94 }}
+          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+          className="hidden md:block absolute top-0 left-0 rounded-2xl overflow-hidden"
           style={{
             x,
             y,
-            opacity: hovered ? 1 : 0,
-            scale: hovered ? 1 : 0.95,
+            width: 320,
+            height: 210,
+            outline: "0.5px solid rgba(255,255,255,0.10)",
+            zIndex: 30,
+            pointerEvents: "none",
           }}
-          className="
-            hidden md:block
-            absolute top-0 left-0
-            w-[320px] h-[210px]
-            rounded-2xl overflow-hidden
-            shadow-2xl
-            pointer-events-none
-          "
         >
           <img
             src={item.image}
             alt={item.title}
-            className="w-full h-full object-cover scale-[1.05]"
+            className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-tr from-black/20 via-transparent to-transparent" />
+          <div
+            className="absolute inset-0"
+            style={{
+              background: "linear-gradient(135deg, rgba(0,0,0,0.2) 0%, transparent 60%)",
+            }}
+          />
         </motion.div>
       )}
     </motion.a>
   );
 });
 
-/* ---------------------------------------------
-   Section
----------------------------------------------- */
+/* -------------------- Section -------------------- */
 
 export default function SelectedWork() {
-  const ref = useRef(null);
-
+  const githubRef = useRef(null);
   const isTouch =
     typeof window !== "undefined" &&
     window.matchMedia("(hover: none)").matches;
 
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
-
-  const x = useSpring(mx, { stiffness: 120, damping: 18 });
-  const y = useSpring(my, { stiffness: 120, damping: 18 });
-
-  const handleMagneticMove = (e) => {
-    if (isTouch || !ref.current) return;
-
-    const rect = ref.current.getBoundingClientRect();
-    mx.set((e.clientX - (rect.left + rect.width / 2)) * 0.25);
-    my.set((e.clientY - (rect.top + rect.height / 2)) * 0.25);
-  };
-
-  const resetMagnet = () => {
-    mx.set(0);
-    my.set(0);
-  };
+  const gx = useSpring(mx, { stiffness: 120, damping: 18 });
+  const gy = useSpring(my, { stiffness: 120, damping: 18 });
 
   return (
     <section
       id="work"
-      className="bg-white dark:bg-black text-black dark:text-white py-28 md:py-44"
+      className="relative overflow-hidden py-28 md:py-40"
+      style={{ background: "#000", color: "#fff" }}
     >
-      <div className="mx-auto max-w-7xl px-6">
+      {/* Grid */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)",
+          backgroundSize: "64px 64px",
+        }}
+      />
+
+      <div className="relative mx-auto max-w-7xl px-6 sm:px-10">
+
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-24 gap-10">
-          <div>
-            <p className="text-xs uppercase tracking-[0.3em] opacity-50 mb-6">
-              Selected Work
-            </p>
-            <h2 className="text-5xl md:text-8xl font-black tracking-tighter italic font-serif">
-              Built to Ship.<br />Built to Scale.
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 md:mb-28 gap-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {/* Section label */}
+            <div className="flex items-center gap-3 mb-8">
+              <span style={{ width: 16, height: 1, background: "rgba(255,255,255,0.2)", display: "block" }} />
+              <span
+                style={{
+                  fontFamily: "'Syne', sans-serif",
+                  fontSize: "10px",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.22em",
+                  color: "rgba(255,255,255,0.28)",
+                  fontWeight: 500,
+                }}
+              >
+                Selected Work
+              </span>
+            </div>
+
+            <h2
+              style={{
+                fontFamily: "'Syne', sans-serif",
+                fontSize: "clamp(36px, 6vw, 72px)",
+                fontWeight: 800,
+                letterSpacing: "-0.04em",
+                lineHeight: 1.05,
+                color: "#fff",
+              }}
+            >
+              Built to Ship.{" "}
+              <span style={{ color: "rgba(255,255,255,0.28)", fontStyle: "italic", fontWeight: 400 }}>
+                Built to Scale.
+              </span>
             </h2>
-          </div>
-          <p className="hidden md:block max-w-[260px] text-sm text-black/40 dark:text-white/40 text-right">
+          </motion.div>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="hidden md:block"
+            style={{
+              maxWidth: 240,
+              fontSize: 13,
+              lineHeight: 1.7,
+              color: "rgba(255,255,255,0.3)",
+              textAlign: "right",
+            }}
+          >
             Production-grade systems that handle real traffic, real users, and real revenue.
-          </p>
+          </motion.p>
         </div>
 
         {/* Projects */}
-        <div className="flex flex-col">
+        <div>
           {items.map((item, i) => (
             <ProjectItem key={i} item={item} index={i} />
           ))}
@@ -243,43 +353,62 @@ export default function SelectedWork() {
 
         {/* GitHub CTA */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="mt-24 flex justify-center"
+          transition={{ duration: 0.5 }}
+          className="mt-20 flex justify-center"
         >
           <motion.a
-            ref={ref}
-            href="https://github.com/HalxDocs "
+            ref={githubRef}
+            href="https://github.com/HalxDocs"
             target="_blank"
             rel="noreferrer"
-            onMouseMove={handleMagneticMove}
-            onMouseLeave={resetMagnet}
-            style={{ x, y }}
-            className="
-              group
-              inline-flex items-center gap-3
-              text-sm md:text-base
-              font-medium
-              text-black/60 dark:text-white/60
-              hover:text-black dark:hover:text-white
-              transition-colors
-            "
+            onMouseMove={(e) => {
+              if (isTouch || !githubRef.current) return;
+              const rect = githubRef.current.getBoundingClientRect();
+              mx.set((e.clientX - (rect.left + rect.width / 2)) * 0.25);
+              my.set((e.clientY - (rect.top + rect.height / 2)) * 0.25);
+            }}
+            onMouseLeave={() => { mx.set(0); my.set(0); }}
+            style={{ x: gx, y: gy, textDecoration: "none" }}
+            className="group inline-flex items-center gap-2.5"
           >
-            <span className="relative">
-              Explore more projects on GitHub
-              <span className="
-                absolute left-0 -bottom-1
-                w-0 h-px
-                bg-black dark:bg-white
-                group-hover:w-full
-                transition-all duration-300
-              " />
+            <span
+              className="relative"
+              style={{
+                fontFamily: "'Syne', sans-serif",
+                fontSize: "13px",
+                fontWeight: 500,
+                letterSpacing: "0.05em",
+                color: "rgba(255,255,255,0.4)",
+                transition: "color 0.2s",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#fff")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.4)")}
+            >
+              Explore more on GitHub
+              <span
+                className="absolute left-0 -bottom-0.5 h-px w-0 group-hover:w-full transition-all duration-300"
+                style={{ background: "rgba(255,255,255,0.4)" }}
+              />
             </span>
-            <ArrowUpRight size={18} />
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="rgba(255,255,255,0.4)"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="group-hover:stroke-white transition-colors duration-200"
+            >
+              <path d="M7 17L17 7M17 7H7M17 7V17" />
+            </svg>
           </motion.a>
         </motion.div>
+
       </div>
     </section>
   );
