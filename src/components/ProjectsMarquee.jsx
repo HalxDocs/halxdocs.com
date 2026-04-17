@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion } from "framer-motion";
 import { marqueeProjects } from "../data/marqueeProjects";
 import { memo, useRef, useState } from "react";
 
@@ -87,25 +87,10 @@ const ProjectCard = memo(function ProjectCard({ src, index }) {
 
 /* -------------------- Marquee Section -------------------- */
 export default function MarqueeProjects() {
-  const containerRef = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  });
-
-  const smoothScroll = useSpring(scrollYProgress, {
-    stiffness: 45,
-    damping: 25,
-    restDelta: 0.001,
-  });
-
-  const xOffset = useTransform(smoothScroll, [0, 1], [60, -60]);
 
   return (
     <section
-      ref={containerRef}
       className="relative z-30 w-full overflow-hidden bg-transparent"
       style={{ marginTop: "-120px" }}
     >
@@ -134,8 +119,7 @@ export default function MarqueeProjects() {
         </span>
       </motion.div>
 
-      <motion.div
-        style={{ x: xOffset }}
+      <div
         className="py-3"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -170,7 +154,7 @@ export default function MarqueeProjects() {
             ))}
           </motion.div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }

@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unknown-property */
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { forwardRef, useRef, useMemo, useLayoutEffect, useEffect } from 'react';
+import { forwardRef, useRef, useMemo, useLayoutEffect, useEffect, useState } from 'react';
 import * as THREE from 'three';
 
 const vertexShader = `
@@ -93,14 +93,16 @@ const SilkPlane = forwardRef(({ uniforms }, ref) => {
 
 SilkPlane.displayName = 'SilkPlane';
 
-const Silk = ({ 
-  speed = 0.35,          // Slow, viscous speed
-  scale = 0.6,           // Scale for prominent ripples
-  color = '#000000',     // Base color set to pure black
-  noiseIntensity = 0.4, 
-  rotation = 45 
+const Silk = ({
+  speed = 0.35,
+  scale = 0.6,
+  color = '#000000',
+  noiseIntensity = 0.4,
+  rotation = 45
 }) => {
   const meshRef = useRef();
+  const containerRef = useRef();
+  const [frameloop, setFrameloop] = useState('always');
 
   const uniforms = useMemo(() => ({
     uTime: { value: 0 },
@@ -119,15 +121,27 @@ const Silk = ({
     uniforms.uColor.value.set(color);
   }, [speed, scale, noiseIntensity, color, rotation, uniforms]);
 
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setFrameloop(entry.isIntersecting ? 'always' : 'never'),
+      { threshold: 0 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="absolute inset-0 w-full h-full pointer-events-none opacity-90">
+    <div ref={containerRef} className="absolute inset-0 w-full h-full pointer-events-none opacity-90">
       <Canvas
         camera={{ position: [0, 0, 1] }}
-        dpr={[1, 1.5]} // Capped for smoother mobile performance
-        gl={{ 
-          antialias: false, 
+        frameloop={frameloop}
+        dpr={[1, 1.5]}
+        gl={{
+          antialias: false,
           alpha: true,
-          powerPreference: "high-performance" 
+          powerPreference: "high-performance"
         }}
       >
         <SilkPlane ref={meshRef} uniforms={uniforms} />

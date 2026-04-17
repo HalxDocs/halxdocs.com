@@ -1,19 +1,29 @@
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { motion } from "framer-motion";
 import { memo, useRef, useState } from "react";
 
 /* -------------------- Service Row -------------------- */
 
 const ServiceRow = memo(function ServiceRow({ left, right, video, index, total }) {
   const [hovered, setHovered] = useState(false);
+  const videoRef = useRef(null);
+
+  const handleEnter = () => {
+    setHovered(true);
+    videoRef.current?.play();
+  };
+  const handleLeave = () => {
+    setHovered(false);
+    videoRef.current?.pause();
+  };
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 32 }}
+      initial={{ opacity: 0, y: 72 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.65, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.7, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
+      onMouseEnter={handleEnter}
+      onMouseLeave={handleLeave}
       className="group relative flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12 py-10 sm:py-14"
       style={{
         borderBottom: index < total - 1 ? "0.5px solid rgba(255,255,255,0.08)" : "none",
@@ -44,8 +54,8 @@ const ServiceRow = memo(function ServiceRow({ left, right, video, index, total }
           letterSpacing: "-0.04em",
           lineHeight: 1,
           textTransform: "uppercase",
-          color: hovered ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.12)",
-          transition: "color 0.5s cubic-bezier(0.22, 1, 0.36, 1)",
+          color: hovered ? "#fff" : "rgba(255,255,255,0.75)",
+          transition: "color 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
           userSelect: "none",
         }}
       >
@@ -55,8 +65,8 @@ const ServiceRow = memo(function ServiceRow({ left, right, video, index, total }
       {/* Video card */}
       <motion.div
         animate={{
-          scale: hovered ? 1 : 0.92,
-          opacity: hovered ? 1 : 0.35,
+          scale: hovered ? 1.03 : 1,
+          opacity: hovered ? 1 : 0.7,
         }}
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         className="relative shrink-0 rounded-2xl overflow-hidden"
@@ -67,18 +77,18 @@ const ServiceRow = memo(function ServiceRow({ left, right, video, index, total }
         }}
       >
         <video
+          ref={videoRef}
           src={video}
-          autoPlay
           loop
           muted
           playsInline
+          preload="none"
           className="w-full h-full object-cover"
           style={{
-            filter: hovered ? "grayscale(0%)" : "grayscale(100%)",
+            filter: hovered ? "grayscale(0%)" : "grayscale(60%)",
             transition: "filter 0.6s ease",
           }}
         />
-        {/* Dark scrim */}
         <div
           className="absolute inset-0"
           style={{
@@ -97,8 +107,8 @@ const ServiceRow = memo(function ServiceRow({ left, right, video, index, total }
           letterSpacing: "-0.04em",
           lineHeight: 1,
           textTransform: "uppercase",
-          color: hovered ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.12)",
-          transition: "color 0.5s cubic-bezier(0.22, 1, 0.36, 1)",
+          color: hovered ? "#fff" : "rgba(255,255,255,0.75)",
+          transition: "color 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
           userSelect: "none",
         }}
       >
@@ -139,21 +149,15 @@ export default function Services() {
 
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="mb-20 sm:mb-28"
         >
-          {/* Label */}
           <div className="flex items-center gap-3 mb-8">
             <span
-              style={{
-                width: 16,
-                height: 1,
-                background: "rgba(255,255,255,0.2)",
-                display: "block",
-              }}
+              style={{ width: 16, height: 1, background: "rgba(255,255,255,0.2)", display: "block" }}
             />
             <span
               style={{
@@ -169,7 +173,6 @@ export default function Services() {
             </span>
           </div>
 
-          {/* Heading */}
           <h2
             style={{
               fontFamily: "'Syne', sans-serif",
@@ -194,7 +197,7 @@ export default function Services() {
           </h2>
         </motion.div>
 
-        {/* Service rows — offset left to accommodate index numbers */}
+        {/* Service rows */}
         <div style={{ paddingLeft: "clamp(0px, 3vw, 48px)" }}>
           {services.map((s, i) => (
             <ServiceRow
