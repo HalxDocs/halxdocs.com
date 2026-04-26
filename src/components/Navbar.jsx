@@ -3,8 +3,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Sun, Moon, ArrowRight } from "lucide-react";
 
 const NAV_LINKS = [
-  { name: "Services", href: "#services" },
-  { name: "Work", href: "#work" },
+  { name: "Work", href: "/#work" },
+  { name: "Services", href: "/#services" },
+  { name: "About", href: "/#about" },
+  { name: "Stack", href: "/#stack" },
   { name: "Blog", href: "/blog" },
 ];
 
@@ -17,14 +19,13 @@ const NavLink = memo(({ link, onClick }) => (
     {link.name}
   </a>
 ));
-
 NavLink.displayName = "NavLink";
 
 const HamburgerIcon = () => (
   <div className="flex flex-col items-start gap-[5px]">
-    <span className="block h-[1.5px] w-[22px] bg-current rounded-full transition-all duration-300" />
-    <span className="block h-[1.5px] w-[13px] bg-current rounded-full transition-all duration-300" />
-    <span className="block h-[1.5px] w-[18px] bg-current rounded-full transition-all duration-300" />
+    <span className="block h-[1.5px] w-[22px] bg-current rounded-full" />
+    <span className="block h-[1.5px] w-[13px] bg-current rounded-full" />
+    <span className="block h-[1.5px] w-[18px] bg-current rounded-full" />
   </div>
 );
 
@@ -58,29 +59,26 @@ export default function Navbar() {
 
   return (
     <>
-      {/* ── Pill Navbar ── */}
       <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 w-full px-4">
         <motion.nav
           initial={false}
           animate={{
-            maxWidth: scrolled ? "700px" : "960px",
+            maxWidth: scrolled ? "780px" : "1000px",
             backgroundColor: dark
               ? scrolled ? "rgba(255,255,255,0.07)" : "rgba(255,255,255,0.05)"
               : scrolled ? "rgba(0,0,0,0.06)" : "rgba(0,0,0,0.04)",
           }}
           transition={{ duration: 0.45, ease: [0.4, 0, 0.2, 1] }}
-          className="mx-auto flex items-center justify-between rounded-full px-6 py-2.5 backdrop-blur-2xl border border-white/10 dark:border-white/10 border-black/10 shadow-[0_4px_32px_rgba(0,0,0,0.08)]"
+          className="mx-auto flex items-center justify-between rounded-full px-6 py-2.5 backdrop-blur-2xl border border-white/10 shadow-[0_4px_32px_rgba(0,0,0,0.08)]"
         >
-          {/* Logo */}
           <a
             href="/"
             className="text-[17px] font-bold tracking-tight text-black dark:text-white"
-            style={{ fontFamily: "'Syne', sans-serif" }}
+            style={{ fontFamily: "'Fraunces', serif", letterSpacing: "-0.02em" }}
           >
-            HalxDocs
+            HALXDOCS
           </a>
 
-          {/* Desktop links */}
           <div className="hidden md:flex items-center gap-7">
             {NAV_LINKS.map((link) => (
               <NavLink key={link.name} link={link} />
@@ -94,14 +92,19 @@ export default function Navbar() {
               {dark ? <Sun size={16} /> : <Moon size={16} />}
             </button>
             <a
-              href="https://cal.com/kamsy-ejindu-qdidgy/15min"
-              className="px-5 py-2 rounded-full bg-black dark:bg-white text-white dark:text-black text-[11px] uppercase tracking-widest font-bold hover:opacity-80 transition-opacity"
+              href="/#contact"
+              className="px-5 py-2 rounded-full text-[11px] uppercase tracking-widest font-bold transition-all hover:scale-[1.03]"
+              style={{
+                background: "var(--accent)",
+                color: "#fff",
+                fontFamily: "'Syne', sans-serif",
+                boxShadow: "var(--shadow-accent)",
+              }}
             >
-              Book a call
+              Work with me
             </a>
           </div>
 
-          {/* Mobile hamburger */}
           <button
             onClick={toggleMenu}
             aria-label="Open menu"
@@ -112,7 +115,6 @@ export default function Navbar() {
         </motion.nav>
       </div>
 
-      {/* ── Mobile Fullscreen Overlay ── */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -122,23 +124,23 @@ export default function Navbar() {
             exit={{ y: "-100%" }}
             transition={{ duration: 0.55, ease: [0.77, 0, 0.18, 1] }}
             className="fixed inset-0 z-[200] flex flex-col"
-            style={{ backgroundColor: dark ? "#0B0B0C" : "#f4f3ef" }}
+            style={{ backgroundColor: dark ? "#0D0D0D" : "#f4f3ef" }}
           >
-            {/* Header row */}
             <div className="flex items-center justify-between px-7 py-6">
               <span
                 className="text-[18px] font-bold tracking-tight"
                 style={{
-                  fontFamily: "'Syne', sans-serif",
+                  fontFamily: "'Fraunces', serif",
+                  letterSpacing: "-0.02em",
                   color: dark ? "#fff" : "#111",
                 }}
               >
-                HalxDocs
+                HALXDOCS
               </span>
               <button
                 onClick={closeMenu}
                 aria-label="Close menu"
-                className="w-10 h-10 rounded-full flex items-center justify-center transition-colors"
+                className="w-10 h-10 rounded-full flex items-center justify-center"
                 style={{
                   background: dark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)",
                   border: `0.5px solid ${dark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.10)"}`,
@@ -152,7 +154,6 @@ export default function Navbar() {
               </button>
             </div>
 
-            {/* Nav items */}
             <div className="flex-1 flex flex-col justify-center px-7">
               {NAV_LINKS.map((link, i) => (
                 <motion.a
@@ -161,7 +162,7 @@ export default function Navbar() {
                   onClick={closeMenu}
                   initial={{ x: -28, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
-                  transition={{ delay: 0.15 + i * 0.07, duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+                  transition={{ delay: 0.15 + i * 0.07, duration: 0.4 }}
                   className="group flex items-center gap-4 py-5 border-b"
                   style={{ borderColor: dark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)" }}
                 >
@@ -171,17 +172,16 @@ export default function Navbar() {
                   >
                     0{i + 1}
                   </span>
-
                   <span
-                    className="text-[clamp(38px,10vw,56px)] font-extrabold uppercase tracking-tight leading-none transition-all duration-200 group-hover:tracking-wide"
+                    className="text-[clamp(34px,9vw,52px)] font-medium tracking-tight leading-none"
                     style={{
-                      fontFamily: "'Syne', sans-serif",
-                      color: dark ? "rgba(255,255,255,0.82)" : "rgba(0,0,0,0.78)",
+                      fontFamily: "'Fraunces', serif",
+                      letterSpacing: "-0.02em",
+                      color: dark ? "rgba(255,255,255,0.85)" : "rgba(0,0,0,0.78)",
                     }}
                   >
                     {link.name}
                   </span>
-
                   <span
                     className="ml-auto opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200"
                     style={{ color: dark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.4)" }}
@@ -192,11 +192,10 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* Footer row */}
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.38, duration: 0.35 }}
+              transition={{ delay: 0.5, duration: 0.35 }}
               className="flex items-center px-7 py-6 border-t"
               style={{ borderColor: dark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)" }}
             >
@@ -212,16 +211,17 @@ export default function Navbar() {
               </button>
 
               <a
-                href="https://cal.com/kamsy-ejindu-qdidgy/15min"
+                href="/#contact"
                 onClick={closeMenu}
-                className="flex-1 text-center py-4 rounded-[14px] text-[13px] font-bold uppercase tracking-widest transition-opacity hover:opacity-85"
+                className="flex-1 text-center py-4 rounded-[14px] text-[13px] font-bold uppercase tracking-widest"
                 style={{
                   fontFamily: "'Syne', sans-serif",
-                  background: dark ? "#fff" : "#111",
-                  color: dark ? "#0B0B0C" : "#fff",
+                  background: "var(--accent)",
+                  color: "#fff",
+                  boxShadow: "var(--shadow-accent)",
                 }}
               >
-                Book a call
+                Work with me
               </a>
             </motion.div>
           </motion.div>

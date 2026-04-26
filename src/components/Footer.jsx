@@ -1,85 +1,81 @@
-import { FaGithub, FaInstagram, FaLinkedin, FaXTwitter } from "react-icons/fa6";
+import { FaXTwitter, FaGithub, FaLinkedin, FaMedium, FaNpm } from "react-icons/fa6";
+
+const links = [
+  { icon: <FaXTwitter size={16} />, href: "https://x.com/HalxDocs", label: "X" },
+  { icon: <FaGithub size={16} />, href: "https://github.com/HalxDocs", label: "GitHub" },
+  { icon: <FaLinkedin size={16} />, href: "https://www.linkedin.com/in/halx-docs-633272344", label: "LinkedIn" },
+  { icon: <FaMedium size={16} />, href: "https://medium.com/@halxdocs", label: "Medium" },
+  { icon: <FaNpm size={18} />, href: "https://www.npmjs.com/~halxdocs", label: "npm" },
+];
 
 export default function Footer() {
   return (
     <footer
-      className="border-t"
       style={{
-        backgroundColor: "var(--color-background)",
-        color: "var(--color-foreground)",
-        borderColor: "color-mix(in srgb, var(--color-foreground) 10%, transparent)",
-        fontFamily: "'Geist', ui-sans-serif, system-ui, sans-serif",
+        background: "var(--bg)",
+        color: "var(--text)",
+        borderTop: "0.5px solid var(--border)",
       }}
     >
-      <div className="mx-auto max-w-6xl px-6 py-12">
+      <div className="mx-auto max-w-[1200px] px-6 sm:px-10 py-14">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8">
 
-          {/* Left */}
           <div>
-            <p className="text-lg font-semibold tracking-tight">
-              HalxDocs
+            <p
+              className="font-display"
+              style={{
+                fontSize: "20px",
+                fontWeight: 600,
+                letterSpacing: "-0.02em",
+                color: "var(--text)",
+              }}
+            >
+              HALXDOCS
             </p>
             <p
-              className="mt-2 text-sm"
-              style={{ color: "color-mix(in srgb, var(--color-foreground) 55%, transparent)" }}
+              className="font-mono mt-2"
+              style={{
+                fontSize: "11px",
+                color: "var(--text-muted)",
+                letterSpacing: "0.05em",
+              }}
             >
-              © 2026 HalxDocs. All rights reserved.
+              © 2026 HalxDocs. Built with care.
             </p>
           </div>
 
-          {/* Right – Socials */}
-          <div
-            className="flex items-center gap-6"
-            style={{ color: "color-mix(in srgb, var(--color-foreground) 55%, transparent)" }}
-          >
-            <a
-              href="https://github.com/halxdocs"
-              target="_blank"
-              rel="noreferrer"
-              className="transition-colors"
-              style={{ "--hover-color": "var(--color-foreground)" }}
-              onMouseEnter={e => (e.currentTarget.style.color = "var(--color-foreground)")}
-              onMouseLeave={e => (e.currentTarget.style.color = "")}
-              aria-label="GitHub"
-            >
-              <FaGithub size={20} />
-            </a>
-
-            <a
-              href="https://instagram.com/halxdocs_"
-              target="_blank"
-              rel="noreferrer"
-              className="transition-colors"
-              onMouseEnter={e => (e.currentTarget.style.color = "var(--color-foreground)")}
-              onMouseLeave={e => (e.currentTarget.style.color = "")}
-              aria-label="Instagram"
-            >
-              <FaInstagram size={20} />
-            </a>
-
-            <a
-              href="https://www.linkedin.com/in/halx-docs-633272344"
-              target="_blank"
-              rel="noreferrer"
-              className="transition-colors"
-              onMouseEnter={e => (e.currentTarget.style.color = "var(--color-foreground)")}
-              onMouseLeave={e => (e.currentTarget.style.color = "")}
-              aria-label="LinkedIn"
-            >
-              <FaLinkedin size={20} />
-            </a>
-
-            <a
-              href="https://x.com/halxdocs"
-              target="_blank"
-              rel="noreferrer"
-              className="transition-colors"
-              onMouseEnter={e => (e.currentTarget.style.color = "var(--color-foreground)")}
-              onMouseLeave={e => (e.currentTarget.style.color = "")}
-              aria-label="X"
-            >
-              <FaXTwitter size={20} />
-            </a>
+          <div className="flex items-center gap-3">
+            {links.map((s) => (
+              <a
+                key={s.label}
+                href={s.href}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={s.label}
+                className="flex items-center justify-center"
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: "50%",
+                  background: "var(--surface)",
+                  border: "0.5px solid var(--border)",
+                  color: "var(--text-muted)",
+                  transition: "color 0.2s, background 0.2s, border-color 0.2s",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "var(--accent)";
+                  e.currentTarget.style.borderColor = "var(--accent)";
+                  e.currentTarget.style.color = "#fff";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "var(--surface)";
+                  e.currentTarget.style.borderColor = "var(--border)";
+                  e.currentTarget.style.color = "var(--text-muted)";
+                }}
+              >
+                {s.icon}
+              </a>
+            ))}
           </div>
 
         </div>

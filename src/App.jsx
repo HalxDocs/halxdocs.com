@@ -3,40 +3,38 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 
 import SplashScreen from "./components/SplashScreen";
 import Navbar from "./components/Navbar";
+import ScrollToTop from "./components/ScrollToTop";
 
-
-// Pages / Sections
+// Sections
 import Hero from "./components/Hero";
-import ProjectsMarquee from "./components/ProjectsMarquee";
-import About from "./components/About";
 import Services from "./components/Services";
 import SelectedWork from "./components/SelectedWork";
+import About from "./components/About";
+import TechStack from "./components/TechStack";
+import BlogPreview from "./components/BlogPreview";
 import ContactCTA from "./components/ContactCTA";
 import Footer from "./components/Footer";
 
-// Blog pages
+// Pages
 import Blog from "./pages/Blog";
-import WhyJsonstack from "./pages/blog/WhyICreatedJsonstack";
+import SymphonyPost from "./pages/blog/SymphonyPost";
+import BiblePlusPost from "./pages/blog/BiblePlusPost";
+import ProjectDetail from "./pages/ProjectDetail";
 
-/* ---------------------------------- */
-/* Home Page Wrapper                  */
-/* ---------------------------------- */
 function Home() {
   return (
     <>
       <Hero />
-      <ProjectsMarquee />
-      <About />
       <Services />
       <SelectedWork />
+      <About />
+      <TechStack />
+      <BlogPreview />
       <ContactCTA />
     </>
   );
 }
 
-/* ---------------------------------- */
-/* App Content (handles splash logic) */
-/* ---------------------------------- */
 function AppContent() {
   const location = useLocation();
   const [showSplash, setShowSplash] = useState(true);
@@ -48,38 +46,29 @@ function AppContent() {
       setShowSplash(false);
       return;
     }
-
-    const timer = setTimeout(() => {
-      setShowSplash(false);
-    }, 2800);
-
+    const timer = setTimeout(() => setShowSplash(false), 2800);
     return () => clearTimeout(timer);
   }, [isHome]);
 
-  // Initialize dark mode on app load
   useEffect(() => {
     document.documentElement.classList.add("dark");
   }, []);
 
   return (
     <>
-      {/* TEST COMPONENT - Remove after testing */}
-      
-      
-      {/* Splash only on home */}
       {showSplash && isHome && <SplashScreen />}
 
       {!showSplash && (
         <>
+          <ScrollToTop />
           <Navbar />
 
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/blog" element={<Blog />} />
-            <Route
-              path="/blog/why-i-created-jsonstack"
-              element={<WhyJsonstack />}
-            />
+            <Route path="/blog/symphony-wedding-app" element={<SymphonyPost />} />
+            <Route path="/blog/bibleplus-production-fix" element={<BiblePlusPost />} />
+            <Route path="/projects/:slug" element={<ProjectDetail />} />
           </Routes>
 
           <Footer />
@@ -89,9 +78,6 @@ function AppContent() {
   );
 }
 
-/* ---------------------------------- */
-/* Root App                           */
-/* ---------------------------------- */
 export default function App() {
   return (
     <BrowserRouter>

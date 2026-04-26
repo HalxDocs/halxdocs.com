@@ -1,171 +1,134 @@
 import { motion } from "framer-motion";
-import { memo, useRef, useState } from "react";
+import { memo, useState } from "react";
 
-/* -------------------- Service Row -------------------- */
+const services = [
+  {
+    title: "Backend API Development",
+    description:
+      "Need a solid API that can handle real traffic, real users, and real money? I build production-ready backends — auth systems, payment flows, data pipelines — the kind that don't fall over.",
+    tags: ["NestJS", "Node.js", "TypeScript", "MongoDB", "PostgreSQL"],
+  },
+  {
+    title: "Full-Stack Web Products",
+    description:
+      "From zero to live. I build complete web products — frontend, backend, database, deployment. You give me the idea and the access. I handle the rest.",
+    tags: ["React", "Remix", "Next.js", "NestJS", "Vercel", "Firebase"],
+  },
+  {
+    title: "SaaS & Product Builds",
+    description:
+      "Got a SaaS idea? I can take it from Figma (or a napkin sketch) to a working product with subscriptions, dashboards, user management — the full thing.",
+    tags: ["TypeScript", "React", "NestJS", "Stripe", "AWS / Render"],
+  },
+];
 
-const ServiceRow = memo(function ServiceRow({ left, right, video, index, total }) {
+const ServiceCard = memo(function ServiceCard({ service, index, total }) {
   const [hovered, setHovered] = useState(false);
-  const videoRef = useRef(null);
-
-  const handleEnter = () => {
-    setHovered(true);
-    videoRef.current?.play();
-  };
-  const handleLeave = () => {
-    setHovered(false);
-    videoRef.current?.pause();
-  };
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 72 }}
+      initial={{ opacity: 0, y: 64 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.7, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
-      onMouseEnter={handleEnter}
-      onMouseLeave={handleLeave}
-      className="group relative flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12 py-10 sm:py-14"
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.7, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      className="group relative flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-10 py-10 sm:py-14"
       style={{
-        borderBottom: index < total - 1 ? "0.5px solid rgba(255,255,255,0.08)" : "none",
+        borderBottom: index < total - 1 ? "0.5px solid var(--border)" : "none",
       }}
     >
-      {/* Index */}
-      <span
-        className="hidden lg:block absolute left-0 top-1/2 -translate-y-1/2"
-        style={{
-          fontFamily: "'Syne', sans-serif",
-          fontSize: "11px",
-          letterSpacing: "0.18em",
-          color: "rgba(255,255,255,0.18)",
-          fontWeight: 500,
-          width: 32,
-        }}
-      >
-        {String(index + 1).padStart(2, "0")}
-      </span>
-
-      {/* Left word */}
-      <h3
-        className="text-center lg:text-left w-full lg:w-auto"
-        style={{
-          fontFamily: "'Syne', sans-serif",
-          fontSize: "clamp(36px, 7vw, 88px)",
-          fontWeight: 800,
-          letterSpacing: "-0.04em",
-          lineHeight: 1,
-          textTransform: "uppercase",
-          color: hovered ? "#fff" : "rgba(255,255,255,0.75)",
-          transition: "color 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
-          userSelect: "none",
-        }}
-      >
-        {left}
-      </h3>
-
-      {/* Video card */}
-      <motion.div
-        animate={{
-          scale: hovered ? 1.03 : 1,
-          opacity: hovered ? 1 : 0.7,
-        }}
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        className="relative shrink-0 rounded-2xl overflow-hidden"
-        style={{
-          width: "clamp(220px, 22vw, 300px)",
-          aspectRatio: "16/10",
-          outline: "0.5px solid rgba(255,255,255,0.10)",
-        }}
-      >
-        <video
-          ref={videoRef}
-          src={video}
-          loop
-          muted
-          playsInline
-          preload="none"
-          className="w-full h-full object-cover"
+      <div className="flex items-center gap-4 lg:w-32 shrink-0">
+        <span
+          className="font-mono"
           style={{
-            filter: hovered ? "grayscale(0%)" : "grayscale(60%)",
-            transition: "filter 0.6s ease",
+            fontSize: "11px",
+            color: "var(--text-muted)",
+            letterSpacing: "0.1em",
           }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background: "linear-gradient(135deg, rgba(0,0,0,0.25) 0%, transparent 60%)",
-          }}
-        />
-      </motion.div>
+        >
+          {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+        </span>
+      </div>
 
-      {/* Right word */}
-      <h3
-        className="text-center lg:text-right w-full lg:w-auto"
-        style={{
-          fontFamily: "'Syne', sans-serif",
-          fontSize: "clamp(36px, 7vw, 88px)",
-          fontWeight: 800,
-          letterSpacing: "-0.04em",
-          lineHeight: 1,
-          textTransform: "uppercase",
-          color: hovered ? "#fff" : "rgba(255,255,255,0.75)",
-          transition: "color 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
-          userSelect: "none",
-        }}
-      >
-        {right}
-      </h3>
+      <div className="flex-1 min-w-0 max-w-2xl">
+        <h3
+          className="font-display"
+          style={{
+            fontSize: "clamp(28px, 4vw, 44px)",
+            fontWeight: 500,
+            letterSpacing: "-0.02em",
+            lineHeight: 1.1,
+            color: "var(--text)",
+            opacity: hovered ? 1 : 0.92,
+            transition: "opacity 0.3s ease",
+            marginBottom: 16,
+          }}
+        >
+          {service.title}
+        </h3>
+        <p
+          style={{
+            fontSize: "15px",
+            lineHeight: 1.7,
+            color: "var(--text-muted)",
+            maxWidth: 520,
+          }}
+        >
+          {service.description}
+        </p>
+      </div>
+
+      <div className="flex flex-wrap gap-2 lg:max-w-[260px] lg:justify-end">
+        {service.tags.map((tag) => (
+          <span
+            key={tag}
+            className="font-mono"
+            style={{
+              padding: "5px 11px",
+              borderRadius: 100,
+              fontSize: "11px",
+              letterSpacing: "0.02em",
+              color: hovered ? "var(--text)" : "var(--text-muted)",
+              background: hovered ? "var(--accent-soft)" : "var(--surface)",
+              border: `0.5px solid ${hovered ? "var(--accent)" : "var(--border)"}`,
+              transition: "color 0.3s ease, background 0.3s ease, border-color 0.3s ease",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
     </motion.div>
   );
 });
-
-/* -------------------- Services Section -------------------- */
-
-const services = [
-  { left: "Web", right: "Platforms", video: "/web_develop.mp4" },
-  { left: "Mobile", right: "Apps", video: "/solid_engineering.mp4" },
-  { left: "Product", right: "Engineering", video: "/3d_web_experiences.mp4" },
-  { left: "Backend", right: "Systems", video: "/interface_design.mp4" },
-  { left: "Growth", right: "Optimization", video: "/web_develop.mp4" },
-];
 
 export default function Services() {
   return (
     <section
       id="services"
-      className="relative overflow-hidden py-28 sm:py-36"
-      style={{ background: "#000", color: "#fff" }}
+      className="relative py-28 sm:py-36"
+      style={{ background: "var(--bg)", color: "var(--text)" }}
     >
-      {/* Subtle grid */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)",
-          backgroundSize: "64px 64px",
-        }}
-      />
+      <div className="relative max-w-[1200px] mx-auto px-6 sm:px-10">
 
-      <div className="relative max-w-[1400px] mx-auto px-6 sm:px-10">
-
-        {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-20 sm:mb-28"
+          className="mb-16 sm:mb-20 max-w-2xl"
         >
-          <div className="flex items-center gap-3 mb-8">
+          <div className="flex items-center gap-3 mb-7">
+            <span style={{ width: 18, height: 1, background: "var(--accent)", display: "block" }} />
             <span
-              style={{ width: 16, height: 1, background: "rgba(255,255,255,0.2)", display: "block" }}
-            />
-            <span
+              className="font-mono"
               style={{
-                fontFamily: "'Syne', sans-serif",
-                fontSize: "10px",
+                fontSize: "11px",
                 textTransform: "uppercase",
                 letterSpacing: "0.22em",
-                color: "rgba(255,255,255,0.28)",
+                color: "var(--text-muted)",
                 fontWeight: 500,
               }}
             >
@@ -174,40 +137,25 @@ export default function Services() {
           </div>
 
           <h2
+            className="font-display"
             style={{
-              fontFamily: "'Syne', sans-serif",
-              fontSize: "clamp(32px, 4.5vw, 52px)",
-              fontWeight: 800,
-              letterSpacing: "-0.03em",
+              fontSize: "clamp(32px, 5vw, 56px)",
+              fontWeight: 500,
+              letterSpacing: "-0.025em",
               lineHeight: 1.1,
-              color: "#fff",
-              maxWidth: 600,
+              color: "var(--text)",
             }}
           >
-            What I{" "}
-            <span
-              style={{
-                color: "rgba(255,255,255,0.28)",
-                fontStyle: "italic",
-                fontWeight: 400,
-              }}
-            >
-              build & ship
+            What I build & ship.{" "}
+            <span style={{ fontStyle: "italic", color: "var(--text-muted)" }}>
+              Production-grade.
             </span>
           </h2>
         </motion.div>
 
-        {/* Service rows */}
-        <div style={{ paddingLeft: "clamp(0px, 3vw, 48px)" }}>
+        <div>
           {services.map((s, i) => (
-            <ServiceRow
-              key={i}
-              index={i}
-              total={services.length}
-              left={s.left}
-              right={s.right}
-              video={s.video}
-            />
+            <ServiceCard key={i} service={s} index={i} total={services.length} />
           ))}
         </div>
 
