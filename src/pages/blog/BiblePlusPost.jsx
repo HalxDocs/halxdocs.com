@@ -15,7 +15,7 @@ export default function BiblePlusPost() {
             fontSize: "11px",
             textTransform: "uppercase",
             letterSpacing: "0.18em",
-            color: "#888",
+            color: "var(--text-muted)",
             fontWeight: 600,
             textDecoration: "none",
           }}
@@ -33,14 +33,14 @@ export default function BiblePlusPost() {
               fontSize: "10px",
               textTransform: "uppercase",
               letterSpacing: "0.2em",
-              color: "#E94560",
+              color: "var(--accent)",
               fontWeight: 600,
             }}
           >
             Engineering
           </span>
           <span style={{ width: 12, height: 1, background: "#2A2A2A", display: "block" }} />
-          <span className="font-mono" style={{ fontSize: "11px", color: "#888" }}>
+          <span className="font-mono" style={{ fontSize: "11px", color: "var(--text-muted)" }}>
             2025
           </span>
         </div>
@@ -52,7 +52,7 @@ export default function BiblePlusPost() {
             fontWeight: 500,
             letterSpacing: "-0.025em",
             lineHeight: 1.1,
-            color: "#F0F0F0",
+            color: "var(--text)",
           }}
         >
           Two Production Bugs, One Weekend, Zero Downtime — Fixing the BiblePlus Backend on Render
@@ -167,7 +167,7 @@ export default function BiblePlusPost() {
             X. I've seen a few of these patterns now and most of them have clean solutions.
           </p>
 
-          <p style={{ marginTop: 32, fontWeight: 600, color: "#F0F0F0" }}>— HalxDocs</p>
+          <p style={{ marginTop: 32, fontWeight: 600, color: "var(--text)" }}>— HalxDocs</p>
         </Prose>
 
       </div>
@@ -184,7 +184,7 @@ function H2({ children }) {
         fontWeight: 500,
         letterSpacing: "-0.02em",
         lineHeight: 1.2,
-        color: "#F0F0F0",
+        color: "var(--text)",
         marginTop: 56,
         marginBottom: 20,
       }}
