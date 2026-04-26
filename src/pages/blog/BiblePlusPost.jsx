@@ -39,7 +39,7 @@ export default function BiblePlusPost() {
           >
             Engineering
           </span>
-          <span style={{ width: 12, height: 1, background: "#2A2A2A", display: "block" }} />
+          <span style={{ width: 12, height: 1, background: "var(--border)", display: "block" }} />
           <span className="font-mono" style={{ fontSize: "11px", color: "var(--text-muted)" }}>
             2025
           </span>
