@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback, memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sun, Moon, ArrowRight } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const NAV_LINKS = [
   { name: "Work", href: "/#work" },
@@ -9,6 +10,33 @@ const NAV_LINKS = [
   { name: "Stack", href: "/#stack" },
   { name: "Blog", href: "/blog" },
 ];
+
+function useSmartNav() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  return useCallback(
+    (href, after) => (e) => {
+      // Allow modifier-clicks / middle-click to behave normally
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
+      e.preventDefault();
+
+      const hashIdx = href.indexOf("#");
+      const path = hashIdx === -1 ? href : href.slice(0, hashIdx) || "/";
+      const hash = hashIdx === -1 ? "" : href.slice(hashIdx);
+
+      if (location.pathname === path && hash) {
+        // Same page — just scroll to the section
+        const el = document.getElementById(hash.slice(1));
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        navigate(path + hash);
+      }
+      after?.();
+    },
+    [navigate, location.pathname]
+  );
+}
 
 const NavLink = memo(({ link, onClick }) => (
   <a
@@ -33,6 +61,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [dark, setDark] = useState(true);
+  const smartNav = useSmartNav();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -73,6 +102,7 @@ export default function Navbar() {
         >
           <a
             href="/"
+            onClick={smartNav("/")}
             className="text-[17px] font-bold tracking-tight text-black dark:text-white"
             style={{ fontFamily: "'Fraunces', serif", letterSpacing: "-0.02em" }}
           >
@@ -81,7 +111,7 @@ export default function Navbar() {
 
           <div className="hidden md:flex items-center gap-7">
             {NAV_LINKS.map((link) => (
-              <NavLink key={link.name} link={link} />
+              <NavLink key={link.name} link={link} onClick={smartNav(link.href)} />
             ))}
             <div className="w-px h-4 bg-black/15 dark:bg-white/15" />
             <button
@@ -93,6 +123,7 @@ export default function Navbar() {
             </button>
             <a
               href="/#contact"
+              onClick={smartNav("/#contact")}
               className="px-5 py-2 rounded-full text-[11px] uppercase tracking-widest font-bold transition-all hover:scale-[1.03]"
               style={{
                 background: "var(--accent)",
@@ -159,7 +190,7 @@ export default function Navbar() {
                 <motion.a
                   key={link.name}
                   href={link.href}
-                  onClick={closeMenu}
+                  onClick={smartNav(link.href, closeMenu)}
                   initial={{ x: -28, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
                   transition={{ delay: 0.15 + i * 0.07, duration: 0.4 }}
@@ -212,7 +243,7 @@ export default function Navbar() {
 
               <a
                 href="/#contact"
-                onClick={closeMenu}
+                onClick={smartNav("/#contact", closeMenu)}
                 className="flex-1 text-center py-4 rounded-[14px] text-[13px] font-bold uppercase tracking-widest"
                 style={{
                   fontFamily: "'Syne', sans-serif",

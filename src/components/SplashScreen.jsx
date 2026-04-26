@@ -12,7 +12,7 @@ export default function SplashScreen() {
           style={{ fontFamily: "'Fraunces', serif", fontWeight: 500, letterSpacing: "-0.02em" }}
         />
 
-        <div className="h-px w-32 mx-auto mt-6" style={{ background: "#E94560" }} />
+        <div className="h-px w-32 mx-auto mt-6" style={{ background: "#3B82F6" }} />
 
         <p
           className="font-mono mt-6"

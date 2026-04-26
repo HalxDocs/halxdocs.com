@@ -200,7 +200,7 @@ function Prose({ children }) {
       style={{
         fontSize: "17px",
         lineHeight: 1.8,
-        color: "#bbb",
+        color: "var(--text-muted)",
       }}
       className="prose-content"
     >
@@ -210,7 +210,7 @@ function Prose({ children }) {
           margin-bottom: 1.4em;
         }
         .prose-content strong {
-          color: #F0F0F0;
+          color: var(--text);
           font-weight: 600;
         }
       `}</style>

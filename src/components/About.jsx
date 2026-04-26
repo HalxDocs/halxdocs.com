@@ -47,13 +47,15 @@ export default function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:col-span-5"
+            className="lg:col-span-4"
           >
             <div
-              className="relative overflow-hidden"
+              className="relative overflow-hidden mx-auto"
               style={{
-                aspectRatio: "4/5",
-                borderRadius: "20px",
+                aspectRatio: "3/4",
+                width: "100%",
+                maxWidth: "360px",
+                borderRadius: "18px",
                 border: "0.5px solid var(--border)",
                 background: "var(--surface)",
               }}
@@ -61,10 +63,16 @@ export default function About() {
               <img
                 src="/halx3.jpeg"
                 alt="HalxDocs — Full-Stack Software Engineer"
-                className="w-full h-full object-cover"
+                className="w-full h-full"
+                style={{
+                  objectFit: "cover",
+                  objectPosition: "center 25%",
+                  transform: "scale(1.08)",
+                  transformOrigin: "center 30%",
+                }}
               />
               <div
-                className="absolute bottom-4 left-4 px-3 py-1.5 rounded-full font-mono"
+                className="absolute bottom-3 left-3 px-3 py-1.5 rounded-full font-mono"
                 style={{
                   fontSize: "10px",
                   letterSpacing: "0.18em",
@@ -85,7 +93,7 @@ export default function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:col-span-7"
+            className="lg:col-span-8"
           >
             <h2
               className="font-display mb-10"

@@ -20,6 +20,12 @@ const services = [
       "Got a SaaS idea? I can take it from Figma (or a napkin sketch) to a working product with subscriptions, dashboards, user management — the full thing.",
     tags: ["TypeScript", "React", "NestJS", "Stripe", "AWS / Render"],
   },
+  {
+    title: "CLI Tools & Dev Tooling",
+    description:
+      "Need an internal CLI, terminal UI, or developer tool? I build fast, single-binary command-line tools in Go — automation, codegen, ops scripts, terminal dashboards. Distributable, scriptable, no runtime to install.",
+    tags: ["Go", "Cobra", "bubbletea", "lipgloss", "TypeScript"],
+  },
 ];
 
 const ServiceCard = memo(function ServiceCard({ service, index, total }) {
