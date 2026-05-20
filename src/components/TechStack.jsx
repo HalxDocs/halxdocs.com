@@ -12,8 +12,8 @@ export default function TechStack() {
   return (
     <section
       id="stack"
-      className="relative py-28 sm:py-36"
-      style={{ background: "var(--bg)", color: "var(--text)" }}
+      className="relative py-24 sm:py-28"
+      style={{ background: "var(--bg)", color: "var(--text)", borderTop: "1px solid var(--border)" }}
     >
       <div className="relative mx-auto max-w-[1200px] px-6 sm:px-10">
 

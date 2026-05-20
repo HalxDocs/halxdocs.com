@@ -114,8 +114,8 @@ export default function Services() {
   return (
     <section
       id="services"
-      className="relative py-28 sm:py-36"
-      style={{ background: "var(--bg)", color: "var(--text)" }}
+      className="relative py-24 sm:py-28"
+      style={{ background: "var(--bg)", color: "var(--text)", borderTop: "1px solid var(--border)" }}
     >
       <div className="relative max-w-[1200px] mx-auto px-6 sm:px-10">
 

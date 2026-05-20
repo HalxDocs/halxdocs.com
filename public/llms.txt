@@ -1,0 +1,70 @@
+# HalxDocs
+
+> Full-Stack Engineer (Backend-Focused) and Co-Founder & CTO of Myshoplet. Based in Nigeria.
+
+## Who I am
+
+HalxDocs is a full-stack software engineer specializing in backend systems, APIs, SaaS platforms, and developer tooling. I co-founded Myshoplet and serve as its CTO, owning all engineering decisions. I also take contract work — fintech backends, SaaS products, CLIs, and API-heavy systems.
+
+My primary languages are Go (Gin) and TypeScript. I work across the stack when needed.
+
+## Where to find me
+
+- Website: https://halxdocs.com
+- X / Twitter: https://x.com/HalxDocs
+- GitHub: https://github.com/HalxDocs
+- LinkedIn: https://www.linkedin.com/in/halx-docs-633272344
+- npm: https://www.npmjs.com/~halxdocs
+- Medium: https://medium.com/@halxdocs
+- Email: halxdocs@gmail.com
+
+## Current role
+
+Co-Founder & CTO at Myshoplet (https://myshoplet.com)
+
+Myshoplet is a Nigerian e-commerce SaaS platform — think Shopify + WhatsApp AI + POS, built specifically for Nigerian small businesses. Features include branded storefronts, a 24/7 AI WhatsApp sales agent (powered by Anthropic Claude), a browser-based POS terminal, Paystack payments with seller wallets, marketing tools, analytics, and a public marketplace at /discover.
+
+Tech stack: Next.js, Node.js, Express, TypeScript, Tailwind CSS, MongoDB, Paystack, Twilio, Anthropic Claude API, Cloudinary, Vercel.
+
+## Projects
+
+### Myshoplet — https://myshoplet.com
+All-in-one e-commerce SaaS for Nigerian SMBs. Co-founder & CTO. Nigeria's answer to Shopify + WhatsApp Business + Tidio.
+
+### reqit — https://github.com/HalxDocs/reqit
+Local-first, open-source HTTP API client for developers. Desktop alternative to Postman/Insomnia. Built with Go (Wails v2) and React. Everything is stored as plain JSON files — no account, no cloud, no telemetry.
+
+### jsonstack — https://jsonstack.dev
+Fast, browser-based JSON viewer and formatter built to handle large files that break other tools. Collapsible tree view, fast search, path copying.
+
+### lazydb — https://github.com/HalxDocs/lazydb
+Keyboard-driven terminal UI for databases (Postgres, MySQL, SQLite). Built in Go with bubbletea and lipgloss. Like lazygit but for SQL.
+
+### contextpack — https://npmjs.com/package/@halxdocs/contextpack
+Open-source CLI that bundles an entire codebase into one LLM-ready markdown or JSON file. Published to npm.
+
+### Nigerian Fintech Backend (client)
+Production backend for a Nigerian mobile banking app — phone-number-first auth, OTP brute-force lockout, atomic wallet creation via MongoDB transactions, full ledger system. NestJS + TypeScript + MongoDB.
+
+### Norah's Beauty Hub — https://norahsbeautyhub.pxxl.click
+Full-stack e-commerce platform for a Nigerian beauty brand. React + Node.js + MongoDB + Paystack.
+
+## Technical skills
+
+Languages: Go, TypeScript, JavaScript
+Backend: Go (Gin), Node.js, Express, NestJS
+Frontend: React, Next.js, Tailwind CSS
+Databases: MongoDB, PostgreSQL, Firebase Firestore
+Infra / Cloud: Vercel, Render, AWS, Docker
+Payments: Paystack
+AI: Anthropic Claude API
+Media: Cloudinary
+Tools: Git, Postman, Wails, bubbletea
+
+## Writing
+
+Blog posts at https://halxdocs.com/blog — covering open-source projects, production incident postmortems, and engineering decisions.
+
+## Availability
+
+Available for contract work — backend systems, SaaS platforms, CLI tools, and API-heavy projects. Book a call at https://cal.com/halxdocs

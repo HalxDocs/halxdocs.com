@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import Beams from "./Beams";
 
 export default function ContactCTA() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
@@ -17,197 +16,174 @@ export default function ContactCTA() {
   return (
     <section
       id="contact"
-      className="relative w-full overflow-hidden"
-      style={{ background: "#0D0D0D", color: "#F0F0F0" }}
+      style={{
+        background: "var(--bg)",
+        borderTop: "1px solid var(--border)",
+        paddingTop: 96,
+        paddingBottom: 96,
+      }}
     >
-      {/* Beams stays dark — it's a fixed dark scene */}
-      <div className="absolute inset-0">
-        <Beams
-          beamWidth={2}
-          beamHeight={18}
-          beamNumber={10}
-          lightColor="#ffffff"
-          speed={1.6}
-          noiseIntensity={1.4}
-          scale={0.22}
-          rotation={0}
-        />
-      </div>
-
       <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse 80% 70% at 50% 50%, transparent 0%, rgba(13,13,13,0.78) 100%)",
-        }}
-      />
-      <div className="absolute bottom-0 left-0 right-0" style={{ height: "30%", background: "linear-gradient(to top, #0D0D0D, transparent)" }} />
-      <div className="absolute top-0 left-0 right-0" style={{ height: "20%", background: "linear-gradient(to bottom, var(--bg), transparent)" }} />
-
-      <div className="relative z-10 px-6 sm:px-10 py-28 sm:py-36">
-        <div className="mx-auto max-w-3xl text-center">
-
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="flex items-center justify-center gap-3 mb-10"
-          >
-            <span style={{ width: 18, height: 1, background: "var(--accent)", display: "block" }} />
-            <span
-              className="font-mono"
-              style={{
-                fontSize: "11px",
-                textTransform: "uppercase",
-                letterSpacing: "0.22em",
-                color: "rgba(255,255,255,0.55)",
-                fontWeight: 500,
-              }}
-            >
-              Get in touch
-            </span>
-            <span style={{ width: 18, height: 1, background: "var(--accent)", display: "block" }} />
-          </motion.div>
-
-          <motion.h2
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="font-display"
+        className="mx-auto px-6 sm:px-10"
+        style={{ maxWidth: 720 }}
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <p
             style={{
-              fontSize: "clamp(40px, 7vw, 80px)",
+              fontSize: 11,
+              textTransform: "uppercase",
+              letterSpacing: "0.2em",
+              color: "var(--text-muted)",
+              fontWeight: 500,
+              fontFamily: "'Geist', sans-serif",
+              marginBottom: 16,
+            }}
+          >
+            Get in touch
+          </p>
+
+          <h2
+            style={{
+              fontFamily: "'Fraunces', serif",
+              fontSize: "clamp(36px, 6vw, 64px)",
               fontWeight: 500,
               letterSpacing: "-0.03em",
               lineHeight: 1.05,
-              color: "#F0F0F0",
+              color: "var(--text)",
+              marginBottom: 20,
             }}
           >
             Got a project{" "}
-            <span style={{ fontStyle: "italic", color: "rgba(255,255,255,0.55)" }}>in mind?</span>
-          </motion.h2>
+            <span style={{ fontStyle: "italic", color: "var(--text-muted)" }}>
+              in mind?
+            </span>
+          </h2>
 
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.22, duration: 0.6 }}
+          <p
             style={{
-              marginTop: 28,
-              fontSize: "17px",
-              lineHeight: 1.7,
-              color: "rgba(255,255,255,0.55)",
-              maxWidth: 540,
-              marginInline: "auto",
+              fontSize: 16,
+              lineHeight: 1.75,
+              color: "var(--text-muted)",
+              marginBottom: 40,
+              maxWidth: 520,
             }}
           >
-            I'm currently available for new projects. Whether you need a backend built from scratch, a full
-            product shipped, or an existing codebase rescued —{" "}
-            <span style={{ color: "#F0F0F0" }}>DM me on X or drop a message below</span>.
-          </motion.p>
+            I'm currently available for new projects. Whether you need a backend built from scratch,
+            a full product shipped, or an existing codebase rescued —{" "}
+            <span style={{ color: "var(--text)", fontWeight: 500 }}>DM me on X or fill out the form below</span>.
+          </p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.32, duration: 0.6 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mt-10"
-          >
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginBottom: 48 }}>
             <a
               href="https://x.com/HalxDocs"
               target="_blank"
               rel="noreferrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 transition-all hover:scale-[1.02]"
               style={{
-                padding: "14px 32px",
+                padding: "10px 24px",
                 borderRadius: 100,
-                background: "var(--accent)",
-                color: "#fff",
-                fontFamily: "'Syne', sans-serif",
-                fontSize: "11px",
-                fontWeight: 700,
-                textTransform: "uppercase",
-                letterSpacing: "0.16em",
+                background: "var(--text)",
+                color: "var(--bg)",
+                fontSize: 13,
+                fontWeight: 600,
+                letterSpacing: "0.02em",
                 textDecoration: "none",
-                boxShadow: "var(--shadow-accent)",
+                transition: "opacity 0.2s",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
               }}
+              onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.75")}
+              onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
             >
               DM me on X
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14M13 5l7 7-7 7" />
               </svg>
             </a>
 
             <a
-              href="#contact-form"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2"
+              href="mailto:halxdocs@gmail.com"
               style={{
-                padding: "13px 32px",
+                padding: "10px 24px",
                 borderRadius: 100,
-                background: "rgba(255,255,255,0.05)",
-                border: "0.5px solid rgba(255,255,255,0.18)",
-                color: "#F0F0F0",
-                fontFamily: "'Syne', sans-serif",
-                fontSize: "11px",
-                fontWeight: 700,
-                textTransform: "uppercase",
-                letterSpacing: "0.16em",
+                background: "transparent",
+                border: "1px solid var(--border)",
+                color: "var(--text-muted)",
+                fontSize: 13,
+                fontWeight: 600,
+                letterSpacing: "0.02em",
                 textDecoration: "none",
-                backdropFilter: "blur(8px)",
+                transition: "color 0.2s, border-color 0.2s",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = "var(--text)";
+                e.currentTarget.style.borderColor = "var(--text)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = "var(--text-muted)";
+                e.currentTarget.style.borderColor = "var(--border)";
               }}
             >
-              Send a message
+              Send an email
             </a>
-          </motion.div>
+          </div>
+        </motion.div>
 
-          <motion.form
-            id="contact-form"
-            onSubmit={handleSubmit}
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-16 max-w-xl mx-auto text-left"
+        <motion.form
+          id="contact-form"
+          onSubmit={handleSubmit}
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.15, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          style={{
+            borderTop: "1px solid var(--border)",
+            paddingTop: 40,
+          }}
+        >
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+            <Field label="Name" type="text" value={form.name} onChange={(v) => setForm({ ...form, name: v })} required />
+            <Field label="Email" type="email" value={form.email} onChange={(v) => setForm({ ...form, email: v })} required />
+          </div>
+          <Field label="Message" textarea value={form.message} onChange={(v) => setForm({ ...form, message: v })} required />
+
+          <button
+            type="submit"
             style={{
-              background: "rgba(22,22,22,0.7)",
-              backdropFilter: "blur(12px)",
-              border: "0.5px solid rgba(255,255,255,0.12)",
-              borderRadius: 20,
-              padding: "32px 28px",
+              marginTop: 16,
+              width: "100%",
+              padding: "14px",
+              borderRadius: 100,
+              background: "var(--text)",
+              color: "var(--bg)",
+              fontSize: 13,
+              fontWeight: 600,
+              letterSpacing: "0.04em",
+              border: "none",
+              cursor: "pointer",
+              transition: "opacity 0.2s",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 8,
             }}
+            onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.75")}
+            onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
           >
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-              <Field label="Name" type="text" value={form.name} onChange={(v) => setForm({ ...form, name: v })} required />
-              <Field label="Email" type="email" value={form.email} onChange={(v) => setForm({ ...form, email: v })} required />
-            </div>
-            <Field label="Message" textarea value={form.message} onChange={(v) => setForm({ ...form, message: v })} required />
-
-            <button
-              type="submit"
-              className="mt-5 w-full inline-flex items-center justify-center gap-2 transition-all hover:scale-[1.01]"
-              style={{
-                padding: "14px",
-                borderRadius: 100,
-                background: "#F0F0F0",
-                color: "#0D0D0D",
-                fontFamily: "'Syne', sans-serif",
-                fontSize: "11px",
-                fontWeight: 700,
-                textTransform: "uppercase",
-                letterSpacing: "0.16em",
-                border: "none",
-                cursor: "pointer",
-              }}
-            >
-              {sent ? "Email opened — finish in your client" : "Send message"}
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14M13 5l7 7-7 7" />
-              </svg>
-            </button>
-          </motion.form>
-
-        </div>
+            {sent ? "Email opened — finish in your client" : "Send message"}
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 12h14M13 5l7 7-7 7" />
+            </svg>
+          </button>
+        </motion.form>
       </div>
     </section>
   );
@@ -216,26 +192,29 @@ export default function ContactCTA() {
 function Field({ label, type = "text", textarea, value, onChange, required }) {
   const baseStyle = {
     width: "100%",
-    background: "rgba(13,13,13,0.6)",
-    border: "0.5px solid rgba(255,255,255,0.15)",
-    borderRadius: 12,
-    padding: "12px 14px",
-    color: "#F0F0F0",
-    fontSize: "14px",
-    fontFamily: "'Syne', sans-serif",
+    background: "var(--surface)",
+    border: "1px solid var(--border)",
+    borderRadius: 8,
+    padding: "11px 14px",
+    color: "var(--text)",
+    fontSize: 14,
+    fontFamily: "'Geist', sans-serif",
     outline: "none",
     transition: "border-color 0.2s",
+    boxSizing: "border-box",
   };
   return (
-    <label className="block">
+    <label style={{ display: "block" }}>
       <span
-        className="font-mono block mb-2"
         style={{
-          fontSize: "10px",
+          display: "block",
+          marginBottom: 6,
+          fontSize: 11,
           textTransform: "uppercase",
-          letterSpacing: "0.18em",
-          color: "rgba(255,255,255,0.55)",
+          letterSpacing: "0.14em",
+          color: "var(--text-muted)",
           fontWeight: 600,
+          fontFamily: "'Geist', sans-serif",
         }}
       >
         {label}
@@ -246,8 +225,8 @@ function Field({ label, type = "text", textarea, value, onChange, required }) {
           value={value}
           required={required}
           onChange={(e) => onChange(e.target.value)}
-          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--accent)")}
-          onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)")}
+          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--text)")}
+          onBlur={(e) => (e.currentTarget.style.borderColor = "var(--border)")}
           style={{ ...baseStyle, resize: "vertical" }}
         />
       ) : (
@@ -256,8 +235,8 @@ function Field({ label, type = "text", textarea, value, onChange, required }) {
           value={value}
           required={required}
           onChange={(e) => onChange(e.target.value)}
-          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--accent)")}
-          onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)")}
+          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--text)")}
+          onBlur={(e) => (e.currentTarget.style.borderColor = "var(--border)")}
           style={baseStyle}
         />
       )}

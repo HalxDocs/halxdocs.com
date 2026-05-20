@@ -1,49 +1,39 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Basic -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Title -->
-    <title>HalxDocs — Product Engineer </title>
-
-    <!-- SEO -->
-    <meta
-      name="description"
-      content="HalxDocs is a software engineer building scalable, conversion-focused web and mobile applications for startups and founders."
-    />
-    <meta
-      name="keywords"
-      content="HalxDocs, software engineer, web developer, frontend, backend, startups, product builder, React, Node.js, full-stack developer"
-    />
+    <!-- ─── Primary ─── -->
+    <title>HalxDocs — Full-Stack Engineer & Co-Founder of Myshoplet</title>
+    <meta name="description" content="HalxDocs is a full-stack engineer (backend-focused) and co-founder & CTO of Myshoplet. I build APIs, SaaS backends, fintech systems, and developer tools in Go and TypeScript. Based in Nigeria." />
+    <meta name="keywords" content="HalxDocs, full-stack engineer Nigeria, backend engineer Nigeria, Go developer Nigeria, TypeScript developer, API developer, SaaS developer Nigeria, fintech backend developer, NestJS developer, Node.js developer, Go Gin developer, software engineer Nigeria, Myshoplet CTO, Nigerian developer, open source developer, reqit, jsonstack, lazydb, contextpack" />
     <meta name="author" content="HalxDocs" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
     <link rel="canonical" href="https://halxdocs.com" />
 
-    <!-- Open Graph (LinkedIn, Facebook) -->
-    <meta property="og:title" content="HalxDocs — Product Engineer" />
-    <meta
-      property="og:description"
-      content="Building scalable, conversion-focused digital products for startups and founders."
-    />
+    <!-- ─── Open Graph ─── -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://halxdocs.com" />
+    <meta property="og:site_name" content="HalxDocs" />
+    <meta property="og:title" content="HalxDocs — Full-Stack Engineer & Co-Founder of Myshoplet" />
+    <meta property="og:description" content="Full-stack engineer (backend-focused) and co-founder & CTO of Myshoplet. I build APIs, SaaS backends, fintech systems, and developer tools in Go and TypeScript. Based in Nigeria." />
     <meta property="og:image" content="https://halxdocs.com/og-image.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:site_name" content="HalxDocs" />
+    <meta property="og:image:alt" content="HalxDocs — Full-Stack Engineer based in Nigeria" />
+    <meta property="og:locale" content="en_US" />
 
-    <!-- Twitter / X -->
+    <!-- ─── Twitter / X ─── -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="HalxDocs — Product Engineer" />
-    <meta
-      name="twitter:description"
-      content="Building scalable, conversion-focused digital products."
-    />
-    <meta name="twitter:creator" content="@halxdocs" />
+    <meta name="twitter:site" content="@HalxDocs" />
+    <meta name="twitter:creator" content="@HalxDocs" />
+    <meta name="twitter:title" content="HalxDocs — Full-Stack Engineer & Co-Founder of Myshoplet" />
+    <meta name="twitter:description" content="Full-stack engineer (backend-focused) and co-founder & CTO of Myshoplet. Building APIs, SaaS, fintech backends, and developer tools in Go and TypeScript." />
     <meta name="twitter:image" content="https://halxdocs.com/og-image.jpg" />
+    <meta name="twitter:image:alt" content="HalxDocs — Full-Stack Engineer based in Nigeria" />
 
-    <!-- Favicons -->
+    <!-- ─── Favicons ─── -->
     <link
       rel="icon"
       type="image/svg+xml"
@@ -52,50 +42,82 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
 
-    <!-- Theme Color -->
-    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <!-- ─── Theme ─── -->
+    <meta name="theme-color" content="#0D0D0D" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="msapplication-TileColor" content="#0D0D0D" />
 
-    <!-- Preconnect to external domains for faster loading -->
-    <link rel="preconnect" href="https://cal.com" />
-    <link rel="dns-prefetch" href="https://cal.com" />
-
-    <!-- Initialize dark mode class before page renders to prevent flash -->
-    <script>
-      // Start with dark mode by default
-      document.documentElement.classList.add('dark');
-    </script>
-
-    <!-- Fonts: Fraunces (display) + Syne (body) + JetBrains Mono (code) -->
+    <!-- ─── Preconnects ─── -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <link rel="dns-prefetch" href="https://cal.com" />
+
+    <!-- ─── Fonts: Fraunces (display) + Geist (body) + DM Mono (code) ─── -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=DM+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/style.css" />
+
+    <!-- ─── Dark mode init (prevents flash) ─── -->
+    <script>document.documentElement.classList.add('dark');</script>
+
+    <!-- ─── Structured Data ─── -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": "https://halxdocs.com/#person",
+          "name": "HalxDocs",
+          "url": "https://halxdocs.com",
+          "jobTitle": "Full-Stack Engineer (Backend-Focused) & Co-Founder",
+          "description": "Full-stack engineer specializing in backend systems, APIs, SaaS platforms, and developer tools. Co-founder and CTO of Myshoplet. Based in Nigeria.",
+          "knowsAbout": ["Go", "TypeScript", "Node.js", "Express", "NestJS", "MongoDB", "PostgreSQL", "REST APIs", "SaaS", "Fintech", "React", "Next.js", "Docker", "Paystack"],
+          "nationality": "Nigerian",
+          "worksFor": {
+            "@type": "Organization",
+            "name": "Myshoplet",
+            "url": "https://myshoplet.com",
+            "description": "All-in-one e-commerce SaaS platform for Nigerian small businesses"
+          },
+          "sameAs": [
+            "https://x.com/HalxDocs",
+            "https://github.com/HalxDocs",
+            "https://www.linkedin.com/in/halx-docs-633272344",
+            "https://medium.com/@halxdocs",
+            "https://www.npmjs.com/~halxdocs"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://halxdocs.com/#website",
+          "url": "https://halxdocs.com",
+          "name": "HalxDocs",
+          "description": "Portfolio of HalxDocs — Full-Stack Engineer and Co-Founder of Myshoplet",
+          "author": { "@id": "https://halxdocs.com/#person" },
+          "inLanguage": "en-US"
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://halxdocs.com/#webpage",
+          "url": "https://halxdocs.com",
+          "name": "HalxDocs — Full-Stack Engineer & Co-Founder of Myshoplet",
+          "isPartOf": { "@id": "https://halxdocs.com/#website" },
+          "about": { "@id": "https://halxdocs.com/#person" },
+          "description": "Full-stack engineer (backend-focused) and co-founder & CTO of Myshoplet. Building APIs, SaaS backends, fintech systems, and developer tools in Go and TypeScript."
+        }
+      ]
+    }
+    </script>
   </head>
 
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
-
-    <!-- Structured Data for SEO -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "HalxDocs",
-        "url": "https://halxdocs.com",
-        "jobTitle": "Product Engineer",
-        "description": "Building scalable, conversion-focused digital products for startups and founders",
-        "sameAs": [
-          "https://x.com/halxdocs",
-          "https://www.linkedin.com/in/halx-docs-633272344/",
-          "https://instagram.com/halxdocs_",
-          "https://github.com/halxdocs"
-        ]
-      }
-    </script>
   </body>
 </html>

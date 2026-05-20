@@ -13,8 +13,8 @@ export default function About() {
   return (
     <section
       id="about"
-      className="relative py-28 sm:py-36"
-      style={{ background: "var(--bg)", color: "var(--text)" }}
+      className="relative py-24 sm:py-28"
+      style={{ background: "var(--bg)", color: "var(--text)", borderTop: "1px solid var(--border)" }}
     >
       <div className="relative mx-auto max-w-[1200px] px-6 sm:px-10">
 
@@ -61,7 +61,7 @@ export default function About() {
               }}
             >
               <img
-                src="/halx3.jpeg"
+                src="/halx4.jpeg"
                 alt="HalxDocs — Full-Stack Software Engineer"
                 className="w-full h-full"
                 style={{
@@ -117,7 +117,19 @@ export default function About() {
                 I'm a full-stack engineer based in Nigeria. I've been building software products for a few years now, and the thing I enjoy most is taking something from an idea to a working product people actually use.
               </p>
               <p style={{ fontSize: "16px", lineHeight: 1.75, color: "var(--text-muted)" }}>
-                I specialize in backend systems and APIs — <span style={{ color: "var(--text)" }}>NestJS, Node, Express, Go, TypeScript, MongoDB</span> — but I work across the stack. I've built fintech backends, e-commerce platforms, developer tools, and consumer apps. I care about getting things into production, not just making them work in dev.
+                I'm co-founder and CTO of{" "}
+                <a
+                  href="https://myshoplet.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ color: "var(--text)", fontWeight: 500, textDecoration: "underline", textUnderlineOffset: 3 }}
+                >
+                  Myshoplet
+                </a>
+                {" "}— Nigeria's all-in-one e-commerce SaaS platform (think Shopify + WhatsApp AI + POS, built for Nigerian SMBs). I co-founded it with Victor Dickson and own the entire technical side — architecture, backend, infrastructure, AI integrations, and engineering direction.
+              </p>
+              <p style={{ fontSize: "16px", lineHeight: 1.75, color: "var(--text-muted)" }}>
+                Outside of Myshoplet, I take on contract work — fintech backends, SaaS products, developer tools. My stack is <span style={{ color: "var(--text)" }}>Node.js, Next.js, MongoDB, Go, TypeScript</span> and whatever else the problem needs.
               </p>
               <p style={{ fontSize: "16px", lineHeight: 1.75, color: "var(--text)", fontWeight: 500 }}>
                 I work best with founders and small teams who have a clear problem and need someone to own the engineering side. If that sounds like you, let's talk.

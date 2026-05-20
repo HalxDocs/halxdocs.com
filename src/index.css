@@ -4,38 +4,38 @@
 
 @theme {
   --font-display: 'Fraunces', ui-serif, Georgia, serif;
-  --font-sans: 'Syne', ui-sans-serif, system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --font-sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'DM Mono', ui-monospace, monospace;
 }
 
-/* ─── Light theme (default) ─── */
+/* ─── Dark theme (default) ─── */
 :root {
-  --bg: #FFFFFF;
-  --surface: #F7F7F7;
-  --surface-2: #EDEDED;
-  --border: #E5E5E5;
-  --text: #0D0D0D;
-  --text-muted: #666666;
-  --text-dim: #999999;
-  --accent: #2563EB;          /* blue-600 */
-  --accent-hover: #1D4ED8;    /* blue-700 */
-  --accent-soft: rgba(37,99,235,0.08);
-  --shadow-accent: 0 8px 24px rgba(37,99,235,0.22);
-}
-
-/* ─── Dark theme ─── */
-.dark {
   --bg: #0D0D0D;
   --surface: #161616;
   --surface-2: #1F1F1F;
-  --border: #2A2A2A;
-  --text: #F0F0F0;
-  --text-muted: #888888;
-  --text-dim: #555555;
-  --accent: #3B82F6;          /* blue-500 — slightly brighter for dark */
-  --accent-hover: #60A5FA;    /* blue-400 */
-  --accent-soft: rgba(59,130,246,0.12);
-  --shadow-accent: 0 8px 24px rgba(59,130,246,0.28);
+  --border: rgba(255,255,255,0.1);
+  --text: rgba(255,255,255,0.92);
+  --text-muted: rgba(255,255,255,0.45);
+  --text-dim: rgba(255,255,255,0.22);
+  --accent: rgba(255,255,255,0.92);
+  --accent-hover: rgba(255,255,255,0.7);
+  --accent-soft: rgba(255,255,255,0.06);
+  --shadow-accent: none;
+}
+
+/* ─── Light theme ─── */
+.light {
+  --bg: #FAFAF8;
+  --surface: #F0EFE9;
+  --surface-2: #E5E3DB;
+  --border: rgba(0,0,0,0.1);
+  --text: #111111;
+  --text-muted: #666666;
+  --text-dim: #999999;
+  --accent: #111111;
+  --accent-hover: #333333;
+  --accent-soft: rgba(0,0,0,0.05);
+  --shadow-accent: none;
 }
 
 html {
@@ -46,9 +46,11 @@ html {
 body {
   background-color: var(--bg);
   color: var(--text);
-  font-family: 'Syne', ui-sans-serif, system-ui, sans-serif;
+  font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+.font-mono { font-family: 'DM Mono', ui-monospace, monospace; }
 
 .font-display { font-family: 'Fraunces', ui-serif, Georgia, serif; }
 .font-mono    { font-family: 'JetBrains Mono', ui-monospace, monospace; }

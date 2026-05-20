@@ -122,10 +122,9 @@ export default function ProjectDetail() {
               textTransform: "uppercase",
               letterSpacing: "0.16em",
               fontWeight: 700,
-              background: "var(--accent)",
-              color: "#fff",
+              background: "var(--text)",
+              color: "var(--bg)",
               textDecoration: "none",
-              boxShadow: "var(--shadow-accent)",
             }}
           >
             {project.liveLabel || "Visit live"}
