@@ -17,6 +17,14 @@ const posts = [
       "The app was crashing in production. A missing API key was taking the whole service down. The daily quiz wasn't delivering consistent content. Here's how I fixed both.",
     tag: "Engineering",
   },
+  {
+    slug: "/blog/reqit-postman",
+    title: "We built reqit because Postman got too expensive.",
+    date: "May 2026",
+    excerpt:
+      "A free, offline, Git-first API client for developer teams. In early 2026, Postman removed free team collaboration. So we built reqit — collections live in Git, not someone's cloud.",
+    tag: "Open Source",
+  },
 ];
 
 export default function Blog() {

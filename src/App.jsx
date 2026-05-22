@@ -10,6 +10,7 @@ import Footer from "./components/Footer";
 import Blog from "./pages/Blog";
 import SymphonyPost from "./pages/blog/SymphonyPost";
 import BiblePlusPost from "./pages/blog/BiblePlusPost";
+import ReqitPost from "./pages/blog/ReqitPost";
 import ProjectDetail from "./pages/ProjectDetail";
 
 function Home() {
@@ -37,6 +38,7 @@ export default function App() {
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/symphony-wedding-app" element={<SymphonyPost />} />
         <Route path="/blog/bibleplus-production-fix" element={<BiblePlusPost />} />
+        <Route path="/blog/reqit-postman" element={<ReqitPost />} />
         <Route path="/projects/:slug" element={<ProjectDetail />} />
       </Routes>
       <Footer />
