@@ -1,10 +1,10 @@
 # HalxDocs
 
-> Full-Stack Engineer (Backend-Focused) and Co-Founder & CTO of Myshoplet. Based in Nigeria.
+> Full-Stack Engineer (Backend-Focused). Based in Nigeria.
 
 ## Who I am
 
-HalxDocs is a full-stack software engineer specializing in backend systems, APIs, SaaS platforms, and developer tooling. I co-founded Myshoplet and serve as its CTO, owning all engineering decisions. I also take contract work — fintech backends, SaaS products, CLIs, and API-heavy systems.
+HalxDocs is a full-stack software engineer specializing in backend systems, APIs, SaaS platforms, and developer tooling. I take contract work — fintech backends, SaaS products, CLIs, and API-heavy systems.
 
 My primary languages are Go (Gin) and TypeScript. I work across the stack when needed.
 
@@ -18,20 +18,12 @@ My primary languages are Go (Gin) and TypeScript. I work across the stack when n
 - Medium: https://medium.com/@halxdocs
 - Email: halxdocs@gmail.com
 
-## Current role
-
-Co-Founder & CTO at Myshoplet (https://myshoplet.com)
-
-Myshoplet is a Nigerian e-commerce SaaS platform — think Shopify + WhatsApp AI + POS, built specifically for Nigerian small businesses. Features include branded storefronts, a 24/7 AI WhatsApp sales agent (powered by Anthropic Claude), a browser-based POS terminal, Paystack payments with seller wallets, marketing tools, analytics, and a public marketplace at /discover.
-
-Tech stack: Next.js, Node.js, Express, TypeScript, Tailwind CSS, MongoDB, Paystack, Twilio, Anthropic Claude API, Cloudinary, Vercel.
-
 ## Projects
 
 ### Myshoplet — https://myshoplet.com
-All-in-one e-commerce SaaS for Nigerian SMBs. Co-founder & CTO. Nigeria's answer to Shopify + WhatsApp Business + Tidio.
+All-in-one e-commerce SaaS for Nigerian SMBs. Nigeria's answer to Shopify + WhatsApp Business + Tidio. Tech stack: Next.js, Node.js, Express, TypeScript, Tailwind CSS, MongoDB, Paystack, Twilio, Anthropic Claude API, Cloudinary, Vercel.
 
-### reqit — https://github.com/HalxDocs/reqit
+### reqit — https://reqit.vercel.app
 Local-first, open-source HTTP API client for developers. Desktop alternative to Postman/Insomnia. Built with Go (Wails v2) and React. Everything is stored as plain JSON files — no account, no cloud, no telemetry.
 
 ### jsonstack — https://jsonstack.dev

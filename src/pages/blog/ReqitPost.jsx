@@ -60,7 +60,7 @@ export default function ReqitPost() {
 
         <div style={{ display: "flex", gap: 16, flexWrap: "wrap", marginBottom: 56 }}>
           {[
-            { label: "reqit.dev", href: "https://reqit.dev" },
+            { label: "reqit.vercel.app", href: "https://reqit.vercel.app" },
             { label: "github.com/HalxDocs/reqit", href: "https://github.com/HalxDocs/reqit" },
           ].map((l) => (
             <a
@@ -203,12 +203,12 @@ export default function ReqitPost() {
               Test your endpoints, save requests and responses, commit everything to Git, push to share with
               your team. Works fully offline. Free forever.
             </Phase>
-            <Phase status="coming" title="Phase 2 — Contract Testing (Coming Soon)">
+            <Phase status="done" title="Phase 2 — Contract Testing (Live)">
               Link your OpenAPI spec to a collection. After every request, reqit checks if the response
               matches the spec. Green badge = all good. Red badge = something drifted. No cloud monitors.
               No paid plan. Just instant local feedback.
             </Phase>
-            <Phase status="coming" title="Phase 3 — Local Mock Server (Coming Soon)">
+            <Phase status="done" title="Phase 3 — Local Mock Server (Live)">
               One click spins up a real HTTP server on localhost using your saved responses. Simulate 500
               errors, timeouts, slow responses — without touching the real API. Works offline. Postman charges
               for this. reqit won't.
@@ -285,7 +285,7 @@ export default function ReqitPost() {
 
           <div style={{ display: "flex", flexDirection: "column", gap: 10, margin: "24px 0 32px" }}>
             {[
-              { label: "reqit.dev", href: "https://reqit.dev", desc: "Download the app — Mac, Windows, Linux" },
+              { label: "reqit.vercel.app", href: "https://reqit.vercel.app", desc: "Download the app — Mac, Windows, Linux" },
               { label: "github.com/HalxDocs/reqit", href: "https://github.com/HalxDocs/reqit", desc: "Star the repo — it helps more than you think" },
             ].map((l) => (
               <div key={l.label} style={{ display: "flex", gap: 12, alignItems: "baseline" }}>

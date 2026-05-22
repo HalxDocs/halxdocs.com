@@ -30,7 +30,7 @@ export default function Hero() {
           letterSpacing: "0.01em",
         }}
       >
-        Full-Stack Engineer (Backend-Focused) · Co-Founder &amp; CTO
+        Full-Stack Engineer (Backend-Focused)
       </p>
 
       <div
@@ -45,23 +45,8 @@ export default function Hero() {
         }}
       >
         <p>
-          I'm the technical co-founder of{" "}
-          <a
-            href="https://myshoplet.com"
-            target="_blank"
-            rel="noreferrer"
-            style={{ color: "var(--text)", fontWeight: 500, textDecoration: "underline", textUnderlineOffset: 3 }}
-          >
-            Myshoplet
-          </a>
-          {" "}— an all-in-one e-commerce platform for Nigerian small businesses. Think Shopify +
-          WhatsApp AI + POS, built for the Nigerian market. I own everything technical: architecture,
-          APIs, AI integration, infra.
-        </p>
-
-        <p>
-          Outside of that, I take on contract work — backends, SaaS platforms, CLIs, developer
-          tools, and API-heavy systems. I specialize in{" "}
+          I build backends, SaaS platforms, CLIs, developer tools, and API-heavy systems. I
+          specialize in{" "}
           <strong style={{ color: "var(--text)", fontWeight: 500 }}>Go (Gin)</strong> and{" "}
           <strong style={{ color: "var(--text)", fontWeight: 500 }}>TypeScript</strong>, and I care
           about shipping things that actually work in production.

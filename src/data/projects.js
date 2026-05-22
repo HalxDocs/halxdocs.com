@@ -2,12 +2,12 @@ export const projects = [
   {
     slug: "myshoplet",
     title: "Myshoplet",
-    label: "E-commerce SaaS · Co-founder & CTO",
+    label: "E-commerce SaaS",
     oneLiner: "Nigeria's Shopify + WhatsApp AI + POS — an all-in-one selling platform built for Nigerian small businesses.",
     problem:
       "Nigerian SMBs want to sell online but existing tools weren't built for them — no Naira-native payments, no WhatsApp-first workflows, no local address formats or city-level logistics. Shopify and its alternatives are foreign products with foreign pricing and foreign assumptions.",
     built:
-      "Co-founded Myshoplet with Victor Dickson (CEO) and own everything on the engineering side — architecture, backend, infrastructure, and technical direction. Built a complete SaaS platform: every seller gets a branded storefront at /store/[slug], a 24/7 AI WhatsApp sales agent (powered by Claude) that captures orders via chat, a browser-based POS terminal for in-person sales, Paystack-integrated payments with a seller wallet and instant bank withdrawals, and a full /discover marketplace for buyers to browse stores. The admin panel covers seller KYC, payouts, disputes, AI usage logs, WhatsApp number management, and platform-wide analytics.",
+      "Built a complete SaaS platform: every seller gets a branded storefront at /store/[slug], a 24/7 AI WhatsApp sales agent (powered by Claude) that captures orders via chat, a browser-based POS terminal for in-person sales, Paystack-integrated payments with a seller wallet and instant bank withdrawals, and a full /discover marketplace for buyers to browse stores. The admin panel covers seller KYC, payouts, disputes, AI usage logs, WhatsApp number management, and platform-wide analytics.",
     features: [
       "Branded storefront per seller — custom logo, colours, product catalogue, QR code",
       "AI WhatsApp agent (Claude API) — captures orders, speaks Pidgin/Yoruba/Igbo/Hausa",
@@ -49,8 +49,8 @@ export const projects = [
     ],
     tech: ["Go", "Wails v2", "React", "TypeScript", "Tailwind CSS"],
     image: "/reqit.png",
-    href: "https://github.com/HalxDocs/reqit",
-    liveLabel: "View on GitHub",
+    href: "https://reqit.vercel.app",
+    liveLabel: "Visit reqit",
     live: true,
   },
   {
