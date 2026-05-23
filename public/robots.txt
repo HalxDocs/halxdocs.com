@@ -1,0 +1,11 @@
+# HalxDocs robots.txt
+# https://halxdocs.com
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://halxdocs.com/sitemap.xml
+
+# Crawl delay for polite bots
+Crawl-delay: 10
