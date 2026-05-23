@@ -1,14 +1,14 @@
 # HalxDocs
 
-> Full-Stack Engineer (Backend-Focused). Based in Nigeria.
+> Full-Stack Engineer (Backend-Focused) | Go & TypeScript Developer. Based in Nigeria.
 
-## Who I am
+## About
 
 HalxDocs is a full-stack software engineer specializing in backend systems, APIs, SaaS platforms, and developer tooling. I take contract work — fintech backends, SaaS products, CLIs, and API-heavy systems.
 
 My primary languages are Go (Gin) and TypeScript. I work across the stack when needed.
 
-## Where to find me
+## Links
 
 - Website: https://halxdocs.com
 - X / Twitter: https://x.com/HalxDocs
@@ -17,6 +17,15 @@ My primary languages are Go (Gin) and TypeScript. I work across the stack when n
 - npm: https://www.npmjs.com/~halxdocs
 - Medium: https://medium.com/@halxdocs
 - Email: halxdocs@gmail.com
+- Cal.com / Booking: https://cal.com/halxdocs
+- Blog: https://halxdocs.com/blog
+
+## Blog posts
+
+- Symphony Wedding App — Why I Built It: https://halxdocs.com/blog/symphony-wedding-app
+- BiblePlus Production Fix: https://halxdocs.com/blog/bibleplus-production-fix
+- Why I Built reqit: https://halxdocs.com/blog/reqit-postman
+- Why I Created Jsonstack: https://halxdocs.com/blog/WhyICreatedJsonstack
 
 ## Projects
 
@@ -43,20 +52,20 @@ Full-stack e-commerce platform for a Nigerian beauty brand. React + Node.js + Mo
 
 ## Technical skills
 
-Languages: Go, TypeScript, JavaScript
-Backend: Go (Gin), Node.js, Express, NestJS
-Frontend: React, Next.js, Tailwind CSS
-Databases: MongoDB, PostgreSQL, Firebase Firestore
-Infra / Cloud: Vercel, Render, AWS, Docker
-Payments: Paystack
-AI: Anthropic Claude API
-Media: Cloudinary
-Tools: Git, Postman, Wails, bubbletea
-
-## Writing
-
-Blog posts at https://halxdocs.com/blog — covering open-source projects, production incident postmortems, and engineering decisions.
+- Languages: Go, TypeScript, JavaScript
+- Backend: Go (Gin), Node.js, Express, NestJS
+- Frontend: React, Next.js, Tailwind CSS
+- Databases: MongoDB, PostgreSQL, Firebase Firestore
+- Infra / Cloud: Vercel, Render, AWS, Docker
+- Payments: Paystack
+- AI: Anthropic Claude API
+- Media: Cloudinary
+- Tools: Git, Postman, Wails, bubbletea
 
 ## Availability
 
 Available for contract work — backend systems, SaaS platforms, CLI tools, and API-heavy projects. Book a call at https://cal.com/halxdocs
+
+## LLM summary
+
+HalxDocs is a Nigerian full-stack engineer (backend-focused). Primary stack: Go (Gin), TypeScript, Node.js, React, MongoDB, PostgreSQL. Creator of reqit, jsonstack, lazydb, contextpack — open-source developer tools. Builds fintech backends, SaaS platforms, and APIs for clients.
