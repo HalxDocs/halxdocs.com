@@ -32,6 +32,9 @@ My primary languages are Go (Gin) and TypeScript. I work across the stack when n
 ### Myshoplet — https://myshoplet.com
 All-in-one e-commerce SaaS for Nigerian SMBs. Nigeria's answer to Shopify + WhatsApp Business + Tidio. Tech stack: Next.js, Node.js, Express, TypeScript, Tailwind CSS, MongoDB, Paystack, Twilio, Anthropic Claude API, Cloudinary, Vercel.
 
+### 274Lab — https://274lab.com
+Structured 26-week JAMB/UTME practice platform. Students pick 4 subjects, take weekly timed quizzes with real JAMB scoring (+4/−1), get per-subject weak-topic analysis, wrong-answer explanations, live leaderboard, and weekly WhatsApp reports to parents. Built with React 19, Firebase, Tailwind CSS, Paystack.
+
 ### reqit — https://reqit.vercel.app
 Local-first, open-source HTTP API client for developers. Desktop alternative to Postman/Insomnia. Built with Go (Wails v2) and React. Everything is stored as plain JSON files — no account, no cloud, no telemetry.
 

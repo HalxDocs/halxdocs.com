@@ -54,6 +54,33 @@ export const projects = [
     live: true,
   },
   {
+    slug: "274lab",
+    title: "274Lab",
+    label: "EdTech · Web App",
+    oneLiner: "A structured 26-week JAMB/UTME practice platform that turns exam prep into a measurable, feedback-driven training cycle.",
+    problem:
+      "~1.95 million candidates sat UTME 2025. ~78% scored below 200/400. Students practice randomly from PDFs, never measure weak topics, and walk into the exam without knowing which subjects are costing them points. No feedback loop, no weekly cadence, no accountability.",
+    built:
+      "A Progressive Web App built with React 19 and Firebase. Students pick 4 JAMB subjects, take weekly timed quizzes (scored with the real JAMB formula: +4/−1), and get per-subject averages, wrong-answer explanations, and a live leaderboard. A 6-tier consistency system (GHOST → ELITE) gamifies weekly participation. Optional Patches Mode kicks in after June 21 — auto-flags subjects below 50% and floods notifications with high-yield key points. Weekly WhatsApp reports sent to parents/teachers. Admin panel for quiz composition, student management, subscription grants, and real-time stats.",
+    features: [
+      "26-week structured curriculum with timed weekly quizzes",
+      "Real JAMB scoring formula — +4 correct, −1 wrong, 0 skipped",
+      "Per-subject averages, best scores, and weak-topic detection",
+      "Wrong-answer explanations with key-point videos",
+      "6-tier consistency rank system — GHOST → ELITE",
+      "Gold medals for every week aced (26-week track)",
+      "Patches Mode — auto-flag subjects below 50%, priority notifications",
+      "Live leaderboard with peer ranking",
+      "Weekly WhatsApp report to parent/guardian/teacher",
+      "Admin panel — quiz builder, student manager, stats, payments",
+    ],
+    tech: ["React 19", "Firebase", "Firestore", "Tailwind CSS", "Paystack", "FCM", "PWA", "Vite"],
+    image: null,
+    href: "https://274lab.com",
+    liveLabel: "Visit 274Lab",
+    live: true,
+  },
+  {
     slug: "jsonstack",
     title: "jsonstack",
     label: "Open Source · Web Tool",

@@ -8,10 +8,13 @@ import SelectedWork from "./components/SelectedWork";
 import Footer from "./components/Footer";
 
 import Blog from "./pages/Blog";
+import Guestbook from "./pages/Guestbook";
 import SymphonyPost from "./pages/blog/SymphonyPost";
 import BiblePlusPost from "./pages/blog/BiblePlusPost";
 import ReqitPost from "./pages/blog/ReqitPost";
 import ProjectDetail from "./pages/ProjectDetail";
+import Estimate from "./pages/Estimate";
+import NotFound from "./pages/NotFound";
 
 function Home() {
   return (
@@ -36,10 +39,13 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/blog" element={<Blog />} />
+        <Route path="/guestbook" element={<Guestbook />} />
         <Route path="/blog/symphony-wedding-app" element={<SymphonyPost />} />
         <Route path="/blog/bibleplus-production-fix" element={<BiblePlusPost />} />
         <Route path="/blog/reqit-postman" element={<ReqitPost />} />
         <Route path="/projects/:slug" element={<ProjectDetail />} />
+        <Route path="/estimate" element={<Estimate />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
     </BrowserRouter>

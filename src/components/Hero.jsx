@@ -1,10 +1,12 @@
+import LiveStats from "./LiveStats";
+
 export default function Hero() {
   return (
     <section
       style={{
         maxWidth: 680,
         margin: "0 auto",
-        padding: "100px 24px 64px",
+        padding: "130px 24px 64px",
         color: "var(--text)",
       }}
     >
@@ -63,7 +65,12 @@ export default function Hero() {
           <a href="mailto:halxdocs@gmail.com" style={{ color: "var(--text)", textDecoration: "underline", textUnderlineOffset: 3 }}>email</a>
           .
         </p>
+        <p>
+          I also play <strong style={{ color: "var(--text)", fontWeight: 500 }}>chess</strong> — current rating: <strong style={{ color: "var(--text)", fontWeight: 500 }}>607 Elo</strong>.
+        </p>
       </div>
+
+      <LiveStats />
 
       <a
         href="https://cal.com/halxdocs"
