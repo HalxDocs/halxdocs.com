@@ -1,164 +1,96 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
-const W = 400;
-const H = 280;
-const GRAVITY = 0.25;
-const FLAP = -5;
-const PIPE_W = 36;
-const GAP = 90;
-const PIPE_SPEED = 1.8;
-const BIRD_X = 70;
-const BIRD_R = 10;
-
-function FlappyGame() {
-  const canvasRef = useRef(null);
-  const stateRef = useRef(null);
-  const rafRef = useRef(null);
-  const [status, setStatus] = useState("idle"); // idle | playing | over
+function RunnerGame() {
+  const [playState, setPlayState] = useState("idle");
+  const playStateRef = useRef("idle");
   const [score, setScore] = useState(0);
-  const [best, setBest] = useState(() => parseInt(sessionStorage.getItem("fb") || "0", 10));
-
-  const init = () => ({
-    bird: { y: H / 2, vy: 0 },
-    pipes: [],
-    frame: 0,
-    scored: 0,
+  const [best, setBest] = useState(() => {
+    try { return parseInt(sessionStorage.getItem("run") || "0", 10); } catch { return 0; }
   });
+  const [jumping, setJumping] = useState(false);
+  const jumpingRef = useRef(false);
+  const [obstacles, setObstacles] = useState([]);
+  const frameRef = useRef(0);
+  const scoreRef = useRef(0);
+  const aliveRef = useRef(true);
 
-  const startGame = () => {
-    const s = init();
-    stateRef.current = s;
+  const start = () => {
+    frameRef.current = 0;
+    scoreRef.current = 0;
+    aliveRef.current = true;
     setScore(0);
-    setStatus("playing");
+    setObstacles([]);
+    setJumping(false);
+    jumpingRef.current = false;
+    playStateRef.current = "playing";
+    setPlayState("playing");
   };
 
-  const flap = () => {
-    const s = stateRef.current;
-    if (!s) return;
-    if (status === "idle") { startGame(); return; }
-    if (status !== "playing") return;
-    s.bird.vy = FLAP;
+  const jump = () => {
+    if (playStateRef.current === "idle") { start(); return; }
+    if (playStateRef.current !== "playing" || jumpingRef.current) return;
+    jumpingRef.current = true;
+    setJumping(true);
+    setTimeout(() => { jumpingRef.current = false; setJumping(false); }, 400);
   };
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
+    if (playState !== "playing") return;
+    const interval = setInterval(() => {
+      frameRef.current++;
+      const f = frameRef.current;
 
-    const loop = () => {
-      const s = stateRef.current;
-      ctx.clearRect(0, 0, W, H);
+      // spawn obstacle every 50 frames
+      if (f % 50 === 0) {
+        setObstacles((prev) => [...prev, { id: f, x: 100 }]);
+      }
 
-      // bg
-      ctx.fillStyle = "var(--surface)";
-      ctx.fillRect(0, 0, W, H);
+      // move obstacles
+      setObstacles((prev) => {
+        const next = prev.map((o) => ({ ...o, x: o.x - 3 })).filter((o) => o.x > -8);
 
-      // draw ground line
-      ctx.strokeStyle = "var(--border)";
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(0, H - 20);
-      ctx.lineTo(W, H - 20);
-      ctx.stroke();
-
-      if (s) {
-        // physics
-        s.bird.vy += GRAVITY;
-        s.bird.y += s.bird.vy;
-
-        // spawn pipes
-        s.frame++;
-        if (s.frame % 90 === 0) {
-          const topH = 40 + Math.random() * (H - GAP - 80);
-          s.pipes.push({ x: W, topH, scored: false });
-        }
-
-        // move pipes
-        for (const p of s.pipes) p.x -= PIPE_SPEED;
-
-        // collision
-        const b = s.bird;
-        const by = b.y;
-        if (by < 0 || by > H - 20) {
-          setStatus("over");
-          const final = s.scored;
-          setScore(final);
-          if (final > best) { setBest(final); sessionStorage.setItem("fb", final.toString()); }
-          stateRef.current = null;
-          rafRef.current = requestAnimationFrame(loop);
-          return;
-        }
-
-        for (const p of s.pipes) {
-          if (
-            BIRD_X + BIRD_R > p.x &&
-            BIRD_X - BIRD_R < p.x + PIPE_W &&
-            (by - BIRD_R < p.topH || by + BIRD_R > p.topH + GAP)
-          ) {
-            setStatus("over");
-            const final = s.scored;
+        // collision: player is at x=15, ground is at y=80%, player is ~14px tall
+        for (const o of next) {
+          if (o.x < 30 && o.x > 5 && !jumpingRef.current) {
+            aliveRef.current = false;
+            playStateRef.current = "over";
+            const final = scoreRef.current;
+            setPlayState("over");
             setScore(final);
-            if (final > best) { setBest(final); sessionStorage.setItem("fb", final.toString()); }
-            stateRef.current = null;
-            rafRef.current = requestAnimationFrame(loop);
-            return;
-          }
-          if (!p.scored && p.x + PIPE_W < BIRD_X) {
-            p.scored = true;
-            s.scored++;
-            setScore(s.scored);
+            setBest((b) => {
+              const nb = Math.max(b, final);
+              try { sessionStorage.setItem("run", nb.toString()); } catch {}
+              return nb;
+            });
+            return next;
           }
         }
 
-        // clean pipes
-        s.pipes = s.pipes.filter((p) => p.x > -PIPE_W);
+        return next;
+      });
+
+      // score
+      if (f % 10 === 0) {
+        scoreRef.current++;
+        setScore(scoreRef.current);
       }
+    }, 30);
 
-      // draw pipes
-      const s2 = stateRef.current;
-      if (s2) {
-        for (const p of s2.pipes) {
-          ctx.fillStyle = "var(--text-muted)";
-          ctx.globalAlpha = 0.15;
-          ctx.fillRect(p.x, 0, PIPE_W, p.topH);
-          ctx.fillRect(p.x, p.topH + GAP, PIPE_W, H - p.topH - GAP);
-          ctx.globalAlpha = 1;
-          ctx.strokeStyle = "var(--border)";
-          ctx.lineWidth = 1;
-          ctx.strokeRect(p.x, 0, PIPE_W, p.topH);
-          ctx.strokeRect(p.x, p.topH + GAP, PIPE_W, H - p.topH - GAP);
-        }
-      }
-
-      // draw bird
-      const by2 = s2 ? s2.bird.y : H / 2;
-      ctx.beginPath();
-      ctx.arc(BIRD_X, by2, BIRD_R, 0, Math.PI * 2);
-      ctx.fillStyle = "var(--text)";
-      ctx.fill();
-      ctx.strokeStyle = "var(--bg)";
-      ctx.lineWidth = 2;
-      ctx.stroke();
-
-      rafRef.current = requestAnimationFrame(loop);
-    };
-
-    rafRef.current = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(rafRef.current);
-  }, [status]);
+    return () => clearInterval(interval);
+  }, [playState]);
 
   useEffect(() => {
     const handler = (e) => {
-      if (e.key === " " || e.key === "Space") { e.preventDefault(); flap(); }
+      if (e.key === " " || e.key === "Space") { e.preventDefault(); jump(); }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [status]);
+  }, []);
 
   return (
     <div style={{ marginTop: 24 }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10 }}>
         <div style={{ fontSize: 13, color: "var(--text-muted)" }}>
           Score: <strong style={{ color: "var(--text)" }}>{score}</strong>
         </div>
@@ -167,29 +99,67 @@ function FlappyGame() {
         </div>
       </div>
 
-      <div style={{ position: "relative", borderRadius: 10, border: "1px solid var(--border)", overflow: "hidden" }}>
-        <canvas
-          ref={canvasRef}
-          width={W}
-          height={H}
-          onClick={flap}
-          style={{ display: "block", width: "100%", height: "auto", cursor: "pointer", background: "var(--surface)" }}
+      <div
+        onClick={jump}
+        style={{
+          position: "relative",
+          width: "100%",
+          height: 180,
+          borderRadius: 10,
+          border: "1px solid var(--border)",
+          background: "var(--surface)",
+          overflow: "hidden",
+          cursor: "pointer",
+          userSelect: "none",
+        }}
+      >
+        {/* ground */}
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 2, background: "var(--border)" }} />
+
+        {/* player */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: jumping ? 60 : 4,
+            left: 14,
+            width: 14,
+            height: 18,
+            borderRadius: 3,
+            background: "var(--text)",
+            transition: "bottom 0.15s ease-out",
+          }}
         />
 
-        {status === "idle" && (
-          <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 10, pointerEvents: "none" }}>
-            <div style={{ fontSize: 14, color: "var(--text-muted)", textAlign: "center", lineHeight: 1.6 }}>
-              Tap or press space to flap
-            </div>
+        {/* obstacles */}
+        {obstacles.map((o) => (
+          <div
+            key={o.id}
+            style={{
+              position: "absolute",
+              bottom: 4,
+              left: `${o.x}%`,
+              width: 10,
+              height: 16,
+              borderRadius: 2,
+              background: "var(--text-muted)",
+              opacity: 0.5,
+            }}
+          />
+        ))}
+
+        {/* overlays */}
+        {playState === "idle" && (
+          <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <span style={{ fontSize: 14, color: "var(--text-muted)", pointerEvents: "none" }}>Tap or press space to jump</span>
           </div>
         )}
 
-        {status === "over" && (
-          <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 12, pointerEvents: "none" }}>
-            <div style={{ fontSize: 15, color: "var(--text)", fontWeight: 600 }}>Game over</div>
-            <div style={{ fontSize: 13, color: "var(--text-muted)" }}>Score: {score}</div>
+        {playState === "over" && (
+          <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 10 }}>
+            <span style={{ fontSize: 15, color: "var(--text)", fontWeight: 600, pointerEvents: "none" }}>Game over</span>
+            <span style={{ fontSize: 13, color: "var(--text-muted)", pointerEvents: "none" }}>Score: {score}</span>
             <button
-              onClick={startGame}
+              onClick={(e) => { e.stopPropagation(); start(); }}
               style={{
                 padding: "10px 24px",
                 borderRadius: 100,
@@ -200,7 +170,6 @@ function FlappyGame() {
                 fontWeight: 500,
                 cursor: "pointer",
                 fontFamily: "inherit",
-                pointerEvents: "auto",
                 transition: "opacity 0.2s",
               }}
               onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.75"; }}
@@ -233,10 +202,10 @@ export default function NotFound() {
         You've wandered off the map.
       </div>
       <div style={{ fontSize: 13, color: "var(--text-dim)", marginBottom: 24 }}>
-        Play flappy bird while you're here.
+        Play the dino game while you're here.
       </div>
 
-      <FlappyGame />
+      <RunnerGame />
 
       <Link
         to="/"
