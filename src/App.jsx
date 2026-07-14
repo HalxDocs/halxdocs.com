@@ -13,7 +13,7 @@ import SymphonyPost from "./pages/blog/SymphonyPost";
 import BiblePlusPost from "./pages/blog/BiblePlusPost";
 import ReqitPost from "./pages/blog/ReqitPost";
 import ProjectDetail from "./pages/ProjectDetail";
-import Estimate from "./pages/Estimate";
+import Graveyard from "./pages/Graveyard";
 import NotFound from "./pages/NotFound";
 
 function Home() {
@@ -44,7 +44,7 @@ export default function App() {
         <Route path="/blog/bibleplus-production-fix" element={<BiblePlusPost />} />
         <Route path="/blog/reqit-postman" element={<ReqitPost />} />
         <Route path="/projects/:slug" element={<ProjectDetail />} />
-        <Route path="/estimate" element={<Estimate />} />
+        <Route path="/api-graveyard" element={<Graveyard />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

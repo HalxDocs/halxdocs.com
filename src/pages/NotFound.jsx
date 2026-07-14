@@ -1,92 +1,147 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
+const P_W = 16, P_H = 20, P_LEFT = 20;
+const O_W = 14, O_H = 18;
+const GROUND = 2, JUMP_H = 65, GRAVITY = 0.35;
+
 function RunnerGame() {
+  const areaRef = useRef(null);
   const [playState, setPlayState] = useState("idle");
-  const playStateRef = useRef("idle");
   const [score, setScore] = useState(0);
   const [best, setBest] = useState(() => {
     try { return parseInt(sessionStorage.getItem("run") || "0", 10); } catch { return 0; }
   });
-  const [jumping, setJumping] = useState(false);
-  const jumpingRef = useRef(false);
   const [obstacles, setObstacles] = useState([]);
-  const frameRef = useRef(0);
-  const scoreRef = useRef(0);
-  const aliveRef = useRef(true);
+  const [playerBottom, setPlayerBottom] = useState(GROUND);
 
-  const start = () => {
-    frameRef.current = 0;
-    scoreRef.current = 0;
-    aliveRef.current = true;
-    setScore(0);
+  const gRef = useRef({ y: 0, vy: 0, obs: [], score: 0, frame: 0, alive: true }); // y = height above ground (0 = on ground, positive = up)
+  const playRef = useRef("idle");
+  const wRef = useRef(400);
+
+  const reset = () => {
+    gRef.current = { y: 0, vy: 0, obs: [], score: 0, frame: 0, alive: true };
+    playRef.current = "playing";
+    setPlayerBottom(GROUND);
     setObstacles([]);
-    setJumping(false);
-    jumpingRef.current = false;
-    playStateRef.current = "playing";
+    setScore(0);
     setPlayState("playing");
   };
 
-  const jump = () => {
-    if (playStateRef.current === "idle") { start(); return; }
-    if (playStateRef.current !== "playing" || jumpingRef.current) return;
-    jumpingRef.current = true;
-    setJumping(true);
-    setTimeout(() => { jumpingRef.current = false; setJumping(false); }, 400);
+  const handleJump = () => {
+    if (playRef.current === "idle") { reset(); jumpNow(); return; }
+    if (playRef.current !== "playing") return;
+    jumpNow();
   };
 
-  useEffect(() => {
-    if (playState !== "playing") return;
-    const interval = setInterval(() => {
-      frameRef.current++;
-      const f = frameRef.current;
+  const jumpNow = () => {
+    const g = gRef.current;
+    if (!g || g.y > 3) return;
+    g.vy = 6;
+  };
 
-      // spawn obstacle every 50 frames
-      if (f % 50 === 0) {
-        setObstacles((prev) => [...prev, { id: f, x: 100 }]);
-      }
-
-      // move obstacles
-      setObstacles((prev) => {
-        const next = prev.map((o) => ({ ...o, x: o.x - 3 })).filter((o) => o.x > -8);
-
-        // collision: player is at x=15, ground is at y=80%, player is ~14px tall
-        for (const o of next) {
-          if (o.x < 30 && o.x > 5 && !jumpingRef.current) {
-            aliveRef.current = false;
-            playStateRef.current = "over";
-            const final = scoreRef.current;
-            setPlayState("over");
-            setScore(final);
-            setBest((b) => {
-              const nb = Math.max(b, final);
-              try { sessionStorage.setItem("run", nb.toString()); } catch {}
-              return nb;
-            });
-            return next;
-          }
-        }
-
-        return next;
-      });
-
-      // score
-      if (f % 10 === 0) {
-        scoreRef.current++;
-        setScore(scoreRef.current);
-      }
-    }, 30);
-
-    return () => clearInterval(interval);
-  }, [playState]);
-
+  // space bar support
   useEffect(() => {
     const handler = (e) => {
-      if (e.key === " " || e.key === "Space") { e.preventDefault(); jump(); }
+      if (e.key === " " || e.key === "Space") { e.preventDefault(); handleJump(); }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, []);
+
+  // measure container width
+  useEffect(() => {
+    if (!areaRef.current) return;
+    const update = () => { if (areaRef.current) wRef.current = areaRef.current.offsetWidth; };
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(areaRef.current);
+    return () => ro.disconnect();
+  }, []);
+
+  // game loop
+  useEffect(() => {
+    if (playState !== "playing") return;
+
+    const g = gRef.current;
+    let last = performance.now();
+    let tick = 0;
+    let rafId = requestAnimationFrame(loop);
+
+    function loop(now) {
+      const dt = Math.min((now - last) / 16, 4);
+      last = now;
+
+      g.frame += dt;
+
+      // jump physics: y = height above ground (positive = up)
+      g.vy -= GRAVITY * dt;    // gravity pulls down
+      g.y += g.vy * dt;        // positive vy → positive y (up)
+      if (g.y < 0) { g.y = 0; g.vy = 0; } // land on ground
+
+      // spawn obstacles
+      const interval = Math.max(50, 140 - g.frame * 0.08);
+      if (g.frame >= interval) {
+        g.frame = 0;
+        g.obs.push({ x: wRef.current });
+      }
+
+      // move obstacles
+      const speed = 3.5 + g.score * 0.02;
+      for (const o of g.obs) o.x -= speed * dt;
+      g.obs = g.obs.filter((o) => o.x > -O_W * 2);
+
+      // collision
+      const oTop = GROUND + O_H;
+      const pBottom = GROUND + Math.min(g.y, JUMP_H);
+      let hit = false;
+      for (const o of g.obs) {
+        if (o.x > P_LEFT + P_W + 6 || o.x + O_W < P_LEFT - 4) continue;
+        if (pBottom > oTop + 4) continue;
+        hit = true; break;
+      }
+
+      if (hit && g.alive) {
+        g.alive = false;
+        playRef.current = "over";
+        const final = Math.round(g.score);
+        setPlayerBottom(GROUND + Math.min(g.y, JUMP_H));
+        setObstacles([...g.obs]);
+        setScore(final);
+        setBest((b) => {
+          const nb = Math.max(b, final);
+          try { sessionStorage.setItem("run", nb.toString()); } catch {}
+          return nb;
+        });
+        setPlayState("over");
+        return; // stop loop
+      }
+
+      // score
+      for (const o of g.obs) {
+        if (o._scored) continue;
+        if (o.x + O_W < P_LEFT) {
+          o._scored = true;
+          g.score += 1;
+        }
+      }
+
+      // sync to react state every ~2 frames
+      tick += dt;
+      if (tick >= 2) {
+        tick = 0;
+        setPlayerBottom(GROUND + Math.min(g.y, JUMP_H));
+        setObstacles([...g.obs]);
+        setScore(Math.round(g.score));
+      }
+
+      rafId = requestAnimationFrame(loop);
+    }
+
+    return () => cancelAnimationFrame(rafId);
+  }, [playState]);
+
+  const pBottom = Math.min(playerBottom, GROUND + JUMP_H);
 
   return (
     <div style={{ marginTop: 24 }}>
@@ -100,11 +155,12 @@ function RunnerGame() {
       </div>
 
       <div
-        onClick={jump}
+        ref={areaRef}
+        onClick={handleJump}
         style={{
           position: "relative",
           width: "100%",
-          height: 180,
+          height: 200,
           borderRadius: 10,
           border: "1px solid var(--border)",
           background: "var(--surface)",
@@ -113,53 +169,48 @@ function RunnerGame() {
           userSelect: "none",
         }}
       >
-        {/* ground */}
-        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 2, background: "var(--border)" }} />
+        <div style={{ position: "absolute", bottom: GROUND, left: 0, right: 0, height: 2, background: "var(--border)" }} />
 
-        {/* player */}
         <div
           style={{
             position: "absolute",
-            bottom: jumping ? 60 : 4,
-            left: 14,
-            width: 14,
-            height: 18,
-            borderRadius: 3,
-            background: "var(--text)",
-            transition: "bottom 0.15s ease-out",
+            left: P_LEFT,
+            bottom: pBottom,
+            width: P_W,
+            height: P_H,
+            borderRadius: 4,
+            background: "var(--text)" ,
           }}
         />
 
-        {/* obstacles */}
-        {obstacles.map((o) => (
+        {obstacles.map((o, i) => (
           <div
-            key={o.id}
+            key={`${o.x}-${i}`}
             style={{
               position: "absolute",
-              bottom: 4,
-              left: `${o.x}%`,
-              width: 10,
-              height: 16,
-              borderRadius: 2,
+              left: o.x,
+              bottom: GROUND,
+              width: O_W,
+              height: O_H,
+              borderRadius: 3,
               background: "var(--text-muted)",
-              opacity: 0.5,
+              opacity: 0.55,
             }}
           />
         ))}
 
-        {/* overlays */}
         {playState === "idle" && (
-          <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <span style={{ fontSize: 14, color: "var(--text-muted)", pointerEvents: "none" }}>Tap or press space to jump</span>
+          <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", pointerEvents: "none" }}>
+            <span style={{ fontSize: 14, color: "var(--text-muted)" }}>Tap or press space to jump</span>
           </div>
         )}
 
         {playState === "over" && (
-          <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 10 }}>
-            <span style={{ fontSize: 15, color: "var(--text)", fontWeight: 600, pointerEvents: "none" }}>Game over</span>
-            <span style={{ fontSize: 13, color: "var(--text-muted)", pointerEvents: "none" }}>Score: {score}</span>
+          <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 10, pointerEvents: "none" }}>
+            <span style={{ fontSize: 15, color: "var(--text)", fontWeight: 600 }}>Game over</span>
+            <span style={{ fontSize: 13, color: "var(--text-muted)" }}>Score: {score}</span>
             <button
-              onClick={(e) => { e.stopPropagation(); start(); }}
+              onClick={(e) => { e.stopPropagation(); reset(); }}
               style={{
                 padding: "10px 24px",
                 borderRadius: 100,
@@ -170,6 +221,7 @@ function RunnerGame() {
                 fontWeight: 500,
                 cursor: "pointer",
                 fontFamily: "inherit",
+                pointerEvents: "auto",
                 transition: "opacity 0.2s",
               }}
               onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.75"; }}

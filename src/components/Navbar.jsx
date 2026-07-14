@@ -4,7 +4,7 @@ import { Sun, Moon } from "lucide-react";
 const navLinks = [
   { to: "/", label: "Home" },
   { to: "/blog", label: "Blog" },
-  { to: "/estimate", label: "Estimate" },
+  { to: "/api-graveyard", label: "Graveyard" },
   { to: "/guestbook", label: "Guestbook" },
 ];
 
@@ -27,10 +27,10 @@ export default function Navbar({ dark, onToggleDark }) {
           <Link
             to="/"
             style={{
-              fontFamily: "'Fraunces', serif",
-              fontSize: 16,
-              fontWeight: 600,
-              letterSpacing: "-0.02em",
+              fontFamily: "'DM Mono', monospace",
+              fontSize: 18,
+              fontWeight: 500,
+              letterSpacing: "-0.03em",
               color: "var(--text)",
               textDecoration: "none",
             }}

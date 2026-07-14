@@ -9,7 +9,7 @@ async function fetchGitHubStats(repo) {
   try {
     const [repoRes, releasesRes] = await Promise.all([
       fetch(`https://api.github.com/repos/${repo}`),
-      fetch(`https://api.github.com/repos/${repo}/releases?per_page=10`),
+      fetch(`https://api.github.com/repos/${repo}/releases?per_page=100`),
     ]);
     const repoData = await repoRes.json();
     const releases = await releasesRes.json();
@@ -76,9 +76,9 @@ const styles = {
 export default function LiveStats() {
   const [items, setItems] = useState([
     { value: "—", meta: "students on the platform", source: "274Lab" },
-    { value: "—", meta: "active this week", source: "274Lab" },
-    { value: "33+", meta: "daily orders", source: "Myshoplet" },
-    { value: "45+", meta: "active sellers", source: "Myshoplet" },
+    { value: "—", meta: "quizzes taken", source: "274Lab" },
+    { value: "65+", meta: "daily orders", source: "Myshoplet" },
+    { value: "100+", meta: "active vendors", source: "Myshoplet" },
     { value: "—", meta: "GitHub stars", source: "reqit" },
     { value: "—", meta: "app downloads", source: "reqit" },
     { value: "—", meta: "GitHub stars", source: "lazydb" },
@@ -94,7 +94,7 @@ export default function LiveStats() {
       setItems(prev => {
         const next = [...prev];
         next[0] = { ...next[0], value: s.totalStudents.toLocaleString() };
-        next[1] = { ...next[1], value: s.studentsActiveThisWeek.toLocaleString() };
+        next[1] = { ...next[1], value: s.totalQuizzesTaken.toLocaleString() };
         return next;
       });
     }

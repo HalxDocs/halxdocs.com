@@ -12,12 +12,81 @@ export default function Guestbook() {
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(() => {
+    try {
+      const cached = localStorage.getItem('guestbookEntries');
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.length > 0) return false;
+      }
+    } catch {}
+    return true;
+  });
+
+  const API = "https://us-central1-fitness-gym-fc040.cloudfunctions.net/guestbook";
 
   useEffect(() => {
-    fetch(API)
-      .then(r => r.json())
-      .then(data => { if (data.ok) setEntries(data.entries); })
-      .catch(() => {});
+    let isMounted = true;
+    let hasCache = false;
+    
+    // Load from localStorage immediately if available
+    try {
+      const cached = localStorage.getItem('guestbookEntries');
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          hasCache = true;
+          setEntries(parsed);
+        }
+      }
+    } catch (e) {
+      console.warn('Failed to parse guestbook cache:', e);
+    }
+    
+    const fetchEntries = async () => {
+      try {
+        // Only show loading spinner if we have no cached entries to show
+        if (!hasCache) setLoading(true);
+        const res = await fetch(API, { 
+          headers: {
+            'Cache-Control': 'no-cache'
+          }
+        });
+        if (!isMounted) return;
+        
+        const data = await res.json();
+        if (isMounted) {
+          if (data.ok) {
+            const fetchedEntries = data.entries || [];
+            setEntries(fetchedEntries);
+            // Save to localStorage
+            try {
+              localStorage.setItem('guestbookEntries', JSON.stringify(fetchedEntries));
+            } catch (e) {
+              console.warn('Failed to save guestbook to localStorage:', e);
+            }
+            setError("");
+          } else {
+            setError(data.error || "Failed to load entries");
+          }
+        }
+      } catch (err) {
+        if (isMounted) {
+          setError("Failed to load guestbook. Please try again.");
+          console.error("Guestbook fetch error:", err);
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchEntries();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   async function handleSubmit(e) {
@@ -33,17 +102,26 @@ export default function Guestbook() {
         body: JSON.stringify({ name: name.trim(), message: message.trim(), signature }),
       });
       const data = await res.json();
-      if (data.ok) {
-        setSuccess("Done!");
-        const savedName = name.trim();
-        const savedMsg = message.trim();
-        setName("");
-        setMessage("");
-        setSignature(null);
-        setEntries([{ id: data.id, name: savedName, message: savedMsg, signature, createdAt: new Date().toISOString() }, ...entries]);
-      } else {
-        setError(data.error || "Something went wrong");
-      }
+       if (data.ok) {
+            setSuccess("Done!");
+            const savedName = name.trim();
+            const savedMsg = message.trim();
+            setName("");
+            setMessage("");
+            setSignature(null);
+            const newEntry = { id: data.id, name: savedName, message: savedMsg, signature, createdAt: new Date().toISOString() };
+            setEntries(prev => {
+              const updated = [newEntry, ...prev];
+              try {
+                localStorage.setItem('guestbookEntries', JSON.stringify(updated));
+              } catch (e) {
+                console.warn('Failed to save guestbook to localStorage:', e);
+              }
+              return updated;
+            });
+          } else {
+            setError(data.error || "Something went wrong");
+          }
     } catch {
       setError("Network error");
     }
@@ -130,9 +208,14 @@ export default function Guestbook() {
         </button>
       </form>
 
-      {entries.length === 0 && (
-        <p style={{ fontSize: 14, color: "var(--text-muted)", textAlign: "center", padding: 40, opacity: 0.6 }}>No entries yet. Be the first.</p>
-      )}
+       {loading && entries.length === 0 && (
+         <p style={{ fontSize: 14, color: "var(--text-muted)", textAlign: "center", padding: 40, opacity: 0.8 }}>
+           Loading entries...
+         </p>
+       )}
+       {!loading && entries.length === 0 && (
+         <p style={{ fontSize: 14, color: "var(--text-muted)", textAlign: "center", padding: 40, opacity: 0.6 }}>No entries yet. Be the first.</p>
+       )}
 
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         {entries.map(entry => (
@@ -140,7 +223,7 @@ export default function Guestbook() {
             padding: "16px 20px",
             borderRadius: 10,
             border: "1px solid var(--border)",
-            background: "var(--card-bg)",
+            background: "var(--surface)",
           }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: entry.signature || entry.message ? 8 : 0 }}>
               <span style={{ fontSize: 13, fontWeight: 600, color: "var(--text)" }}>{entry.name}</span>

@@ -12,12 +12,12 @@ export default function Hero() {
     >
       <p
         style={{
-          fontSize: 22,
-          fontWeight: 600,
+          fontSize: 24,
+          fontWeight: 400,
           color: "var(--text)",
           marginBottom: 8,
-          letterSpacing: "-0.01em",
-          fontFamily: "'Fraunces', serif",
+          fontFamily: "'Seraphina', serif",
+          letterSpacing: "0.02em",
         }}
       >
         Hey, I'm HalxDocs.
@@ -66,7 +66,7 @@ export default function Hero() {
           .
         </p>
         <p>
-          I also play <strong style={{ color: "var(--text)", fontWeight: 500 }}>chess</strong> — current rating: <strong style={{ color: "var(--text)", fontWeight: 500 }}>607 Elo</strong>.
+          I also play <strong style={{ color: "var(--text)", fontWeight: 500 }}>chess</strong>.
         </p>
       </div>
 

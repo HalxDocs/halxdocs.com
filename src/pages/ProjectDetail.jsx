@@ -134,29 +134,6 @@ export default function ProjectDetail() {
           </motion.a>
         )}
 
-        {/* Hero image */}
-        {project.image && (
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25, duration: 0.7 }}
-            className="overflow-hidden mb-16"
-            style={{
-              borderRadius: 20,
-              border: "0.5px solid var(--border)",
-              background: "var(--surface)",
-              aspectRatio: "16 / 10",
-            }}
-          >
-            <img
-              src={project.image}
-              alt={project.title}
-              className="w-full h-full object-cover"
-              onError={(e) => (e.currentTarget.style.display = "none")}
-            />
-          </motion.div>
-        )}
-
         {/* The Problem */}
         <Section heading="The Problem">{project.problem}</Section>
 
