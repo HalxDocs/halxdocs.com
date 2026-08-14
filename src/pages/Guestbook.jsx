@@ -4,6 +4,25 @@ import SignaturePad from "../components/SignaturePad";
 
 const API = "https://us-central1-fitness-gym-fc040.cloudfunctions.net/guestbook";
 
+// Client-side moderation — the backend has no filter, so we drop abuse here.
+const BLOCKED = [
+  "spam", "spammy", "spamming",
+  "sex", "porn", "nude", "naked", "masterbate", "masturbate", "fuck", "shit", "bitch", "slut", "whore", "dick", "cock", "pussy", "cum", "xxx", "modi",
+];
+
+function isClean(text) {
+  const t = (text || "").toLowerCase();
+  return !BLOCKED.some((w) => t.includes(w));
+}
+
+function validEntry(e) {
+  const name = (e.name || "").trim();
+  if (name.length < 2) return false;
+  if (!isClean(name)) return false;
+  if (e.message && !isClean(e.message)) return false;
+  return true;
+}
+
 export default function Guestbook() {
   const [entries, setEntries] = useState([]);
   const [name, setName] = useState("");
@@ -14,7 +33,7 @@ export default function Guestbook() {
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(() => {
     try {
-      const cached = localStorage.getItem('guestbookEntries');
+      const cached = localStorage.getItem('guestbookEntries_v2');
       if (cached) {
         const parsed = JSON.parse(cached);
         if (Array.isArray(parsed) && parsed.length > 0) return false;
@@ -23,45 +42,39 @@ export default function Guestbook() {
     return true;
   });
 
-  const API = "https://us-central1-fitness-gym-fc040.cloudfunctions.net/guestbook";
-
   useEffect(() => {
     let isMounted = true;
     let hasCache = false;
-    
+
     // Load from localStorage immediately if available
     try {
-      const cached = localStorage.getItem('guestbookEntries');
+      const cached = localStorage.getItem('guestbookEntries_v2');
       if (cached) {
         const parsed = JSON.parse(cached);
         if (Array.isArray(parsed) && parsed.length > 0) {
           hasCache = true;
-          setEntries(parsed);
+          setEntries(parsed.filter(validEntry));
         }
       }
     } catch (e) {
       console.warn('Failed to parse guestbook cache:', e);
     }
-    
+
     const fetchEntries = async () => {
       try {
-        // Only show loading spinner if we have no cached entries to show
         if (!hasCache) setLoading(true);
-        const res = await fetch(API, { 
-          headers: {
-            'Cache-Control': 'no-cache'
-          }
+        const res = await fetch(API, {
+          headers: { 'Cache-Control': 'no-cache' }
         });
         if (!isMounted) return;
-        
+
         const data = await res.json();
         if (isMounted) {
           if (data.ok) {
-            const fetchedEntries = data.entries || [];
+            const fetchedEntries = (data.entries || []).filter(validEntry);
             setEntries(fetchedEntries);
-            // Save to localStorage
             try {
-              localStorage.setItem('guestbookEntries', JSON.stringify(fetchedEntries));
+              localStorage.setItem('guestbookEntries_v2', JSON.stringify(fetchedEntries));
             } catch (e) {
               console.warn('Failed to save guestbook to localStorage:', e);
             }
@@ -91,7 +104,12 @@ export default function Guestbook() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if (!name.trim()) return;
+    const cleanName = name.trim();
+    if (!cleanName) return;
+    if (cleanName.length < 2 || !isClean(cleanName) || (message.trim() && !isClean(message))) {
+      setError("Please keep entries respectful and add a valid name.");
+      return;
+    }
     setSending(true);
     setError("");
     setSuccess("");
@@ -99,21 +117,20 @@ export default function Guestbook() {
       const res = await fetch(API, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: name.trim(), message: message.trim(), signature }),
+        body: JSON.stringify({ name: cleanName, message: message.trim(), signature }),
       });
       const data = await res.json();
        if (data.ok) {
             setSuccess("Done!");
-            const savedName = name.trim();
             const savedMsg = message.trim();
             setName("");
             setMessage("");
             setSignature(null);
-            const newEntry = { id: data.id, name: savedName, message: savedMsg, signature, createdAt: new Date().toISOString() };
+            const newEntry = { id: data.id, name: cleanName, message: savedMsg, signature, createdAt: new Date().toISOString() };
             setEntries(prev => {
               const updated = [newEntry, ...prev];
               try {
-                localStorage.setItem('guestbookEntries', JSON.stringify(updated));
+                localStorage.setItem('guestbookEntries_v2', JSON.stringify(updated));
               } catch (e) {
                 console.warn('Failed to save guestbook to localStorage:', e);
               }
@@ -183,8 +200,8 @@ export default function Guestbook() {
           <SignaturePad onChange={setSignature} />
         </div>
 
-        {error && <p style={{ fontSize: 13, color: "#ef4444", marginBottom: 10 }}>{error}</p>}
-        {success && <p style={{ fontSize: 13, color: "#22c55e", marginBottom: 10 }}>{success}</p>}
+        {error && <p style={{ fontSize: 13, color: "var(--text)", marginBottom: 10 }}>{error}</p>}
+        {success && <p style={{ fontSize: 13, color: "var(--text)", marginBottom: 10, fontWeight: 600 }}>{success}</p>}
 
         <button
           type="submit"

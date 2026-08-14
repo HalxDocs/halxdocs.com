@@ -1,5 +1,3 @@
-import ViewCounter from "./ViewCounter";
-
 export default function Footer() {
   return (
     <footer
@@ -19,7 +17,6 @@ export default function Footer() {
       </span>
 
       <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
-        <ViewCounter />
         {[
           { label: "X", href: "https://x.com/HalxDocs" },
           { label: "GitHub", href: "https://github.com/HalxDocs" },

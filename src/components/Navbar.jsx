@@ -38,27 +38,53 @@ export default function Navbar({ dark, onToggleDark }) {
             HalxDocs
           </Link>
 
-          <button
-            onClick={onToggleDark}
-            aria-label="Toggle theme"
-            style={{
-              width: 32,
-              height: 32,
-              borderRadius: "50%",
-              border: "1px solid var(--border)",
-              background: "transparent",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "var(--text-muted)",
-              transition: "color 0.2s, border-color 0.2s",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
-            onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted)")}
-          >
-            {dark ? <Sun size={14} /> : <Moon size={14} />}
-          </button>
+          <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+            <a
+              href="https://cal.com/halxdocs"
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                padding: "7px 16px",
+                borderRadius: 100,
+                background: "var(--text)",
+                color: "var(--bg)",
+                fontSize: 12,
+                fontWeight: 600,
+                textDecoration: "none",
+                letterSpacing: "0.01em",
+                whiteSpace: "nowrap",
+                transition: "opacity 0.2s",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.75")}
+              onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
+            >
+              Book a Call
+            </a>
+
+            <button
+              onClick={onToggleDark}
+              aria-label="Toggle theme"
+              style={{
+                width: 32,
+                height: 32,
+                borderRadius: "50%",
+                border: "1px solid var(--border)",
+                background: "transparent",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "var(--text-muted)",
+                transition: "color 0.2s, border-color 0.2s",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted)")}
+            >
+              {dark ? <Sun size={14} /> : <Moon size={14} />}
+            </button>
+          </div>
         </div>
 
         <nav className="nav-rail" style={{ display: "flex", gap: 4, paddingBottom: 12 }}>

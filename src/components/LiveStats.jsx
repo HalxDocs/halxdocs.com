@@ -47,7 +47,7 @@ const styles = {
     width: 6,
     height: 6,
     borderRadius: "50%",
-    background: "#22c55e",
+    background: "var(--text)",
     marginRight: 6,
     verticalAlign: "middle",
   },
@@ -79,8 +79,8 @@ export default function LiveStats() {
     { value: "—", meta: "quizzes taken", source: "274Lab" },
     { value: "65+", meta: "daily orders", source: "Myshoplet" },
     { value: "100+", meta: "active vendors", source: "Myshoplet" },
-    { value: "—", meta: "GitHub stars", source: "reqit" },
     { value: "—", meta: "app downloads", source: "reqit" },
+    { value: "—", meta: "GitHub stars", source: "reqit" },
     { value: "—", meta: "GitHub stars", source: "lazydb" },
   ]);
 
@@ -104,8 +104,8 @@ export default function LiveStats() {
       if (!mounted) return;
       setItems(prev => {
         const next = [...prev];
-        next[4] = { ...next[4], value: stats.stars ? stats.stars.toLocaleString() : "—" };
-        next[5] = { ...next[5], value: stats.downloads ? stats.downloads.toLocaleString() : "—" };
+        next[4] = { ...next[4], value: stats.downloads ? stats.downloads.toLocaleString() : "—" };
+        next[5] = { ...next[5], value: stats.stars ? stats.stars.toLocaleString() : "—" };
         return next;
       });
     }

@@ -12,33 +12,21 @@ export default function Hero() {
     >
       <p
         style={{
-          fontSize: 24,
-          fontWeight: 400,
+          fontSize: 26,
+          fontWeight: 500,
           color: "var(--text)",
-          marginBottom: 8,
-          fontFamily: "'Seraphina', serif",
-          letterSpacing: "0.02em",
+          marginBottom: 20,
+          fontFamily: "'Fraunces', serif",
+          letterSpacing: "-0.01em",
         }}
       >
         Hey, I'm HalxDocs.
       </p>
 
-      <p
-        style={{
-          fontSize: 15,
-          fontWeight: 600,
-          color: "var(--text)",
-          marginBottom: 28,
-          letterSpacing: "0.01em",
-        }}
-      >
-        Full-Stack Engineer (Backend-Focused)
-      </p>
-
       <div
         style={{
-          fontSize: 15,
-          lineHeight: 1.85,
+          fontSize: 16,
+          lineHeight: 1.7,
           color: "var(--text-muted)",
           display: "flex",
           flexDirection: "column",
@@ -46,54 +34,39 @@ export default function Hero() {
           marginBottom: 32,
         }}
       >
-        <p>
-          I build backends, SaaS platforms, CLIs, developer tools, and API-heavy systems. I
-          specialize in{" "}
-          <strong style={{ color: "var(--text)", fontWeight: 500 }}>Go (Gin)</strong> and{" "}
-          <strong style={{ color: "var(--text)", fontWeight: 500 }}>TypeScript</strong>, and I care
-          about shipping things that actually work in production.
+        <p style={{ margin: 0 }}>
+          Backend-focused software engineer building production-ready APIs, distributed
+          systems, and developer tools with Go and TypeScript.
         </p>
-
-        <p>
+        <p style={{ margin: 0 }}>
+          Creator of <strong style={{ color: "var(--text)", fontWeight: 500 }}>Reqit</strong>, an
+          open-source API testing tool. I care about performance, reliability, and great
+          developer experience.
+        </p>
+        <p style={{ margin: 0 }}>
+          If you're building something interesting,{" "}
+          <a
+            href="https://cal.com/halxdocs"
+            target="_blank"
+            rel="noreferrer"
+            style={{ color: "var(--text)", textDecoration: "underline", textUnderlineOffset: 3 }}
+          >
+            book a call
+          </a>
+          .
+        </p>
+        <p style={{ margin: 0 }}>
           Find me on{" "}
           <a href="https://x.com/HalxDocs" target="_blank" rel="noreferrer" style={{ color: "var(--text)", textDecoration: "underline", textUnderlineOffset: 3 }}>X</a>
           {" · "}
           <a href="https://github.com/HalxDocs" target="_blank" rel="noreferrer" style={{ color: "var(--text)", textDecoration: "underline", textUnderlineOffset: 3 }}>GitHub</a>
           {" · "}
           <a href="https://www.linkedin.com/in/halx-docs-633272344" target="_blank" rel="noreferrer" style={{ color: "var(--text)", textDecoration: "underline", textUnderlineOffset: 3 }}>LinkedIn</a>
-          {" "}or reach out via{" "}
-          <a href="mailto:halxdocs@gmail.com" style={{ color: "var(--text)", textDecoration: "underline", textUnderlineOffset: 3 }}>email</a>
           .
-        </p>
-        <p>
-          I also play <strong style={{ color: "var(--text)", fontWeight: 500 }}>chess</strong>.
         </p>
       </div>
 
       <LiveStats />
-
-      <a
-        href="https://cal.com/halxdocs"
-        target="_blank"
-        rel="noreferrer"
-        style={{
-          display: "inline-flex",
-          alignItems: "center",
-          padding: "10px 22px",
-          borderRadius: 100,
-          background: "var(--text)",
-          color: "var(--bg)",
-          fontSize: 14,
-          fontWeight: 500,
-          textDecoration: "none",
-          transition: "opacity 0.2s",
-          letterSpacing: "0.01em",
-        }}
-        onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.75")}
-        onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
-      >
-        Book a Call
-      </a>
     </section>
   );
 }

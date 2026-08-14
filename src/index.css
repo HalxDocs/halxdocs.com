@@ -10,31 +10,33 @@
 
 /* ─── Dark theme (default) ─── */
 :root {
-  --bg: #0D0D0D;
-  --surface: #161616;
-  --surface-2: #1F1F1F;
-  --border: rgba(255,255,255,0.1);
-  --text: rgba(255,255,255,0.92);
-  --text-muted: rgba(255,255,255,0.45);
-  --text-dim: rgba(255,255,255,0.22);
-  --accent: rgba(255,255,255,0.92);
-  --accent-hover: rgba(255,255,255,0.7);
-  --accent-soft: rgba(255,255,255,0.06);
+  --bg: #000000;
+  --surface: #0E0E0E;
+  --surface-2: #1A1A1A;
+  --border: rgba(255,255,255,0.14);
+  --border-strong: rgba(255,255,255,0.35);
+  --text: #FFFFFF;
+  --text-muted: rgba(255,255,255,0.55);
+  --text-dim: rgba(255,255,255,0.32);
+  --accent: #FFFFFF;
+  --accent-hover: rgba(255,255,255,0.75);
+  --accent-soft: rgba(255,255,255,0.08);
   --shadow-accent: none;
 }
 
 /* ─── Light theme ─── */
 .light {
-  --bg: #FAFAF8;
-  --surface: #F0EFE9;
-  --surface-2: #E5E3DB;
-  --border: rgba(0,0,0,0.1);
-  --text: #111111;
-  --text-muted: #666666;
-  --text-dim: #999999;
-  --accent: #111111;
+  --bg: #FFFFFF;
+  --surface: #F5F5F5;
+  --surface-2: #EAEAEA;
+  --border: rgba(0,0,0,0.14);
+  --border-strong: rgba(0,0,0,0.35);
+  --text: #000000;
+  --text-muted: #555555;
+  --text-dim: #888888;
+  --accent: #000000;
   --accent-hover: #333333;
-  --accent-soft: rgba(0,0,0,0.05);
+  --accent-soft: rgba(0,0,0,0.06);
   --shadow-accent: none;
 }
 

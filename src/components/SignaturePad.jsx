@@ -11,7 +11,7 @@ export default function SignaturePad({ onChange }) {
     const c = canvasRef.current;
     if (!c) return;
     const ctx = c.getContext("2d");
-    ctx.strokeStyle = "#fff";
+    ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue("--text").trim() || "#fff";
     ctx.lineWidth = 2;
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
@@ -28,6 +28,7 @@ export default function SignaturePad({ onChange }) {
     e.preventDefault();
     const c = canvasRef.current;
     const ctx = c.getContext("2d");
+    ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue("--text").trim() || "#000";
     const p = pos(e);
     ctx.beginPath();
     ctx.moveTo(p.x, p.y);
@@ -70,7 +71,7 @@ export default function SignaturePad({ onChange }) {
           height: 120,
           borderRadius: 8,
           border: "1px solid var(--border)",
-          background: "var(--card-bg)",
+          background: "var(--surface)",
           cursor: "crosshair",
           touchAction: "none",
         }}
