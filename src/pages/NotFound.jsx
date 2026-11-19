@@ -161,9 +161,9 @@ function RunnerGame() {
           position: "relative",
           width: "100%",
           height: 200,
-          borderRadius: 10,
+          borderRadius: 3,
           border: "1px solid var(--border)",
-          background: "var(--surface)",
+          background: "var(--bg)",
           overflow: "hidden",
           cursor: "pointer",
           userSelect: "none",
@@ -201,28 +201,28 @@ function RunnerGame() {
 
         {playState === "idle" && (
           <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", pointerEvents: "none" }}>
-            <span style={{ fontSize: 14, color: "var(--text-muted)" }}>Tap or press space to jump</span>
+            <span style={{ fontSize: 12.5, color: "var(--text-muted)" }}>Tap or press space to jump</span>
           </div>
         )}
 
         {playState === "over" && (
-          <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 10, pointerEvents: "none" }}>
-            <span style={{ fontSize: 15, color: "var(--text)", fontWeight: 600 }}>Game over</span>
-            <span style={{ fontSize: 13, color: "var(--text-muted)" }}>Score: {score}</span>
+          <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8, pointerEvents: "none" }}>
+            <span style={{ fontSize: 13.5, color: "var(--text)", fontWeight: 500 }}>Game over</span>
+            <span style={{ fontSize: 12, color: "var(--text-muted)" }}>Score: {score}</span>
             <button
               onClick={(e) => { e.stopPropagation(); reset(); }}
               style={{
-                padding: "10px 24px",
-                borderRadius: 100,
+                padding: "8px 20px",
+                borderRadius: 3,
                 border: "none",
                 background: "var(--text)",
                 color: "var(--bg)",
-                fontSize: 14,
+                fontSize: 12.5,
                 fontWeight: 500,
                 cursor: "pointer",
                 fontFamily: "inherit",
                 pointerEvents: "auto",
-                transition: "opacity 0.2s",
+                transition: "opacity 0.15s",
               }}
               onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.75"; }}
               onMouseLeave={(e) => { e.currentTarget.style.opacity = "1"; }}
@@ -240,20 +240,20 @@ export default function NotFound() {
   return (
     <main
       style={{
-        maxWidth: 500,
+        maxWidth: 460,
         margin: "0 auto",
-        padding: "130px 24px 60px",
+        padding: "56px 24px 56px",
         minHeight: "100vh",
         textAlign: "center",
       }}
     >
-      <div style={{ fontSize: 72, fontWeight: 600, fontFamily: "'Fraunces', serif", letterSpacing: "-0.04em", lineHeight: 1, marginBottom: 8 }}>
+      <div style={{ fontSize: 48, fontWeight: 500, letterSpacing: "-0.03em", lineHeight: 1, marginBottom: 10 }}>
         404
       </div>
-      <div style={{ fontSize: 15, color: "var(--text-muted)", marginBottom: 4, lineHeight: 1.6 }}>
+      <div style={{ fontSize: 13.5, color: "var(--text-muted)", marginBottom: 3, lineHeight: 1.6 }}>
         You've wandered off the map.
       </div>
-      <div style={{ fontSize: 13, color: "var(--text-dim)", marginBottom: 24 }}>
+      <div style={{ fontSize: 12, color: "var(--text-dim)", marginBottom: 20 }}>
         Play the dino game while you're here.
       </div>
 
@@ -263,15 +263,15 @@ export default function NotFound() {
         to="/"
         style={{
           display: "inline-flex",
-          marginTop: 24,
-          padding: "10px 22px",
-          borderRadius: 100,
+          marginTop: 20,
+          padding: "8px 20px",
+          borderRadius: 3,
           border: "1px solid var(--border)",
           background: "transparent",
           color: "var(--text-muted)",
-          fontSize: 14,
+          fontSize: 12.5,
           textDecoration: "none",
-          transition: "color 0.2s, border-color 0.2s",
+          transition: "color 0.15s, border-color 0.15s",
           fontFamily: "inherit",
         }}
         onMouseEnter={(e) => {

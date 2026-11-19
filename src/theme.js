@@ -1,5 +1,4 @@
 export function initTheme() {
-  // Always start with dark mode
-  // (No localStorage check since it's not reliable in all environments)
-  document.documentElement.classList.add("dark");
+  // Light mode is the default. `.dark` gets toggled by the navbar switch.
+  document.documentElement.classList.remove("dark");
 }

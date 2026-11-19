@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
+import { API_BASE } from "../lib/api";
 
 const GITHUB_REPOS = {
   reqit: "HalxDocs/reqit",
-  lazydb: "HalxDocs/lazydb",
 };
 
 async function fetchGitHubStats(repo) {
@@ -27,40 +27,41 @@ async function fetchGitHubStats(repo) {
   }
 }
 
-const STATS_ENDPOINT = "https://us-central1-fitness-gym-fc040.cloudfunctions.net/getPortalStats";
+const STATS_ENDPOINT = `${API_BASE}/api/portal/stats`;
 
 const styles = {
   section: {
-    marginTop: 36,
-    marginBottom: 4,
+    maxWidth: 640,
+    margin: "56px auto 0",
+    padding: "0 20px",
   },
   label: {
-    fontSize: 11,
-    fontWeight: 600,
-    color: "var(--text-muted)",
-    letterSpacing: "0.08em",
+    fontSize: 10,
+    fontWeight: 500,
+    color: "var(--text-dim)",
+    letterSpacing: "0.14em",
     textTransform: "uppercase",
-    marginBottom: 14,
+    marginBottom: 10,
+    fontFamily: "'Geist Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace",
   },
   dot: {
     display: "inline-block",
-    width: 6,
-    height: 6,
+    width: 5,
+    height: 5,
     borderRadius: "50%",
     background: "var(--text)",
     marginRight: 6,
     verticalAlign: "middle",
   },
   number: {
-    fontSize: 22,
+    fontSize: 15,
     fontWeight: 600,
     color: "var(--text)",
-    fontFamily: "'Fraunces', serif",
-    letterSpacing: "-0.02em",
-    lineHeight: 1.1,
+    letterSpacing: "-0.01em",
+    lineHeight: 1.2,
   },
   meta: {
-    fontSize: 12,
+    fontSize: 11.5,
     color: "var(--text-muted)",
     lineHeight: 1.4,
     whiteSpace: "nowrap" ,
@@ -68,7 +69,7 @@ const styles = {
   source: {
     fontSize: 10,
     color: "var(--text-muted)",
-    opacity: 0.5,
+    opacity: 0.55,
     letterSpacing: "0.03em",
   },
 };
@@ -81,7 +82,6 @@ export default function LiveStats() {
     { value: "100+", meta: "active vendors", source: "Myshoplet" },
     { value: "—", meta: "app downloads", source: "reqit" },
     { value: "—", meta: "GitHub stars", source: "reqit" },
-    { value: "—", meta: "GitHub stars", source: "lazydb" },
   ]);
 
   useEffect(() => {
@@ -110,22 +110,11 @@ export default function LiveStats() {
       });
     }
 
-    async function loadLazydb() {
-      const stats = await fetchGitHubStats(GITHUB_REPOS.lazydb);
-      if (!mounted) return;
-      setItems(prev => {
-        const next = [...prev];
-        next[6] = { ...next[6], value: stats.stars ? stats.stars.toLocaleString() : "—" };
-        return next;
-      });
-    }
-
     load274();
     loadReqit();
-    loadLazydb();
 
     const interval = setInterval(() => {
-      load274(); loadReqit(); loadLazydb();
+      load274(); loadReqit();
     }, 120000);
     return () => { mounted = false; clearInterval(interval); };
   }, []);
@@ -133,17 +122,16 @@ export default function LiveStats() {
   return (
     <div style={styles.section}>
       <style>{`
-        .ls-grid { display: flex; flex-wrap: wrap; }
-        .ls-cell { display: flex; flex-direction: column; gap: 2px; padding: 12px 16px 12px 0; flex: 0 0 auto; }
-        .ls-cell + .ls-cell { border-left: 1px solid var(--border); padding-left: 16px; }
+        .ls-grid { display: flex; flex-wrap: wrap; row-gap: 16px; }
+        .ls-cell { display: flex; flex-direction: column; gap: 1px; padding: 0 24px 0 0; flex: 0 0 auto; }
 
         @media (max-width: 639px) {
           .ls-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
-          .ls-cell { padding: 12px 0; }
+          .ls-cell { padding: 10px 0; }
           .ls-cell + .ls-cell { border-left: none; padding-left: 0; }
-          .ls-cell:nth-child(odd) { padding-right: 16px; }
-          .ls-cell:nth-child(even) { padding-left: 16px; border-left: 1px solid var(--border); }
-          .ls-cell:nth-child(n+3) { border-top: 1px solid var(--border); padding-top: 12px; }
+          .ls-cell:nth-child(odd) { padding-right: 14px; }
+          .ls-cell:nth-child(even) { padding-left: 14px; border-left: 1px solid var(--border); }
+          .ls-cell:nth-child(n+3) { border-top: 1px solid var(--border); padding-top: 10px; }
           .ls-cell:nth-child(2) { border-top: none; }
         }
       `}</style>

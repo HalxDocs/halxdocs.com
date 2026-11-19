@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import SignaturePad from "../components/SignaturePad";
+import SignatureImage from "../components/SignatureImage";
+import { API_BASE } from "../lib/api";
 
-const API = "https://us-central1-fitness-gym-fc040.cloudfunctions.net/guestbook";
+const API = `${API_BASE}/api/portfolio/guestbook`;
 
 // Client-side moderation — the backend has no filter, so we drop abuse here.
 const BLOCKED = [
@@ -33,12 +34,14 @@ export default function Guestbook() {
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(() => {
     try {
-      const cached = localStorage.getItem('guestbookEntries_v2');
+      const cached = localStorage.getItem('guestbookEntries_v3');
       if (cached) {
         const parsed = JSON.parse(cached);
         if (Array.isArray(parsed) && parsed.length > 0) return false;
       }
-    } catch {}
+    } catch {
+      // cache read is best-effort
+    }
     return true;
   });
 
@@ -48,7 +51,7 @@ export default function Guestbook() {
 
     // Load from localStorage immediately if available
     try {
-      const cached = localStorage.getItem('guestbookEntries_v2');
+      const cached = localStorage.getItem('guestbookEntries_v3');
       if (cached) {
         const parsed = JSON.parse(cached);
         if (Array.isArray(parsed) && parsed.length > 0) {
@@ -63,9 +66,7 @@ export default function Guestbook() {
     const fetchEntries = async () => {
       try {
         if (!hasCache) setLoading(true);
-        const res = await fetch(API, {
-          headers: { 'Cache-Control': 'no-cache' }
-        });
+        const res = await fetch(API, { cache: "no-store" });
         if (!isMounted) return;
 
         const data = await res.json();
@@ -74,7 +75,7 @@ export default function Guestbook() {
             const fetchedEntries = (data.entries || []).filter(validEntry);
             setEntries(fetchedEntries);
             try {
-              localStorage.setItem('guestbookEntries_v2', JSON.stringify(fetchedEntries));
+              localStorage.setItem('guestbookEntries_v3', JSON.stringify(fetchedEntries));
             } catch (e) {
               console.warn('Failed to save guestbook to localStorage:', e);
             }
@@ -130,7 +131,7 @@ export default function Guestbook() {
             setEntries(prev => {
               const updated = [newEntry, ...prev];
               try {
-                localStorage.setItem('guestbookEntries_v2', JSON.stringify(updated));
+                localStorage.setItem('guestbookEntries_v3', JSON.stringify(updated));
               } catch (e) {
                 console.warn('Failed to save guestbook to localStorage:', e);
               }
@@ -146,31 +147,25 @@ export default function Guestbook() {
   }
 
   return (
-    <section style={{ maxWidth: 680, margin: "0 auto", padding: "130px 24px 64px", color: "var(--text)" }}>
-      <p style={{ fontSize: 14, color: "var(--text-muted)", marginBottom: 24 }}>
-        <Link to="/" style={{ color: "var(--text)", textDecoration: "underline", textUnderlineOffset: 3 }}>Home</Link>
-        <span style={{ margin: "0 8px", opacity: 0.3 }}>/</span>
+    <section style={{ maxWidth: 640, margin: "0 auto", padding: "48px 20px 64px", color: "var(--text)" }}>
+      <h1 style={{ fontSize: 20, fontWeight: 500, letterSpacing: "-0.01em", marginBottom: 4 }}>
         Guestbook
-      </p>
-
-      <p style={{ fontSize: 22, fontWeight: 600, fontFamily: "'Fraunces', serif", marginBottom: 8, letterSpacing: "-0.01em" }}>
-        Guestbook
-      </p>
-      <p style={{ fontSize: 14, color: "var(--text-muted)", lineHeight: 1.6, marginBottom: 32 }}>
+      </h1>
+      <p style={{ fontSize: 13.5, color: "var(--text-muted)", lineHeight: 1.6, marginBottom: 28 }}>
         Sign your name, leave a note, or both.
       </p>
 
-      <form onSubmit={handleSubmit} style={{ marginBottom: 48 }}>
-        <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 16 }}>
+      <form onSubmit={handleSubmit} style={{ marginBottom: 40 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 14 }}>
           <input
             placeholder="Your name"
             value={name}
             onChange={e => setName(e.target.value)}
             maxLength={60}
             style={{
-              padding: "10px 14px",
-              fontSize: 14,
-              borderRadius: 8,
+              padding: "9px 12px",
+              fontSize: 13,
+              borderRadius: 3,
               border: "1px solid var(--border)",
               background: "transparent",
               color: "var(--text)",
@@ -185,38 +180,38 @@ export default function Guestbook() {
             maxLength={500}
             rows={2}
             style={{
-              padding: "10px 14px",
-              fontSize: 14,
-              borderRadius: 8,
+              padding: "9px 12px",
+              fontSize: 13,
+              borderRadius: 3,
               border: "1px solid var(--border)",
               background: "transparent",
               color: "var(--text)",
               outline: "none",
               resize: "vertical",
               fontFamily: "inherit",
-              lineHeight: 1.5,
+              lineHeight: 1.55,
             }}
           />
           <SignaturePad onChange={setSignature} />
         </div>
 
-        {error && <p style={{ fontSize: 13, color: "var(--text)", marginBottom: 10 }}>{error}</p>}
-        {success && <p style={{ fontSize: 13, color: "var(--text)", marginBottom: 10, fontWeight: 600 }}>{success}</p>}
+        {error && <p style={{ fontSize: 12.5, color: "var(--text)", marginBottom: 10 }}>{error}</p>}
+        {success && <p style={{ fontSize: 12.5, color: "var(--text)", marginBottom: 10, fontWeight: 600 }}>{success}</p>}
 
         <button
           type="submit"
           disabled={sending || !name.trim()}
           style={{
-            padding: "10px 22px",
-            borderRadius: 100,
+            padding: "8px 18px",
+            borderRadius: 3,
             background: sending || !name.trim() ? "var(--border)" : "var(--text)",
             color: sending || !name.trim() ? "var(--text-muted)" : "var(--bg)",
-            fontSize: 14,
+            fontSize: 12.5,
             fontWeight: 500,
             border: "none",
             cursor: sending || !name.trim() ? "not-allowed" : "pointer",
-            letterSpacing: "0.01em",
-            transition: "opacity 0.2s",
+            fontFamily: "inherit",
+            transition: "opacity 0.15s",
           }}
           onMouseEnter={e => { if (!sending && name.trim()) e.currentTarget.style.opacity = "0.75"; }}
           onMouseLeave={e => { if (!sending && name.trim()) e.currentTarget.style.opacity = "1"; }}
@@ -226,32 +221,30 @@ export default function Guestbook() {
       </form>
 
        {loading && entries.length === 0 && (
-         <p style={{ fontSize: 14, color: "var(--text-muted)", textAlign: "center", padding: 40, opacity: 0.8 }}>
+         <p style={{ fontSize: 13, color: "var(--text-muted)", textAlign: "center", padding: 32, opacity: 0.8 }}>
            Loading entries...
          </p>
        )}
        {!loading && entries.length === 0 && (
-         <p style={{ fontSize: 14, color: "var(--text-muted)", textAlign: "center", padding: 40, opacity: 0.6 }}>No entries yet. Be the first.</p>
+         <p style={{ fontSize: 13, color: "var(--text-muted)", textAlign: "center", padding: 32, opacity: 0.6 }}>No entries yet. Be the first.</p>
        )}
 
-      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+      <div style={{ borderTop: "1px solid var(--border)" }}>
         {entries.map(entry => (
           <div key={entry.id} style={{
-            padding: "16px 20px",
-            borderRadius: 10,
-            border: "1px solid var(--border)",
-            background: "var(--surface)",
+            padding: "14px 0",
+            borderBottom: "1px solid var(--border)",
           }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: entry.signature || entry.message ? 8 : 0 }}>
-              <span style={{ fontSize: 13, fontWeight: 600, color: "var(--text)" }}>{entry.name}</span>
-              <span style={{ fontSize: 11, color: "var(--text-muted)", opacity: 0.5 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: entry.signature || entry.message ? 6 : 0 }}>
+              <span style={{ fontSize: 12.5, fontWeight: 500, color: "var(--text)" }}>{entry.name}</span>
+              <span className="font-mono" style={{ fontSize: 10, color: "var(--text-dim)" }}>
                 {new Date(entry.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
               </span>
             </div>
             {entry.signature && (
-              <img src={entry.signature} alt={`${entry.name}'s signature`} style={{ maxWidth: 200, height: "auto", opacity: 0.85, marginBottom: entry.message ? 8 : 0 }} />
+              <SignatureImage src={entry.signature} alt={`${entry.name}'s signature`} style={{ maxWidth: 160, height: "auto", opacity: 0.85, marginBottom: entry.message ? 6 : 0 }} />
             )}
-            {entry.message && <p style={{ fontSize: 14, lineHeight: 1.6, color: "var(--text-muted)", margin: 0, whiteSpace: "pre-wrap" }}>{entry.message}</p>}
+            {entry.message && <p style={{ fontSize: 13, lineHeight: 1.6, color: "var(--text-muted)", margin: 0, whiteSpace: "pre-wrap" }}>{entry.message}</p>}
           </div>
         ))}
       </div>

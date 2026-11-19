@@ -2,21 +2,21 @@ export default function Footer() {
   return (
     <footer
       style={{
-        maxWidth: 680,
+        maxWidth: 640,
         margin: "0 auto",
-        padding: "0 24px 48px",
+        padding: "0 20px 40px",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
         borderTop: "1px solid var(--border)",
-        paddingTop: 24,
+        paddingTop: 16,
       }}
     >
-      <span style={{ fontSize: 13, color: "var(--text-dim)" }}>
+      <span style={{ fontSize: 11.5, color: "var(--text-dim)" }}>
         © 2026 HalxDocs
       </span>
 
-      <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
+      <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
         {[
           { label: "X", href: "https://x.com/HalxDocs" },
           { label: "GitHub", href: "https://github.com/HalxDocs" },
@@ -29,10 +29,10 @@ export default function Footer() {
             target="_blank"
             rel="noreferrer"
             style={{
-              fontSize: 13,
+              fontSize: 11.5,
               color: "var(--text-dim)",
               textDecoration: "none",
-              transition: "color 0.2s",
+              transition: "color 0.15s",
             }}
             onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
             onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-dim)")}

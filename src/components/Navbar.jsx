@@ -14,118 +14,64 @@ export default function Navbar({ dark, onToggleDark }) {
   return (
     <header
       style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 50,
-        background: "var(--bg)",
+        maxWidth: 640,
+        margin: "0 auto",
+        padding: "20px 20px 0",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "flex-end",
+        gap: 18,
       }}
     >
-      <div style={{ maxWidth: 680, margin: "0 auto", padding: "0 24px" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 56 }}>
-          <Link
-            to="/"
-            style={{
-              fontFamily: "'DM Mono', monospace",
-              fontSize: 18,
-              fontWeight: 500,
-              letterSpacing: "-0.03em",
-              color: "var(--text)",
-              textDecoration: "none",
-            }}
-          >
-            HalxDocs
-          </Link>
-
-          <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-            <a
-              href="https://cal.com/halxdocs"
-              target="_blank"
-              rel="noreferrer"
+      <nav style={{ display: "flex", gap: 18 }}>
+        {navLinks.map((l) => {
+          const active = pathname === l.to || (l.to !== "/" && pathname.startsWith(l.to));
+          return (
+            <Link
+              key={l.to}
+              to={l.to}
               style={{
-                display: "inline-flex",
-                alignItems: "center",
-                padding: "7px 16px",
-                borderRadius: 100,
-                background: "var(--text)",
-                color: "var(--bg)",
-                fontSize: 12,
-                fontWeight: 600,
-                textDecoration: "none",
-                letterSpacing: "0.01em",
-                whiteSpace: "nowrap",
-                transition: "opacity 0.2s",
+                fontSize: 13,
+                color: active ? "var(--text)" : "var(--text-muted)",
+                textDecoration: active ? "underline" : "none",
+                textUnderlineOffset: 4,
+                textDecorationColor: active ? "var(--text)" : "transparent",
+                transition: "color 0.15s",
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.75")}
-              onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
-            >
-              Book a Call
-            </a>
-
-            <button
-              onClick={onToggleDark}
-              aria-label="Toggle theme"
-              style={{
-                width: 32,
-                height: 32,
-                borderRadius: "50%",
-                border: "1px solid var(--border)",
-                background: "transparent",
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "var(--text-muted)",
-                transition: "color 0.2s, border-color 0.2s",
+              onMouseEnter={(e) => {
+                if (!active) e.currentTarget.style.color = "var(--text)";
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted)")}
+              onMouseLeave={(e) => {
+                if (!active) e.currentTarget.style.color = "var(--text-muted)";
+              }}
             >
-              {dark ? <Sun size={14} /> : <Moon size={14} />}
-            </button>
-          </div>
-        </div>
+              {l.label}
+            </Link>
+          );
+        })}
+      </nav>
 
-        <nav className="nav-rail" style={{ display: "flex", gap: 4, paddingBottom: 12 }}>
-          {navLinks.map((l) => {
-            const active = pathname === l.to || (l.to !== "/" && pathname.startsWith(l.to));
-            return (
-              <Link
-                key={l.to}
-                to={l.to}
-                style={{
-                  fontSize: 13,
-                  color: active ? "var(--text)" : "var(--text-muted)",
-                  textDecoration: "none",
-                  padding: "6px 12px",
-                  borderRadius: 100,
-                  background: active ? "var(--accent-soft)" : "transparent",
-                  whiteSpace: "nowrap",
-                  transition: "color 0.2s, background 0.2s",
-                }}
-                onMouseEnter={(e) => {
-                  if (!active) e.currentTarget.style.color = "var(--text)";
-                }}
-                onMouseLeave={(e) => {
-                  if (!active) e.currentTarget.style.color = "var(--text-muted)";
-                }}
-              >
-                {l.label}
-              </Link>
-            );
-          })}
-        </nav>
-      </div>
-
-      <style>{`
-        .nav-rail {
-          overflow-x: auto;
-          -webkit-overflow-scrolling: touch;
-          scrollbar-width: none;
-        }
-        .nav-rail::-webkit-scrollbar { display: none; }
-      `}</style>
+      <button
+        onClick={onToggleDark}
+        aria-label="Toggle theme"
+        style={{
+          width: 22,
+          height: 22,
+          border: "none",
+          background: "transparent",
+          cursor: "pointer",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          color: "var(--text-dim)",
+          padding: 0,
+          transition: "color 0.15s",
+        }}
+        onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
+        onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-dim)")}
+      >
+        {dark ? <Sun size={13} /> : <Moon size={13} />}
+      </button>
     </header>
   );
 }

@@ -2,57 +2,308 @@
 
 @variant dark (&:where(.dark, .dark *));
 
+/* ─── Type ─── */
 @theme {
-  --font-display: 'Fraunces', ui-serif, Georgia, serif;
-  --font-sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
-  --font-mono: 'DM Mono', ui-monospace, monospace;
+  --font-sans: 'Geist', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace;
 }
 
-/* ─── Dark theme (default) ─── */
+/* ─── Light theme (default) ─── */
 :root {
-  --bg: #000000;
-  --surface: #0E0E0E;
-  --surface-2: #1A1A1A;
-  --border: rgba(255,255,255,0.14);
-  --border-strong: rgba(255,255,255,0.35);
-  --text: #FFFFFF;
-  --text-muted: rgba(255,255,255,0.55);
-  --text-dim: rgba(255,255,255,0.32);
-  --accent: #FFFFFF;
-  --accent-hover: rgba(255,255,255,0.75);
-  --accent-soft: rgba(255,255,255,0.08);
-  --shadow-accent: none;
+  --bg: #FFFFFF;
+  --surface: #FAFAFA;
+  --surface-2: #F0F0F0;
+  --border: rgba(0,0,0,0.1);
+  --border-strong: rgba(0,0,0,0.3);
+  --text: #111111;
+  --text-muted: rgba(0,0,0,0.55);
+  --text-dim: rgba(0,0,0,0.4);
+  --accent: #111111;
+  --accent-soft: rgba(0,0,0,0.05);
 }
 
-/* ─── Light theme ─── */
-.light {
-  --bg: #FFFFFF;
-  --surface: #F5F5F5;
-  --surface-2: #EAEAEA;
-  --border: rgba(0,0,0,0.14);
-  --border-strong: rgba(0,0,0,0.35);
-  --text: #000000;
-  --text-muted: #555555;
-  --text-dim: #888888;
-  --accent: #000000;
-  --accent-hover: #333333;
-  --accent-soft: rgba(0,0,0,0.06);
-  --shadow-accent: none;
+/* ─── Dark theme ─── */
+.dark {
+  --bg: #0A0A0A;
+  --surface: #141414;
+  --surface-2: #1E1E1E;
+  --border: rgba(255,255,255,0.12);
+  --border-strong: rgba(255,255,255,0.3);
+  --text: #F5F5F5;
+  --text-muted: rgba(255,255,255,0.58);
+  --text-dim: rgba(255,255,255,0.38);
+  --accent: #FFFFFF;
+  --accent-soft: rgba(255,255,255,0.08);
 }
 
 html {
   background-color: var(--bg);
-  transition: background-color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body {
   background-color: var(--bg);
   color: var(--text);
-  font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.6;
+  letter-spacing: -0.011em;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
-.font-mono { font-family: 'DM Mono', ui-monospace, monospace; }
+.font-mono {
+  font-family: var(--font-mono);
+}
 
-.font-display { font-family: 'Fraunces', ui-serif, Georgia, serif; }
-.font-mono    { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+/* Small uppercase section label */
+.label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+::selection {
+  background: var(--text);
+  color: var(--bg);
+}
+
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Spacing between detail-page sections */
+
+/* Project rows: number / name / description / link */
+.work-row {
+  display: grid;
+  grid-template-columns: 20px 132px minmax(0, 1fr) auto;
+  column-gap: 14px;
+  align-items: baseline;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.work-num {
+  font-size: 10px;
+  color: var(--text-dim);
+}
+
+.work-name {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.work-desc {
+  min-width: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.work-links {
+  display: flex;
+  justify-content: flex-end;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.work-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: var(--text-dim);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--border-strong);
+  transition: color 0.15s, text-decoration-color 0.15s;
+}
+
+.work-links a:hover {
+  color: var(--text);
+  text-decoration-color: var(--text);
+}
+
+@media (max-width: 640px) {
+  .work-row {
+    grid-template-columns: 22px minmax(0, 1fr);
+    grid-template-areas:
+      "num name"
+      ". desc"
+      ". link";
+    column-gap: 10px;
+    row-gap: 4px;
+    padding: 14px 0;
+  }
+
+  .work-num {
+    grid-area: num;
+    font-size: 9.5px;
+  }
+
+  .work-name {
+    grid-area: name;
+    font-size: 14px;
+  }
+
+  .work-desc {
+    grid-area: desc;
+    font-size: 12.5px;
+    line-height: 1.55;
+  }
+
+  .work-links {
+    grid-area: link;
+    justify-content: flex-start;
+    margin-top: 3px;
+  }
+}
+
+/* Book a call: bordered button with hard offset shadow */
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 9px 18px;
+  border: 1.5px solid var(--text);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  box-shadow: 3px 3px 0 var(--text);
+  transition: transform 0.12s, box-shadow 0.12s;
+}
+
+:focus-visible {
+  outline: 1px solid var(--text);
+  outline-offset: 2px;
+}
+
+/* Guestbook signatures are stored as black ink on a transparent background;
+   invert them in dark mode so they stay visible. */
+.dark .signature-img {
+  filter: invert(1);
+}
+
+/* Contact: email address beside the primary call button */
+.email-link {
+  font-size: 13px;
+  color: var(--text-muted);
+  text-decoration: underline;
+  text-decoration-color: var(--border-strong);
+  text-underline-offset: 3px;
+  transition: color 0.15s, text-decoration-color 0.15s;
+}
+
+.email-link:hover {
+  color: var(--text);
+  text-decoration-color: var(--text);
+}
+
+/* Sponsor: compact strip, secondary to the contact block */
+.support-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.btn-secondary {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  padding: 9px 16px;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.btn-secondary:hover {
+  background: var(--surface);
+  border-color: var(--text);
+}
+
+@media (max-width: 560px) {
+  .support-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
+
+/* Blog post likes: outlined heart button with the count underneath */
+.like-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin: 40px 0 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.like-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+
+.like-btn:hover:not(:disabled) {
+  color: var(--text);
+  border-color: var(--text);
+}
+
+.like-btn.liked:hover {
+  color: var(--bg);
+  border-color: var(--text);
+}
+
+.like-btn.liked {
+  background: var(--text);
+  border-color: var(--text);
+  color: var(--bg);
+}
+
+.like-btn:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+
+.like-count {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 11px;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  color: var(--text-muted);
+}

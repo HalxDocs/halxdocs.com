@@ -2,178 +2,149 @@ import { Link } from "react-router-dom";
 
 const posts = [
   {
-    slug: "/blog/reqit-postman",
-    title: "We built reqit because Postman got too expensive.",
-    date: "May 2026",
+    slug: "/blog/signed-run-receipts",
+    title: "Every API Request Now Leaves a Signed Receipt",
+    date: "November 2026",
     excerpt:
-      "A free, offline, Git-first API client for developer teams. In early 2026, Postman removed free team collaboration. So we built reqit — collections live in Git, not someone's cloud.",
-    tag: "Open Source",
+      "reqit 2.6.0 writes a redacted, hash-chained, signed run receipt for every execution — what is inside one, how verification works, and where the guarantees stop.",
+    tag: "Release",
   },
   {
-    slug: "/blog/symphony-wedding-app",
-    title: "I Built a Digital Wedding Invitation App in a Week — Here's What Happened",
-    date: "2025",
+    slug: "/blog/one-engine-many-doors",
+    title: "One Engine, Many Doors",
+    date: "November 2026",
     excerpt:
-      "Nigerian weddings deserve better than a WhatsApp JPEG. So I built Symphony — a full wedding invitation web app with animated envelopes, live RSVPs, and a guest dashboard.",
-    tag: "Build Story",
+      "How one Go package carries requests for a desktop app, CLI, runner, scheduler, load tester, and MCP server — and how that center holds.",
+    tag: "Architecture",
   },
   {
-    slug: "/blog/bibleplus-production-fix",
-    title: "Two Production Bugs, One Weekend, Zero Downtime — Fixing the BiblePlus Backend on Render",
-    date: "2025",
+    slug: "/blog/http-request-engine-in-go",
+    title: "Building an HTTP Request Engine in Go",
+    date: "November 2026",
     excerpt:
-      "The app was crashing in production. A missing API key was taking the whole service down. The daily quiz wasn't delivering consistent content. Here's how I fixed both.",
+      "Connection pooling, authentication, context timeouts, and timing every phase of a request with Go's httptrace — what actually happens behind the Send button.",
     tag: "Engineering",
+  },
+  {
+    slug: "/blog/two-implementations-one-truth",
+    title: "Two Implementations, One Truth",
+    date: "November 2026",
+    excerpt:
+      "Keeping a Go simulator and its TypeScript port from quietly describing different worlds — and what happened when I audited the guard itself.",
+    tag: "Case Study",
+  },
+  {
+    slug: "/blog/learning-raft-in-go",
+    title: "Learning Raft by Building It in Go",
+    date: "October 2026",
+    excerpt:
+      "What implementing a consensus algorithm actually teaches you about distributed systems — from RPC communication and timeouts to why agreeing is harder than connecting.",
+    tag: "Distributed Systems",
+  },
+  {
+    slug: "/blog/why-i-built-reqit",
+    title: "Why I Built Reqit",
+    date: "October 2026",
+    excerpt:
+      "Reqit started with a problem I was experiencing myself: a heavy API client, forced accounts, and paid collaboration. So I built something fast, local-first, and Git-native.",
+    tag: "Build Story",
   },
 ];
 
 export default function Blog() {
   return (
     <section
-      className="pt-36 pb-32"
-      style={{ background: "var(--bg)", color: "var(--text)", minHeight: "100vh" }}
+      style={{
+        maxWidth: 640,
+        margin: "0 auto",
+        padding: "48px 20px 72px",
+        color: "var(--text)",
+        minHeight: "100vh",
+      }}
     >
-      <div className="mx-auto max-w-3xl px-6 sm:px-8">
+      <p className="label" style={{ marginBottom: 12 }}>Writing</p>
 
-        <Link
-          to="/"
-          className="font-mono inline-flex items-center gap-2 mb-12 hover:text-white transition-colors"
-          style={{
-            fontSize: "11px",
-            textTransform: "uppercase",
-            letterSpacing: "0.18em",
-            color: "var(--text-muted)",
-            fontWeight: 600,
-            textDecoration: "none",
-          }}
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M19 12H5M12 19l-7-7 7-7" />
-          </svg>
-          Back to home
-        </Link>
+      <h1
+        style={{
+          fontSize: 20,
+          fontWeight: 500,
+          letterSpacing: "-0.01em",
+          lineHeight: 1.3,
+          color: "var(--text)",
+          marginBottom: 8,
+        }}
+      >
+        Notes from the build.
+      </h1>
 
-        <div className="flex items-center gap-3 mb-7">
-          <span style={{ width: 18, height: 1, background: "var(--accent)", display: "block" }} />
-          <span
-            className="font-mono"
+      <p
+        style={{
+          fontSize: 13.5,
+          lineHeight: 1.6,
+          color: "var(--text-muted)",
+          maxWidth: 480,
+          marginBottom: 36,
+        }}
+      >
+        Thoughts on building products, tools, and systems — from real work, real bugs, real problems.
+      </p>
+
+      <div style={{ borderTop: "1px solid var(--border)" }}>
+        {posts.map((post) => (
+          <Link
+            key={post.slug}
+            to={post.slug}
             style={{
-              fontSize: "11px",
-              textTransform: "uppercase",
-              letterSpacing: "0.22em",
-              color: "var(--text-muted)",
-              fontWeight: 500,
+              display: "block",
+              padding: "18px 0",
+              borderBottom: "1px solid var(--border)",
+              textDecoration: "none",
             }}
           >
-            Writing
-          </span>
-        </div>
-
-        <h1
-          className="font-display"
-          style={{
-            fontSize: "clamp(40px, 6vw, 64px)",
-            fontWeight: 500,
-            letterSpacing: "-0.025em",
-            lineHeight: 1.05,
-            color: "var(--text)",
-            marginBottom: 24,
-          }}
-        >
-          Notes from the build.
-        </h1>
-
-        <p
-          style={{
-            fontSize: "17px",
-            lineHeight: 1.7,
-            color: "var(--text-muted)",
-            maxWidth: 560,
-            marginBottom: 56,
-          }}
-        >
-          Thoughts on building products, tools, and systems — from real work, real bugs, real problems.
-        </p>
-
-        <div className="space-y-5">
-          {posts.map((post) => (
-            <Link
-              key={post.slug}
-              to={post.slug}
-              className="group block transition-all hover:-translate-y-0.5"
-              style={{
-                background: "var(--surface)",
-                border: "0.5px solid var(--border)",
-                borderRadius: 16,
-                padding: "28px 28px",
-                textDecoration: "none",
-                transition: "border-color 0.3s ease, transform 0.3s ease",
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.borderColor = "var(--accent)")}
-              onMouseLeave={(e) => (e.currentTarget.style.borderColor = "var(--border)")}
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <span
-                  className="font-mono"
-                  style={{
-                    fontSize: "10px",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.2em",
-                    color: "var(--accent)",
-                    fontWeight: 600,
-                  }}
-                >
-                  {post.tag}
-                </span>
-                <span style={{ width: 12, height: 1, background: "var(--border)", display: "block" }} />
-                <span className="font-mono" style={{ fontSize: "11px", color: "var(--text-muted)" }}>
-                  {post.date}
-                </span>
-              </div>
-
-              <h2
-                className="font-display mb-3"
-                style={{
-                  fontSize: "clamp(20px, 2.4vw, 26px)",
-                  fontWeight: 500,
-                  letterSpacing: "-0.02em",
-                  lineHeight: 1.2,
-                  color: "var(--text)",
-                }}
-              >
-                {post.title}
-              </h2>
-
-              <p
-                style={{
-                  fontSize: "14px",
-                  lineHeight: 1.7,
-                  color: "var(--text-muted)",
-                  marginBottom: 18,
-                }}
-              >
-                {post.excerpt}
-              </p>
-
+            <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 5 }}>
               <span
-                className="font-mono inline-flex items-center gap-2"
+                className="font-mono"
                 style={{
-                  fontSize: "11px",
+                  fontSize: 10,
                   textTransform: "uppercase",
-                  letterSpacing: "0.18em",
-                  color: "var(--text)",
-                  fontWeight: 600,
+                  letterSpacing: "0.12em",
+                  color: "var(--text-dim)",
                 }}
               >
-                Read more
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-x-1 transition-transform">
-                  <path d="M5 12h14M13 5l7 7-7 7" />
-                </svg>
+                {post.tag}
               </span>
-            </Link>
-          ))}
-        </div>
+              <span
+                className="font-mono"
+                style={{ fontSize: 10, color: "var(--text-dim)", opacity: 0.6 }}
+              >
+                {post.date}
+              </span>
+            </div>
 
+            <h2
+              style={{
+                fontSize: 14.5,
+                fontWeight: 500,
+                lineHeight: 1.4,
+                color: "var(--text)",
+                marginBottom: 4,
+              }}
+            >
+              {post.title}
+            </h2>
+
+            <p
+              style={{
+                fontSize: 12.5,
+                lineHeight: 1.55,
+                color: "var(--text-muted)",
+                margin: 0,
+              }}
+            >
+              {post.excerpt}
+            </p>
+          </Link>
+        ))}
       </div>
     </section>
   );

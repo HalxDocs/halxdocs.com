@@ -1,13 +1,5 @@
 import { useState, useMemo } from "react";
-import { motion } from "framer-motion";
 import { graves, categories } from "../data/graveyard";
-
-function tombstoneVariants(slug) {
-  return {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-  };
-}
 
 export default function Graveyard() {
   const [filter, setFilter] = useState("All");
@@ -39,146 +31,122 @@ export default function Graveyard() {
   return (
     <main
       style={{
-        maxWidth: 800,
+        maxWidth: 640,
         margin: "0 auto",
-        padding: "130px 24px 80px",
+        padding: "48px 20px 72px",
         minHeight: "100vh",
       }}
     >
-      {/* Header */}
-      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
-        <span
-          className="font-mono"
-          style={{ fontSize: 11, letterSpacing: "0.22em", color: "var(--text-dim)", textTransform: "uppercase" }}
-        >
-          Memorial
-        </span>
-        <h1
-          className="font-display"
-          style={{
-            fontSize: "clamp(40px, 8vw, 72px)",
-            fontWeight: 500,
-            letterSpacing: "-0.03em",
-            lineHeight: 1.05,
-            margin: "8px 0 6px",
-            color: "var(--text)",
-          }}
-        >
-          API Graveyard
-        </h1>
-        <p style={{ fontSize: 15, color: "var(--text-muted)", lineHeight: 1.6, maxWidth: 520, marginBottom: 32 }}>
-          A resting place for the APIs we built on, loved, and lost. May their endpoints rest in peace.
-        </p>
-      </motion.div>
+      <p className="label" style={{ marginBottom: 12 }}>Memorial</p>
+
+      <h1
+        style={{
+          fontSize: 20,
+          fontWeight: 500,
+          letterSpacing: "-0.01em",
+          lineHeight: 1.3,
+          margin: "0 0 4px",
+          color: "var(--text)",
+        }}
+      >
+        API Graveyard
+      </h1>
+      <p style={{ fontSize: 13.5, color: "var(--text-muted)", lineHeight: 1.6, maxWidth: 460, marginBottom: 28 }}>
+        A resting place for the APIs we built on, loved, and lost. May their endpoints rest in peace.
+      </p>
 
       {/* Stats */}
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
+      <div
         style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
-          gap: 1,
-          background: "var(--border)",
-          borderRadius: 12,
-          overflow: "hidden",
-          marginBottom: 36,
+          display: "flex",
+          flexWrap: "wrap",
+          gap: 0,
+          borderTop: "1px solid var(--border)",
+          borderBottom: "1px solid var(--border)",
+          marginBottom: 28,
         }}
       >
         {[
-          { label: "RIP", value: stats.total, suffix: "" },
-          { label: "Years of Service", value: stats.totalYears, suffix: "yrs" },
-          { label: "Last to Fall", value: stats.mostRecent.name, suffix: "" },
-          { label: "Oldest Veteran", value: `Est. ${stats.oldest.birth}`, suffix: "" },
-        ].map((s) => (
+          { label: "RIP", value: String(stats.total), suffix: "" },
+          { label: "Years of service", value: String(stats.totalYears), suffix: "yrs" },
+          { label: "Last to fall", value: stats.mostRecent.name, suffix: "" },
+          { label: "Oldest veteran", value: `Est. ${stats.oldest.birth}`, suffix: "" },
+        ].map((s, i) => (
           <div
             key={s.label}
             style={{
-              background: "var(--surface)",
-              padding: "18px 20px",
+              padding: "12px 16px 12px 0",
+              marginRight: 16,
+              borderLeft: i === 0 ? "none" : "1px solid var(--border)",
+              paddingLeft: i === 0 ? 0 : 16,
               display: "flex",
               flexDirection: "column",
-              gap: 2,
+              gap: 1,
             }}
           >
-            <span style={{ fontSize: 11, color: "var(--text-dim)", fontFamily: "'DM Mono', monospace", letterSpacing: "0.06em" }}>
+            <span className="font-mono" style={{ fontSize: 9.5, color: "var(--text-dim)", letterSpacing: "0.1em", textTransform: "uppercase" }}>
               {s.label}
             </span>
-            <span
-              className="font-display"
-              style={{ fontSize: 22, fontWeight: 500, color: "var(--text)", letterSpacing: "-0.02em", lineHeight: 1.2 }}
-            >
-              {s.value}{s.suffix}
+            <span style={{ fontSize: 13.5, fontWeight: 500, color: "var(--text)", letterSpacing: "-0.01em", lineHeight: 1.3 }}>
+              {s.value}{s.suffix && <span style={{ color: "var(--text-dim)", fontSize: 11, marginLeft: 3 }}>{s.suffix}</span>}
             </span>
           </div>
         ))}
-      </motion.div>
+      </div>
 
       {/* Filter + Search + Sort */}
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.15 }}
-        style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 12, alignItems: "center" }}
-      >
-        <span className="font-mono" style={{ fontSize: 11, color: "var(--text-dim)", letterSpacing: "0.06em", marginRight: 4 }}>
-          Category
-        </span>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 10, alignItems: "center" }}>
+        <span className="label" style={{ marginRight: 4, fontSize: 9.5 }}>Category</span>
         {["All", ...categories].map((c) => (
           <button
             key={c}
             onClick={() => setFilter(c)}
+            className="font-mono"
             style={{
-              fontSize: 12,
-              padding: "5px 12px",
-              borderRadius: 100,
-              border: "0.5px solid var(--border)",
+              fontSize: 10.5,
+              padding: "4px 9px",
+              borderRadius: 3,
+              border: "1px solid var(--border)",
               background: filter === c ? "var(--text)" : "transparent",
               color: filter === c ? "var(--bg)" : "var(--text-muted)",
               cursor: "pointer",
-              fontFamily: "'DM Mono', monospace",
-              transition: "all 0.2s",
+              transition: "all 0.15s",
             }}
           >
             {c}
           </button>
         ))}
-      </motion.div>
+      </div>
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.2 }}
-        style={{ display: "flex", gap: 10, marginBottom: 36, flexWrap: "wrap" }}
-      >
+      <div style={{ display: "flex", gap: 8, marginBottom: 32, flexWrap: "wrap" }}>
         <input
           placeholder="Search graves..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           style={{
             flex: 1,
-            minWidth: 200,
-            padding: "10px 14px",
-            borderRadius: 8,
-            border: "0.5px solid var(--border)",
-            background: "var(--surface)",
+            minWidth: 180,
+            padding: "8px 12px",
+            borderRadius: 3,
+            border: "1px solid var(--border)",
+            background: "transparent",
             color: "var(--text)",
-            fontSize: 14,
+            fontSize: 13,
             outline: "none",
+            fontFamily: "inherit",
           }}
         />
         <select
           value={sort}
           onChange={(e) => setSort(e.target.value)}
           style={{
-            padding: "10px 14px",
-            borderRadius: 8,
-            border: "0.5px solid var(--border)",
-            background: "var(--surface)",
-            color: "var(--text)",
-            fontSize: 13,
-            fontFamily: "'DM Mono', monospace",
+            padding: "8px 12px",
+            borderRadius: 3,
+            border: "1px solid var(--border)",
+            background: "var(--bg)",
+            color: "var(--text-muted)",
+            fontSize: 12,
+            fontFamily: "inherit",
             outline: "none",
             cursor: "pointer",
           }}
@@ -187,68 +155,52 @@ export default function Graveyard() {
           <option value="lifespan">Lifespan</option>
           <option value="name">Name</option>
         </select>
-      </motion.div>
+      </div>
 
       {/* Graveyard list */}
-      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-        {filtered.map((g, i) => {
+      <div style={{ borderTop: "1px solid var(--border)" }}>
+        {filtered.map((g) => {
           const deathDate = new Date(g.death);
-          const deathStr = deathDate.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
           const isExpanded = expanded === g.slug;
           return (
-            <motion.div
+            <div
               key={g.slug}
-              variants={tombstoneVariants(g.slug)}
-              initial="initial"
-              animate="animate"
-              transition={{ delay: 0.04 * i, duration: 0.4 }}
               onClick={() => setExpanded(isExpanded ? null : g.slug)}
               style={{
-                borderRadius: 12,
-                border: "0.5px solid var(--border)",
-                background: "var(--surface)",
-                padding: "18px 20px",
+                borderBottom: "1px solid var(--border)",
+                padding: "14px 0",
                 cursor: "pointer",
-                transition: "border-color 0.2s, box-shadow 0.2s",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "var(--text-dim)";
-                e.currentTarget.style.boxShadow = "0 2px 12px rgba(0,0,0,0.3)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "var(--border)";
-                e.currentTarget.style.boxShadow = "none";
               }}
             >
               <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 3 }}>
-                    <span className="font-display" style={{ fontSize: 18, fontWeight: 500, color: "var(--text)", letterSpacing: "-0.02em" }}>
+                  <div style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap", marginBottom: 2 }}>
+                    <span style={{ fontSize: 13.5, fontWeight: 500, color: "var(--text)" }}>
                       {g.name}
                     </span>
                     <span
+                      className="font-mono"
                       style={{
-                        fontSize: 10,
-                        padding: "2px 8px",
-                        borderRadius: 100,
-                        background: "var(--accent-soft)",
+                        fontSize: 9.5,
+                        padding: "1px 6px",
+                        borderRadius: 3,
+                        border: "1px solid var(--border)",
                         color: "var(--text-muted)",
-                        fontFamily: "'DM Mono', monospace",
                         letterSpacing: "0.04em",
                       }}
                     >
                       {g.category}
                     </span>
                   </div>
-                  <p style={{ fontSize: 13, color: "var(--text-dim)", margin: 0, fontStyle: "italic", lineHeight: 1.5 }}>
+                  <p style={{ fontSize: 12.5, color: "var(--text-muted)", margin: 0, fontStyle: "italic", lineHeight: 1.5 }}>
                     {g.epitaph}
                   </p>
                 </div>
                 <div style={{ textAlign: "right", flexShrink: 0 }}>
-                  <div className="font-mono" style={{ fontSize: 11, color: "var(--text-muted)", whiteSpace: "nowrap" }}>
+                  <div className="font-mono" style={{ fontSize: 10, color: "var(--text-dim)", whiteSpace: "nowrap" }}>
                     {g.birth} &mdash; {deathDate.getFullYear()}
                   </div>
-                  <div className="font-mono" style={{ fontSize: 12, color: "var(--text)", marginTop: 2 }}>
+                  <div className="font-mono" style={{ fontSize: 10.5, color: "var(--text)", marginTop: 2 }}>
                     {g.lifespan} yrs
                   </div>
                 </div>
@@ -260,29 +212,29 @@ export default function Graveyard() {
                   maxHeight: isExpanded ? 100 : 0,
                   opacity: isExpanded ? 1 : 0,
                   overflow: "hidden",
-                  transition: "all 0.3s ease",
+                  transition: "all 0.25s ease",
                 }}
               >
                 <p
                   style={{
-                    fontSize: 13,
+                    fontSize: 12.5,
                     color: "var(--text-muted)",
                     lineHeight: 1.6,
                     margin: "10px 0 0",
                     paddingTop: 10,
-                    borderTop: "0.5px solid var(--border)",
+                    borderTop: "1px solid var(--border)",
                   }}
                 >
                   {g.cause}
                 </p>
               </div>
-            </motion.div>
+            </div>
           );
         })}
       </div>
 
       {filtered.length === 0 && (
-        <p style={{ textAlign: "center", color: "var(--text-dim)", fontSize: 14, marginTop: 60 }}>
+        <p style={{ textAlign: "center", color: "var(--text-dim)", fontSize: 13, marginTop: 48 }}>
           No APIs found in this category. Try a different filter.
         </p>
       )}
@@ -291,9 +243,9 @@ export default function Graveyard() {
       <p
         style={{
           textAlign: "center",
-          fontSize: 12,
+          fontSize: 11.5,
           color: "var(--text-dim)",
-          marginTop: 60,
+          marginTop: 48,
           lineHeight: 1.6,
           fontStyle: "italic",
         }}
