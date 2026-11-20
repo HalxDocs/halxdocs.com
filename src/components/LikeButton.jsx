@@ -20,7 +20,8 @@ function getVisitorId() {
   }
 }
 
-export default function LikeButton({ slug }) {
+export default function LikeButton({ slug, variant = "full" }) {
+  const compact = variant === "compact";
   const [count, setCount] = useState(0);
   const [liked, setLiked] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -88,19 +89,24 @@ export default function LikeButton({ slug }) {
   }
 
   return (
-    <div className="like-block">
+    <div className={compact ? "like-compact" : "like-block"}>
       <button
         type="button"
-        className={`like-btn${liked ? " liked" : ""}`}
+        className={`like-btn${liked ? " liked" : ""}${compact ? " like-btn-compact" : ""}`}
         onClick={toggle}
         disabled={loading}
         aria-pressed={liked}
         aria-label={liked ? "Unlike this post" : "Like this post"}
       >
-        <Heart size={15} strokeWidth={1.75} fill={liked ? "currentColor" : "none"} aria-hidden="true" />
-        <span>{liked ? "Liked" : "Like"}</span>
+        <Heart
+          size={compact ? 14 : 15}
+          strokeWidth={1.75}
+          fill={liked ? "currentColor" : "none"}
+          aria-hidden="true"
+        />
+        {!compact && <span>{liked ? "Liked" : "Like"}</span>}
       </button>
-      <div className="like-count" aria-live="polite">
+      <div className={`like-count${compact ? " like-count-compact" : ""}`} aria-live="polite">
         {failed
           ? "Likes unavailable"
           : loading

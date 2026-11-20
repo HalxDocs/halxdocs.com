@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import LikeButton from "../components/LikeButton";
 
 const posts = [
   {
@@ -89,61 +90,56 @@ export default function Blog() {
         Thoughts on building products, tools, and systems — from real work, real bugs, real problems.
       </p>
 
-      <div style={{ borderTop: "1px solid var(--border)" }}>
+      <div className="blog-posts">
         {posts.map((post) => (
-          <Link
-            key={post.slug}
-            to={post.slug}
-            style={{
-              display: "block",
-              padding: "18px 0",
-              borderBottom: "1px solid var(--border)",
-              textDecoration: "none",
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 5 }}>
-              <span
-                className="font-mono"
+          <div className="post-row" key={post.slug}>
+            <Link to={post.slug} className="post-link">
+              <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 5 }}>
+                <span
+                  className="font-mono"
+                  style={{
+                    fontSize: 10,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.12em",
+                    color: "var(--text-dim)",
+                  }}
+                >
+                  {post.tag}
+                </span>
+                <span
+                  className="font-mono"
+                  style={{ fontSize: 10, color: "var(--text-dim)", opacity: 0.6 }}
+                >
+                  {post.date}
+                </span>
+              </div>
+
+              <h2
                 style={{
-                  fontSize: 10,
-                  textTransform: "uppercase",
-                  letterSpacing: "0.12em",
-                  color: "var(--text-dim)",
+                  fontSize: 14.5,
+                  fontWeight: 500,
+                  lineHeight: 1.4,
+                  color: "var(--text)",
+                  marginBottom: 4,
                 }}
               >
-                {post.tag}
-              </span>
-              <span
-                className="font-mono"
-                style={{ fontSize: 10, color: "var(--text-dim)", opacity: 0.6 }}
+                {post.title}
+              </h2>
+
+              <p
+                style={{
+                  fontSize: 12.5,
+                  lineHeight: 1.55,
+                  color: "var(--text-muted)",
+                  margin: 0,
+                }}
               >
-                {post.date}
-              </span>
-            </div>
+                {post.excerpt}
+              </p>
+            </Link>
 
-            <h2
-              style={{
-                fontSize: 14.5,
-                fontWeight: 500,
-                lineHeight: 1.4,
-                color: "var(--text)",
-                marginBottom: 4,
-              }}
-            >
-              {post.title}
-            </h2>
-
-            <p
-              style={{
-                fontSize: 12.5,
-                lineHeight: 1.55,
-                color: "var(--text-muted)",
-                margin: 0,
-              }}
-            >
-              {post.excerpt}
-            </p>
-          </Link>
+            <LikeButton slug={post.slug} variant="compact" />
+          </div>
         ))}
       </div>
     </section>

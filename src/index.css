@@ -307,3 +307,45 @@ button {
   letter-spacing: 0.02em;
   color: var(--text-muted);
 }
+
+/* Compact version used beside blog index rows */
+.like-compact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  align-self: flex-start;
+  padding-top: 2px;
+}
+
+.like-btn-compact {
+  padding: 6px;
+}
+
+.like-count-compact {
+  font-size: 10px;
+}
+
+.blog-posts {
+  border-top: 1px solid var(--border);
+}
+
+.post-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.post-link {
+  flex: 1;
+  min-width: 0;
+  text-decoration: none;
+}
+
+.post-link:hover h2 {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
