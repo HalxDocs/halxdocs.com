@@ -3,6 +3,7 @@ import { API_BASE } from "../lib/api";
 
 const GITHUB_REPOS = {
   reqit: "HalxDocs/reqit",
+  dlq: "HalxDocs/dlq_inspector",
 };
 
 async function fetchGitHubStats(repo) {
@@ -82,6 +83,7 @@ export default function LiveStats() {
     { value: "100+", meta: "active vendors", source: "Myshoplet" },
     { value: "—", meta: "app downloads", source: "reqit" },
     { value: "—", meta: "GitHub stars", source: "reqit" },
+    { value: "—", meta: "downloads", source: "DLQ Inspector" },
   ]);
 
   useEffect(() => {
@@ -110,12 +112,25 @@ export default function LiveStats() {
       });
     }
 
+    async function loadDLQ() {
+      const stats = await fetchGitHubStats(GITHUB_REPOS.dlq);
+      if (!mounted) return;
+      setItems(prev => {
+        const next = [...prev];
+        next[6] = { ...next[6], value: stats.downloads ? stats.downloads.toLocaleString() : "—" };
+        return next;
+      });
+    }
+
     load274();
     loadReqit();
+    loadDLQ();
 
+    // GitHub's unauthenticated API allows 60 requests/hour per IP.
+    // Two repos x two requests, refreshed every 5 minutes, stays well under it.
     const interval = setInterval(() => {
-      load274(); loadReqit();
-    }, 120000);
+      load274(); loadReqit(); loadDLQ();
+    }, 300000);
     return () => { mounted = false; clearInterval(interval); };
   }, []);
 
