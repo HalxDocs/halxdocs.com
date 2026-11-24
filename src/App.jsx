@@ -17,6 +17,7 @@ import AegisCaseStudy from "./pages/blog/AegisCaseStudy";
 import HttpRequestEngine from "./pages/blog/HttpRequestEngine";
 import OneEngineManyDoors from "./pages/blog/OneEngineManyDoors";
 import SignedRunReceipts from "./pages/blog/SignedRunReceipts";
+import DeadLetterQueues from "./pages/blog/DeadLetterQueues";
 import Graveyard from "./pages/Graveyard";
 import NotFound from "./pages/NotFound";
 
@@ -52,6 +53,7 @@ export default function App() {
         <Route path="/blog/http-request-engine-in-go" element={<HttpRequestEngine />} />
         <Route path="/blog/one-engine-many-doors" element={<OneEngineManyDoors />} />
         <Route path="/blog/signed-run-receipts" element={<SignedRunReceipts />} />
+        <Route path="/blog/dead-letter-queues-safe-recovery" element={<DeadLetterQueues />} />
         <Route path="/api-graveyard" element={<Graveyard />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

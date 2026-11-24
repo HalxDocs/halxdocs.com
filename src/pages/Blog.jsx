@@ -3,6 +3,14 @@ import LikeButton from "../components/LikeButton";
 
 const posts = [
   {
+    slug: "/blog/dead-letter-queues-safe-recovery",
+    title: "Dead-Letter Queues: Designing Safe Message Recovery in Distributed Systems",
+    date: "November 2026",
+    excerpt:
+      "Why failed messages need more than a DLQ: delivery guarantees, idempotency, validation, dry-runs, rate limits, circuit breakers, and auditable recovery in Go.",
+    tag: "Distributed Systems",
+  },
+  {
     slug: "/blog/signed-run-receipts",
     title: "Every API Request Now Leaves a Signed Receipt",
     date: "November 2026",
