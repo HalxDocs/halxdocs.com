@@ -82,6 +82,14 @@ function ProjectRow({ project, onNavigate }) {
         </span>
 
         <span style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          {project.caseStudy && (
+            <ProjectLink
+              href={`/work/${project.caseStudy}`}
+              label="Case study"
+              external={false}
+              onNavigate={onNavigate}
+            />
+          )}
           {project.live && (
             <ProjectLink
               href={project.live}
@@ -107,6 +115,20 @@ function ProjectRow({ project, onNavigate }) {
       >
         {project.description}
       </p>
+
+      {project.stack?.length > 0 && (
+        <p
+          className="font-mono"
+          style={{
+            margin: "6px 0 0",
+            fontSize: 9.5,
+            letterSpacing: "0.06em",
+            color: "var(--text-dim)",
+          }}
+        >
+          {project.stack.join(" · ")}
+        </p>
+      )}
     </div>
   );
 }

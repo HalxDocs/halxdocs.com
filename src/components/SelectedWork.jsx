@@ -86,6 +86,11 @@ export default function SelectedWork() {
 
             <span className="work-links">
               <ProjectLink project={item} />
+              {item.caseStudy && (
+                <Link to={`/work/${item.caseStudy}`} className="work-case-link">
+                  Case study
+                </Link>
+              )}
             </span>
           </div>
         ))}
@@ -132,101 +137,6 @@ export default function SelectedWork() {
       </button>
 
       <AllProjectsModal open={allProjectsOpen} onClose={closeAllProjects} />
-
-      <div
-        id="contact"
-        style={{
-          marginTop: 64,
-          paddingTop: 28,
-          borderTop: "1px solid var(--border)",
-        }}
-      >
-        <h2
-          style={{
-            fontSize: 13.5,
-            fontWeight: 600,
-            letterSpacing: "-0.01em",
-            marginBottom: 8,
-          }}
-        >
-          Get in touch
-        </h2>
-        <p
-          style={{
-            maxWidth: 460,
-            fontSize: 14,
-            lineHeight: 1.7,
-            color: "var(--text-muted)",
-            margin: "0 0 20px",
-          }}
-        >
-          Have a project in mind? I'm available for backend and full-stack work.
-        </p>
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            alignItems: "center",
-            gap: 20,
-          }}
-        >
-          <a
-            href="https://cal.com/halxdocs"
-            target="_blank"
-            rel="noreferrer"
-            className="cta-btn"
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "translate(2px, 2px)";
-              e.currentTarget.style.boxShadow = "1px 1px 0 var(--text)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "translate(0, 0)";
-              e.currentTarget.style.boxShadow = "3px 3px 0 var(--text)";
-            }}
-          >
-            Book a call
-          </a>
-
-          <a href="mailto:halxdocs@gmail.com" className="email-link">
-            Email me
-          </a>
-        </div>
-      </div>
-
-      <div className="support-row">
-        <div>
-          <h2
-            style={{
-              fontSize: 13.5,
-              fontWeight: 600,
-              letterSpacing: "-0.01em",
-              marginBottom: 4,
-            }}
-          >
-            Do you like what I do?
-          </h2>
-          <p
-            style={{
-              maxWidth: 420,
-              fontSize: 13,
-              lineHeight: 1.65,
-              color: "var(--text-muted)",
-              margin: 0,
-            }}
-          >
-            If my work has been useful to you, you can support me on Floss Africa.
-          </p>
-        </div>
-
-        <a
-          href="https://flossafrica.com/m/halxdocs"
-          target="_blank"
-          rel="noreferrer"
-          className="btn-secondary"
-        >
-          Sponsor me
-        </a>
-      </div>
     </section>
   );
 }

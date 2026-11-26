@@ -1,5 +1,5 @@
-// Single source of truth for the homepage list and the "All projects" popup.
-// `featured` items also render as rows in the SelectedWork section.
+// Single source of truth for the homepage list, the "All projects" popup,
+// and the /work index. `caseStudy` points at a long-form entry in caseStudies.js.
 export const projects = [
   {
     title: "reqit",
@@ -9,6 +9,8 @@ export const projects = [
     github: "https://github.com/HalxDocs/reqit",
     category: "tools",
     featured: true,
+    stack: ["Go", "Wails", "TypeScript", "SQLite"],
+    caseStudy: "reqit",
   },
   {
     title: "Aegis",
@@ -18,6 +20,8 @@ export const projects = [
     github: "https://github.com/HalxDocs/aegis",
     category: "tools",
     featured: true,
+    stack: ["Go", "TypeScript", "React", "JSONL"],
+    caseStudy: "aegis",
   },
   {
     title: "DLQ Inspector",
@@ -26,6 +30,8 @@ export const projects = [
     github: "https://github.com/HalxDocs/dlq_inspector",
     category: "tools",
     featured: true,
+    stack: ["Go", "Cobra", "SQLite", "SQS"],
+    caseStudy: "dlq-inspector",
   },
   {
     title: "Myshoplet",
@@ -34,14 +40,18 @@ export const projects = [
     live: "https://myshoplet.com",
     category: "products",
     featured: true,
+    stack: ["Next.js", "TypeScript", "Paystack", "Vercel"],
+    caseStudy: "myshoplet",
   },
   {
     title: "274Lab",
     description:
-      "Exam prep built around measurable practice, not endless question banks — timed quizzes, performance analytics, and leaderboards for thousands of students.",
+      "A 26-week JAMB practice platform — timed weekly quizzes, JAMB's +4/−1 scoring, per-subject analytics, consistency tiers, and a Go backend that owns the clock.",
     live: "https://274lab.com",
     category: "products",
     featured: true,
+    stack: ["React", "Vite", "Go", "PostgreSQL"],
+    caseStudy: "274lab",
   },
   {
     title: "jsonstack",
@@ -51,6 +61,7 @@ export const projects = [
     github: "https://github.com/HalxDocs/json-formatter",
     category: "tools",
     featured: true,
+    stack: ["React", "TypeScript", "Vite"],
   },
   {
     title: "Norah's Beauty Hub",
@@ -59,6 +70,7 @@ export const projects = [
     live: "https://norahsbeautyhub.pxxl.click",
     category: "products",
     featured: true,
+    stack: ["React", "Paystack", "Vercel"],
   },
   {
     title: "contextpack",
@@ -68,6 +80,7 @@ export const projects = [
     github: "https://github.com/HalxDocs/contextpack",
     category: "tools",
     featured: true,
+    stack: ["TypeScript", "Node.js", "npm"],
   },
   {
     title: "API Graveyard",
@@ -76,6 +89,7 @@ export const projects = [
     live: "/api-graveyard",
     category: "products",
     featured: true,
+    stack: ["React", "Vite", "TypeScript"],
   },
   {
     title: "lazydb",
@@ -84,6 +98,7 @@ export const projects = [
     github: "https://github.com/HalxDocs/lazydb",
     category: "tools",
     featured: true,
+    stack: ["Go", "bubbletea", "SQLite"],
   },
 
   // ── More open source ──
@@ -94,6 +109,7 @@ export const projects = [
     github: "https://github.com/HalxDocs/keyway",
     category: "tools",
     featured: true,
+    stack: ["Go", "SAML", "OIDC"],
   },
   {
     title: "dashdev",
@@ -102,6 +118,7 @@ export const projects = [
     github: "https://github.com/HalxDocs/dashdev",
     category: "tools",
     featured: true,
+    stack: ["Go", "YAML", "Docker"],
   },
   {
     title: "zryl",
@@ -110,6 +127,7 @@ export const projects = [
     live: "https://zryl.vercel.app",
     github: "https://github.com/HalxDocs/zryl",
     category: "tools",
+    stack: ["Go", "CLI", "Vercel"],
   },
   {
     title: "onceo-core",
@@ -117,6 +135,7 @@ export const projects = [
       "Webhook reconciliation for African payment providers — HMAC verification, exactly-once delivery, and idempotent stores for events that arrive twice.",
     github: "https://github.com/HalxDocs/onceo-core",
     category: "tools",
+    stack: ["Go", "HMAC", "PostgreSQL"],
   },
   {
     title: "TraceLite",
@@ -125,6 +144,7 @@ export const projects = [
     live: "https://tracelite.vercel.app",
     github: "https://github.com/HalxDocs/tracelite",
     category: "tools",
+    stack: ["Go", "OpenTelemetry", "React"],
   },
   {
     title: "ImpactGraph",
@@ -133,6 +153,7 @@ export const projects = [
     live: "https://impactgraph-kappa.vercel.app",
     github: "https://github.com/HalxDocs/impactgraph",
     category: "tools",
+    stack: ["TypeScript", "Graph analysis", "React"],
   },
   {
     title: "bachs-go",
@@ -141,6 +162,7 @@ export const projects = [
     github: "https://github.com/HalxDocs/bachs-go",
     category: "tools",
     featured: true,
+    stack: ["Go", "REST", "Webhooks"],
   },
 
   // ── Products & client work ──
@@ -150,6 +172,7 @@ export const projects = [
       "A voice-enabled school website — spoken page reading and voice navigation, plus academics, admissions, news, and contact.",
     live: "https://amc-2-one.vercel.app",
     category: "products",
+    stack: ["React", "Vite", "Web Speech API"],
   },
   {
     title: "MediCare Hospital",
@@ -157,6 +180,7 @@ export const projects = [
       "A multi-page hospital site with services, doctors, appointment booking, and contact — responsive and deployed.",
     live: "https://med-iota-neon.vercel.app",
     category: "products",
+    stack: ["React", "Vite", "CSS"],
   },
   {
     title: "PetGuard Pro",
@@ -165,6 +189,7 @@ export const projects = [
     live: "https://petcare-ochre.vercel.app",
     github: "https://github.com/HalxDocs/petcare",
     category: "products",
+    stack: ["React", "Vite", "Vercel"],
   },
   {
     title: "JambQuiz",
@@ -173,6 +198,7 @@ export const projects = [
     live: "https://jambquiz.pxxl.click",
     github: "https://github.com/HalxDocs/jambquiz",
     category: "products",
+    stack: ["React", "Go", "PostgreSQL", "Paystack"],
   },
   {
     title: "Symphony",
@@ -180,5 +206,6 @@ export const projects = [
       "A digital wedding invitation that opens like an envelope on a phone and collects RSVPs without a group thread.",
     live: "https://symphony-wedding.vercel.app",
     category: "products",
+    stack: ["React", "Vite", "Vercel"],
   },
 ];

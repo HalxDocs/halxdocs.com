@@ -60,6 +60,36 @@ const posts = [
   },
 ];
 
+const paths = [
+  {
+    title: "New to distributed systems",
+    note: "Start with the ideas, then the failure modes.",
+    posts: [
+      { label: "Learning Raft in Go", to: "/blog/learning-raft-in-go" },
+      { label: "Dead-letter queues", to: "/blog/dead-letter-queues-safe-recovery" },
+    ],
+  },
+  {
+    title: "Inside reqit",
+    note: "One engine, its boundaries, and the receipts it leaves.",
+    posts: [
+      { label: "Why I built reqit", to: "/blog/why-i-built-reqit" },
+      { label: "The HTTP engine", to: "/blog/http-request-engine-in-go" },
+      { label: "One engine, many doors", to: "/blog/one-engine-many-doors" },
+      { label: "Signed run receipts", to: "/blog/signed-run-receipts" },
+    ],
+  },
+  {
+    title: "Production judgment",
+    note: "What breaks, what it costs, and how to prove the fix.",
+    posts: [
+      { label: "Two implementations, one truth", to: "/blog/two-implementations-one-truth" },
+      { label: "Safe DLQ recovery", to: "/blog/dead-letter-queues-safe-recovery" },
+      { label: "Verifiable run receipts", to: "/blog/signed-run-receipts" },
+    ],
+  },
+];
+
 export default function Blog() {
   return (
     <section
@@ -92,11 +122,47 @@ export default function Blog() {
           lineHeight: 1.6,
           color: "var(--text-muted)",
           maxWidth: 480,
-          marginBottom: 36,
+          marginBottom: 32,
         }}
       >
         Thoughts on building products, tools, and systems — from real work, real bugs, real problems.
       </p>
+
+      <div className="reading-paths">
+        <div className="reading-paths-head">
+          <p className="label">Reading paths</p>
+          <Link to="/work" className="reading-work-link">
+            Case studies
+            <span aria-hidden="true">→</span>
+          </Link>
+        </div>
+
+        {paths.map((path, index) => (
+          <div key={path.title} className="reading-path">
+            <span className="reading-path-num font-mono">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <div className="reading-path-body">
+              <div className="reading-path-title-line">
+                <h2>{path.title}</h2>
+                <span className="reading-path-note">{path.note}</span>
+              </div>
+              <div className="reading-path-links">
+                {path.posts.map((post) => (
+                  <Link key={post.to + post.label} to={post.to}>
+                    {post.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="blog-list-head">
+        <p className="label">All writing</p>
+        <span className="font-mono">{posts.length} posts</span>
+      </div>
 
       <div className="blog-posts">
         {posts.map((post) => (
@@ -149,6 +215,37 @@ export default function Blog() {
             <LikeButton slug={post.slug} variant="compact" />
           </div>
         ))}
+      </div>
+
+      <div className="work-cta">
+        <div>
+          <h2>Open to backend, platform, and consulting work.</h2>
+          <p>
+            If you want the longer version of any of these systems — or need one built
+            properly — I&apos;m reachable.
+          </p>
+        </div>
+        <div className="work-cta-actions">
+          <a
+            href="https://cal.com/halxdocs"
+            target="_blank"
+            rel="noreferrer"
+            className="cta-btn"
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translate(2px, 2px)";
+              e.currentTarget.style.boxShadow = "1px 1px 0 var(--text)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translate(0, 0)";
+              e.currentTarget.style.boxShadow = "3px 3px 0 var(--text)";
+            }}
+          >
+            Book a call
+          </a>
+          <a href="mailto:halxdocs@gmail.com" className="email-link">
+            Email me
+          </a>
+        </div>
       </div>
     </section>
   );

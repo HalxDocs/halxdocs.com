@@ -3,6 +3,7 @@ import { Sun, Moon } from "lucide-react";
 
 const navLinks = [
   { to: "/", label: "Home" },
+  { to: "/work", label: "Work" },
   { to: "/blog", label: "Blog" },
   { to: "/api-graveyard", label: "Graveyard" },
   { to: "/guestbook", label: "Guestbook" },
@@ -23,13 +24,14 @@ export default function Navbar({ dark, onToggleDark }) {
         gap: 18,
       }}
     >
-      <nav style={{ display: "flex", gap: 18 }}>
+      <nav className="nav-links" style={{ display: "flex", gap: 18 }}>
         {navLinks.map((l) => {
           const active = pathname === l.to || (l.to !== "/" && pathname.startsWith(l.to));
           return (
             <Link
               key={l.to}
               to={l.to}
+              className="nav-link"
               style={{
                 fontSize: 13,
                 color: active ? "var(--text)" : "var(--text-muted)",

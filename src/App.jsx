@@ -6,9 +6,13 @@ import ScrollToTop from "./components/ScrollToTop";
 import Hero from "./components/Hero";
 import AboutMe from "./components/AboutMe";
 import LiveStats from "./components/LiveStats";
+import Currently from "./components/Currently";
 import SelectedWork from "./components/SelectedWork";
+import Opportunities from "./components/Opportunities";
 import Footer from "./components/Footer";
 
+import Work from "./pages/Work";
+import CaseStudy from "./pages/CaseStudy";
 import Blog from "./pages/Blog";
 import Guestbook from "./pages/Guestbook";
 import RaftPost from "./pages/blog/RaftPost";
@@ -27,7 +31,9 @@ function Home() {
       <Hero />
       <AboutMe />
       <LiveStats />
+      <Currently />
       <SelectedWork />
+      <Opportunities />
     </>
   );
 }
@@ -45,6 +51,8 @@ export default function App() {
       <Navbar dark={dark} onToggleDark={() => setDark((p) => !p)} />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/work" element={<Work />} />
+        <Route path="/work/:slug" element={<CaseStudy />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/guestbook" element={<Guestbook />} />
         <Route path="/blog/learning-raft-in-go" element={<RaftPost />} />

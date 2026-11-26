@@ -162,6 +162,13 @@ export default function Hero() {
           Book a call
         </a>
       </div>
+
+      <a href="#contact" className="hero-status">
+        <span className="hero-status-dot" aria-hidden="true" />
+        <span>
+          Open to backend, platform, and consulting work
+        </span>
+      </a>
     </section>
   );
 }
