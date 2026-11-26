@@ -24,8 +24,8 @@ const lanes = [
     items: [
       {
         name: "HALX-9",
-        note: "Early research for a space-tech startup I'm starting. Most of the work is figuring out what has to be true before there's any hardware.",
-        status: "Pre-launch",
+        note: "Early work on HALX-9, mostly figuring out what has to be understood before any of it becomes hardware.",
+        status: "Early research",
       },
       {
         name: "CubeSats & subsystems",
@@ -117,8 +117,7 @@ export default function Currently() {
       </div>
 
       <p className="now-foot">
-        HALX-9 is still early and the startup is launching soon. I&apos;ll keep updating
-        this as things ship or get dropped.
+        I&apos;ll keep updating this as things ship or get dropped.
       </p>
     </section>
   );

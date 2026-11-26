@@ -79,10 +79,9 @@ export default function AboutMe() {
           Most of my time goes to distributed systems — consensus, replication, and the
           failure modes you only meet under real traffic. I&apos;m also doing the early
           research for{" "}
-          <strong style={{ color: "var(--text)", fontWeight: 600 }}>HALX-9</strong>, a
-          space-tech startup I&apos;m starting: CubeSats, spacecraft subsystems, flight
-          software, simulation, and mission verification. There&apos;s a lot to learn before
-          any of that becomes hardware. The startup is launching soon.
+          <strong style={{ color: "var(--text)", fontWeight: 600 }}>HALX-9</strong>: CubeSats,
+          spacecraft subsystems, flight software, simulation, and mission verification.
+          There&apos;s a lot to learn before any of that becomes hardware.
         </p>
         <p style={{ margin: 0 }}>
           If any of that is useful to you, I&apos;m open to work. Otherwise the{" "}
