@@ -76,9 +76,13 @@ export default function AboutMe() {
           <HoverLink href="https://github.com/HalxDocs">GitHub</HoverLink>.
         </p>
         <p style={{ margin: 0 }}>
-          Lately I&apos;ve been spending most of my time on Postgres internals, Raft, and
-          platform work. Not for a new job title — those are just the things that keep
-          embarrassing me in production, so I&apos;d rather understand them properly.
+          Most of my time goes to distributed systems — consensus, replication, and the
+          failure modes you only meet under real traffic. I&apos;m also doing the early
+          research for{" "}
+          <strong style={{ color: "var(--text)", fontWeight: 600 }}>HALX-9</strong>, a
+          space-tech startup I&apos;m starting: CubeSats, spacecraft subsystems, flight
+          software, simulation, and mission verification. There&apos;s a lot to learn before
+          any of that becomes hardware. The startup is launching soon.
         </p>
         <p style={{ margin: 0 }}>
           If any of that is useful to you, I&apos;m open to work. Otherwise the{" "}

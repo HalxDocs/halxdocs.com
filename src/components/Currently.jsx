@@ -23,18 +23,23 @@ const lanes = [
     label: "Researching",
     items: [
       {
-        name: "Raft membership changes",
-        note: "What happens when the cluster config changes while the cluster is already unhappy.",
+        name: "HALX-9",
+        note: "Early research for a space-tech startup I'm starting. Most of the work is figuring out what has to be true before there's any hardware.",
+        status: "Pre-launch",
+      },
+      {
+        name: "CubeSats & subsystems",
+        note: "How a small satellite actually stays up: power, thermal, comms, attitude control, and the trade-offs between them.",
         status: "Reading",
       },
       {
-        name: "Idempotency key design",
-        note: "Keys that survive retries, replays, and someone hitting the button twice.",
+        name: "Flight software",
+        note: "What runs on the vehicle, how it fails, and how you test it when you can't just restart it.",
         status: "Notes",
       },
       {
-        name: "Backpressure",
-        note: "Why a fast producer is a design problem, not a queue setting.",
+        name: "Simulation & mission verification",
+        note: "Verifying a mission before launch — the models, the failure cases, and the parts you can only approximate on the ground.",
         status: "Notes",
       },
     ],
@@ -42,6 +47,11 @@ const lanes = [
   {
     label: "Learning",
     items: [
+      {
+        name: "Distributed systems",
+        note: "Consensus, replication, and the failure modes you only meet under real traffic. Still where most of my time goes.",
+        status: "Ongoing",
+      },
       {
         name: "Postgres internals",
         note: "MVCC, vacuum, and the query plans I used to guess about.",
@@ -107,7 +117,8 @@ export default function Currently() {
       </div>
 
       <p className="now-foot">
-        I&apos;ll keep this honest as things ship or get dropped.
+        HALX-9 is still early and the startup is launching soon. I&apos;ll keep updating
+        this as things ship or get dropped.
       </p>
     </section>
   );
