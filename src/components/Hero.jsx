@@ -166,7 +166,7 @@ export default function Hero() {
       <a href="#contact" className="hero-status">
         <span className="hero-status-dot" aria-hidden="true" />
         <span>
-          Open to backend, platform, and consulting work
+          Open to backend, platform, software, training, consulting, and collaborations
         </span>
       </a>
     </section>

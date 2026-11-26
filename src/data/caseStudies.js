@@ -1,20 +1,19 @@
 // Long-form engineering case studies. Each entry drives /work and /work/:slug.
-// The goal is evidence, not marketing: problem, constraints, architecture,
-// decisions with trade-offs, what broke, and what shipped.
+// Kept deliberately plain: what was wrong, what I chose, what broke.
 
 export const caseStudies = [
   {
     slug: "reqit",
     name: "reqit",
-    kicker: "One request engine, six surfaces",
+    kicker: "One request engine, six front doors",
     category: "Developer tools",
     year: "2025 — ongoing",
     status: "Shipping · v2.6",
     live: "https://reqit.dev",
     github: "https://github.com/HalxDocs/reqit",
     summary:
-      "A local-first API client that treats a request as a first-class artifact: one Go engine, many surfaces, Git-native collections, and a signed receipt for every run.",
-    role: "Solo engineer — product, engine, desktop, CLI, releases",
+      "An API client that doesn't ask you to sign in. Collections live in Git, requests run through a Go engine, and every phase of a request gets timed.",
+    role: "Solo engineer. Product, engine, desktop, CLI, releases.",
     duration: "Ongoing",
     stack: ["Go", "Wails", "TypeScript", "SQLite", "Git"],
     metrics: [
@@ -23,18 +22,18 @@ export const caseStudies = [
       { value: "2.6", label: "current release" },
     ],
     problem: [
-      "API clients slowly turned into accounts. Collections moved into someone else's cloud, collaboration sat behind a paywall, and the simple act of sending a request started depending on a login, a sync daemon, and a network round trip to a vendor.",
-      "I wanted the opposite: collections I could read, diff, review, and branch with Git; a request engine I could call from a desktop app, a CLI, CI, and an agent; and timing data precise enough to tell me which phase of a request was actually slow.",
+      "I built reqit because I got tired of opening an API client and being asked to sign in before I could send a GET request. Somewhere along the way, collections became someone else's cloud data. Your work sat in their format, synced when their service felt like it, and collaboration was a paid feature.",
+      "I wanted files. Plain files I could put in a Git repo, review in a pull request, and still read if the app disappeared. I also wanted one engine I could call from the desktop app, the terminal, CI, or an agent, because I was not going to maintain six versions of \"send a request\".",
     ],
     constraints: [
-      "One execution engine shared by a desktop app, CLI, CI runner, scheduler, load tester, and MCP server.",
-      "Offline by default — no network traffic unless a request is explicitly run.",
-      "Single cross-platform binaries with no runtime to install.",
-      "Secrets must never appear in logs, exports, or run receipts.",
+      "Six surfaces, one engine: desktop app, CLI, CI runner, scheduler, load tester, MCP server. No surface gets its own retry logic.",
+      "No network calls unless I actually hit Send. No telemetry, no background sync, no sign-in wall.",
+      "One binary per platform. If it needs a runtime installed first, it isn't the tool I want.",
+      "Secrets cannot end up in exports, logs, or receipts.",
     ],
     architecture: {
       caption:
-        "Every surface is an adapter. Execution, storage, and verification live in the core.",
+        "The surfaces are thin. Most of the work happens in the engine and in the files.",
       layers: [
         {
           label: "Surfaces",
@@ -54,76 +53,76 @@ export const caseStudies = [
         },
       ],
       note:
-        "The desktop app is a view over the engine, not a second implementation. If the CLI and the app disagree, the engine is wrong.",
+        "The desktop app is a view over the engine. When the CLI and the app disagree, I treat it as an engine bug, not a UI bug.",
     },
     decisions: [
       {
-        title: "One engine, many doors",
+        title: "One engine, six front doors",
         body:
-          "Execution lives in a single Go package. The desktop app, CLI, runner, scheduler, load tester, and MCP server are thin adapters over the same request lifecycle. A new surface cannot invent its own retry policy or timeout semantics.",
+          "Every surface calls the same Go package. The desktop app doesn't have a secret second implementation of redirects or auth. Adding the load tester took an adapter, not a rewrite.",
         tradeoff:
-          "No surface-specific shortcuts. Every feature has to make sense at the engine boundary, and the public interface has to stay stable.",
+          "The engine API has to stay boring and stable. I can't sneak a desktop-only feature into the core without making it work for the CLI too.",
       },
       {
-        title: "Git is the database",
+        title: "A collection is just a folder",
         body:
-          "Collections and environments are plain files with a deliberate layout. That means branches, diffs, code review, and a real history for free — and a collection is still readable when the app is gone.",
+          "Collections are files with a layout I can explain in one screen. Git handles history, branching, and review. I don't need a sync server to tell me what changed.",
         tradeoff:
-          "There is no server to perform magic merges. Conflict handling becomes a schema and migration problem instead of a sync-button problem.",
+          "Merging two edited collections is still a pain. Git gives me a conflict, not a friendly merge dialog, and I haven't really solved that.",
       },
       {
-        title: "Measure phases, not totals",
+        title: "Time the phases, not the request",
         body:
-          "The engine records DNS, connect, TLS, first byte, and body timings with httptrace. A number like '1.4s' is not useful; 'TLS took 900ms' is.",
+          "I use httptrace to record DNS, connect, TLS, first byte, and body. \"1.4 seconds\" never told me anything useful. \"TLS took 900ms\" tells me where to look.",
         tradeoff:
-          "More instrumentation, more platform differences to normalize, and a timing model that has to stay honest under redirects and connection reuse.",
+          "More code, and some of the numbers look odd on reused connections. I'd rather show a slightly messy truth than a clean lie.",
       },
       {
-        title: "Receipts instead of logs",
+        title: "A receipt for every run",
         body:
-          "A run writes a redacted, hash-chained, signed receipt: what was sent, what came back, and what the engine observed. Receipts can be verified without trusting the machine that produced them.",
+          "Every execution writes a redacted, hash-chained, signed receipt. I added it because \"it worked on my machine\" is not a debugging strategy. The receipt records what was sent, what came back, and what the engine saw.",
         tradeoff:
-          "Canonical serialization, key handling, and redaction all become correctness concerns. The guarantee also stops at the signature — it proves the record was not altered, not that the server told the truth.",
+          "Canonical serialization is fiddly. Redaction has to happen before hashing or the chain breaks. And a signature only proves the record wasn't changed. It doesn't prove the server told the truth. I try to say that clearly.",
       },
       {
-        title: "Make the network boundary explicit",
+        title: "Make the network boundary visible",
         body:
-          "Nothing leaves the machine unless a request runs. Sync, telemetry, and updates are opt-in and visible. Local-first is a behavior, not a marketing line.",
+          "Nothing leaves the machine unless I run a request. Updates and sync are opt-in. Local-first is behavior, not a slogan.",
         tradeoff:
-          "No silent collaboration features. Sharing is an explicit export or a Git remote, which is less convenient and much easier to reason about.",
+          "No magic collaboration. Sharing means an export or a Git remote. Less convenient, easier to reason about.",
       },
     ],
     challenges: [
       {
-        title: "Streaming, timing, and cancellation at once",
+        title: "Streaming, timing, and cancel at the same time",
         problem:
-          "A response body can stream while phase timings are still being recorded, and the user can cancel halfway through. Naive code leaks connections or reports timings for a request that never finished.",
+          "A response can stream while timings are still being written, and the user can cancel halfway. My first version leaked connections and occasionally reported timings for a request that never finished.",
         solution:
-          "One request lifecycle with typed events. Cancellation closes the transport and marks the receipt incomplete instead of pretending the run succeeded. Streaming and timing share the same context.",
+          "I moved to one lifecycle with typed events. Cancel closes the transport and marks the receipt incomplete. A half-finished run should look half-finished.",
       },
       {
-        title: "Redaction that survives verification",
+        title: "Redaction versus verification",
         problem:
-          "Receipts need to hide tokens and passwords, but verification needs stable bytes. Redacting after hashing breaks the chain; redacting badly leaks secrets.",
+          "I need to hide tokens and passwords, but verification needs stable bytes. Redact after hashing and the chain breaks. Redact badly and the receipt leaks the secret it was supposed to protect.",
         solution:
-          "Redact before canonicalization, hash the redacted representation, and keep the redaction rules explicit and testable. Receipts carry a marker showing that redaction happened.",
+          "Redact first, then canonicalize and hash. The rules are explicit and tested, and each receipt records that redaction happened.",
       },
       {
-        title: "Surface parity",
+        title: "The app and the CLI drifting apart",
         problem:
-          "The desktop app and CLI could quietly drift: different redirect behavior, different auth handling, different timeouts. Users would blame the tool, not the adapter.",
+          "They started disagreeing about redirects and timeouts. Users don't care which adapter is wrong.",
         solution:
-          "The CLI is the reference surface for engine behavior. Shared fixtures run through every adapter, and parity bugs are treated as engine bugs.",
+          "The CLI is the reference. Shared fixtures run through every surface. If they disagree, I fix the engine.",
       },
     ],
     outcome: [
-      "reqit is now my daily driver and a real shipped product: 880+ downloads, a 2.6 release with signed receipts, and an MCP surface that lets agents use the same engine as a human.",
-      "The architecture has held: adding the load tester and scheduler did not require a second request implementation. That is the part I am proudest of.",
+      "reqit is what I use every day. It has 880+ downloads and a 2.6 release with signed receipts and an MCP server. Adding the scheduler and load tester didn't require a second request engine, which was the whole bet.",
+      "Not everything is finished. The sync story is still a design sketch, and I'm not sure it can stay local-first without becoming the thing I disliked. That's the next hard question.",
     ],
     next: [
-      "Sync that preserves local-first semantics instead of quietly becoming a hosted service.",
-      "Diffable run comparison: what changed between two receipts, not just pass/fail.",
-      "A plugin boundary that is narrow enough to keep the engine trustworthy.",
+      "Work out whether sync can exist without turning reqit into an account.",
+      "Compare two receipts properly: what changed, not just pass or fail.",
+      "Find a plugin boundary narrow enough that I can still trust the engine.",
     ],
     related: [
       { label: "One Engine, Many Doors", to: "/blog/one-engine-many-doors" },
@@ -140,8 +139,8 @@ export const caseStudies = [
     live: null,
     github: "https://github.com/HalxDocs/dlq_inspector",
     summary:
-      "A local-first CLI that turns a dead-letter queue from a graveyard into an inspectable, classifiable, dry-runnable, auditable recovery queue.",
-    role: "Solo engineer — CLI, adapters, recovery model, releases",
+      "A local CLI for dead-letter queues. Inspect what failed, group it, dry-run the replay, and recover without adding a second outage.",
+    role: "Solo engineer. CLI, adapters, recovery model, releases.",
     duration: "2026",
     stack: ["Go", "Cobra", "SQLite", "SQS", "RabbitMQ"],
     metrics: [
@@ -150,18 +149,17 @@ export const caseStudies = [
       { value: "0", label: "messages lost by design" },
     ],
     problem: [
-      "Every team has a dead-letter queue and almost no team has a recovery process. Messages pile up until someone opens a dashboard, skims a few payloads, and replays the whole batch. That is how duplicates, partial failures, and second outages happen.",
-      "A DLQ is not the problem. The problem is that replay is treated as a button instead of a controlled operation with classification, validation, rate limits, and an audit trail.",
+      "Every team I've worked with has a dead-letter queue. Almost none of them has a recovery process. Messages pile up, someone opens a dashboard, skims two payloads, and replays the batch. Then the duplicates show up.",
+      "The queue isn't really the problem. Replay is. It's an operation with side effects, and most tools treat it like a button.",
     ],
     constraints: [
-      "Broker-agnostic: the operator should not need a different mental model for SQS, RabbitMQ, or Kafka.",
-      "Credentials stay local. No message payloads leave the machine by default.",
-      "At-least-once delivery is the reality; the tool must make duplicates visible instead of pretending they cannot happen.",
-      "A bad message must never crash the inspector or stop the rest of the batch.",
+      "SQS, RabbitMQ, Kafka. Operators shouldn't have to relearn recovery for each broker.",
+      "Credentials and payloads stay on the machine. This is a local CLI, not another dashboard asking for production access.",
+      "At-least-once is real. The tool should make duplicates visible instead of pretending they won't happen.",
+      "One bad message can't take down the run.",
     ],
     architecture: {
-      caption:
-        "Inspect, classify, plan, replay, record. Execution is the last step, never the first.",
+      caption: "Look first. Replay last.",
       layers: [
         {
           label: "Sources",
@@ -181,76 +179,75 @@ export const caseStudies = [
         },
       ],
       note:
-        "The dry-run planner and the real replay share the same plan object. A preview that does not match execution is worse than no preview.",
+        "The dry-run and the real replay use the same plan. A preview that lies is worse than no preview.",
     },
     decisions: [
       {
-        title: "Classify before replay",
+        title: "Sort the pile before touching it",
         body:
-          "Every message gets a class: transient, poison, schema-invalid, duplicate, or unknown. The operator sees the distribution before touching a single message, and 'unknown' is a valid answer instead of a guess.",
+          "Each message gets a class: transient, poison, schema-invalid, duplicate, or unknown. I'd rather see the shape of the queue before I move anything. Unknown is allowed. Guessing is not.",
         tradeoff:
-          "Classification can be wrong. The tool has to show evidence and let a human override, not pretend the classifier is an oracle.",
+          "The classifier is sometimes wrong. The tool shows the evidence and lets me override it. I don't want it pretending to be certain.",
       },
       {
-        title: "Publish before acknowledge",
+        title: "Publish, then delete",
         body:
-          "Recovery writes to the destination first, then removes from the DLQ. A crash in between produces a duplicate, not a lost message. Duplicates are recoverable; losses are not.",
+          "Replay writes to the destination first and removes from the DLQ second. If the process dies in between, I get a duplicate. A duplicate is annoying. A lost message is gone.",
         tradeoff:
-          "Consumers must be idempotent. The tool generates idempotency keys, but it cannot force a downstream service to honor them.",
+          "Consumers have to be idempotent. I can generate keys, but I can't make another service honor them.",
       },
       {
-        title: "Dry-run is a first-class mode",
+        title: "Dry-run is the default",
         body:
-          "The default path produces a plan: counts by class, destination, sample payloads, estimated duration, and the exact operations that would run. Execution requires an explicit confirmation.",
+          "The first run produces a plan: counts by class, destination, sample payloads, estimated time, and the operations that would happen. Replay needs a separate confirmation.",
         tradeoff:
-          "Two paths to maintain. Keeping them honest means the planner and executor must share code, not just documentation.",
+          "Two paths, and they have to share code. If the planner and executor drift, the preview becomes theater.",
       },
       {
-        title: "Idempotency from message identity",
+        title: "Keys from message identity",
         body:
-          "Each replay derives a key from the message's identity plus the batch. That gives downstream consumers something stable to deduplicate on, even when the broker redelivers.",
+          "Each replay gets a key derived from the message and the batch. It gives downstream something stable to dedupe on when the broker redelivers.",
         tradeoff:
-          "Some consumers ignore keys entirely. The audit output makes that visible instead of hiding it.",
+          "Plenty of consumers ignore idempotency keys. The audit output shows that instead of hiding it.",
       },
       {
-        title: "Audit every operation",
+        title: "Write down what happened",
         body:
-          "Every inspect, classify, replay, skip, and failure is appended to a local audit log with before/after state, operator, timestamp, and batch. Recovery becomes reviewable after the fact.",
+          "Inspect, classify, replay, skip, fail. All of it goes into a local audit log with before and after state, operator, time, and batch. Six weeks later I want to know who replayed what.",
         tradeoff:
-          "Storage and redaction become part of the product. Audit logs without a redaction story are a liability.",
+          "Audit logs need redaction and storage. An audit log that leaks secrets is just another incident.",
       },
     ],
     challenges: [
       {
-        title: "The poison message that kills the tool",
+        title: "The message that kills the inspector",
         problem:
-          "A single malformed payload could panic a decoder or allocate far too much memory, taking down the inspector in the middle of a batch.",
+          "A malformed payload panicked a decoder and took down the whole batch. One bad message shouldn't end the run.",
         solution:
-          "Per-message panic recovery, size limits before decode, and a sandboxed classification step. A bad message becomes a row with an error, not a crashed process.",
+          "Per-message panic recovery, size limits before decode, and a sandboxed classification step. Bad payloads become rows with errors.",
       },
       {
-        title: "Partial failure across two brokers",
+        title: "Half the batch succeeded",
         problem:
-          "Publishing to the destination can succeed while deleting from the source fails. Retrying the whole batch creates a second wave of duplicates.",
+          "Publishing to the destination can work while deleting from the source fails. Retrying the whole batch makes a second wave of duplicates.",
         solution:
-          "Per-message state machine with resume. The tool records what completed, retries only the uncertain step, and surfaces messages that need manual reconciliation.",
+          "Per-message state and resume. The tool retries the uncertain step and flags anything that needs a human.",
       },
       {
-        title: "Rate limits and backpressure",
+        title: "Replay storms",
         problem:
-          "Replaying thousands of messages at full speed is a self-inflicted incident. Brokers throttle, consumers fall over, and the original failure repeats.",
+          "Thousands of messages at full speed is a self-inflicted outage. The broker throttles, the consumer falls over, and I've recreated the original failure.",
         solution:
-          "Token-bucket rate limiting, bounded concurrency, and a circuit breaker that pauses the batch when the destination starts failing. Slow recovery is still recovery.",
+          "Token bucket, bounded concurrency, circuit breaker. Slow recovery is still recovery.",
       },
     ],
     outcome: [
-      "DLQ Inspector is at v1.1 with 112 downloads and a recovery model I trust: classify, preview, replay with idempotency, and leave a trail.",
-      "The deeper result is the article it produced. Writing the recovery pipeline down exposed the places where 'just replay it' was hiding all the risk.",
+      "v1.1, 112 downloads, and a recovery flow I trust. The bigger win was writing the article. Putting the pipeline on paper exposed how much risk was hiding inside \"just replay it\".",
     ],
     next: [
-      "More broker adapters without leaking broker-specific behavior into the core.",
-      "Schema-aware replay simulation before execution.",
-      "Team-exportable audit reports for change review.",
+      "Add brokers without letting broker-specific weirdness leak into the core.",
+      "Simulate replay against the schema before executing.",
+      "Export audit reports a team can actually review.",
     ],
     related: [
       {
@@ -269,8 +266,8 @@ export const caseStudies = [
     live: "https://aegis-labx.vercel.app/",
     github: "https://github.com/HalxDocs/aegis",
     summary:
-      "A deterministic failure lab: a Go simulator, a TypeScript port, and a drift guard that proves both describe the same world.",
-    role: "Solo engineer — simulator, port, drift guard, browser lab",
+      "A deterministic failure simulator in Go, a TypeScript port, and a drift guard that checks both still describe the same world.",
+    role: "Solo engineer. Simulator, port, drift guard, browser lab.",
     duration: "2026",
     stack: ["Go", "TypeScript", "React", "JSONL"],
     metrics: [
@@ -279,18 +276,18 @@ export const caseStudies = [
       { value: "0", label: "wall-clock reads" },
     ],
     problem: [
-      "Distributed-systems intuition is usually built from anecdotes. A real cluster is slow, noisy, and hard to reproduce, so the interesting failure happens once and becomes a story instead of a test.",
-      "A simulator can fix that — but only if it is deterministic. And if a browser explainer reimplements the simulator, the explainer can quietly start describing a different system than the engine.",
+      "Distributed systems are hard to learn from a real cluster. The interesting failure happens once, at 2am, and turns into a story. You can't rewind it.",
+      "A simulator helps, but only if it's deterministic. And if the browser explainer is a separate implementation, it can quietly start describing a different system.",
     ],
     constraints: [
-      "The same scenario and seed must produce byte-identical output.",
-      "Virtual time only — no wall clock anywhere in the engine.",
-      "The Go engine and the TypeScript port must stay semantically aligned.",
-      "The browser lab has to explain causes, not just draw a timeline.",
+      "Same scenario and seed, same bytes. Every time.",
+      "Virtual time. No wall clock in the engine.",
+      "Two implementations that must agree, in two languages.",
+      "The browser lab has to explain causes, not just draw boxes.",
     ],
     architecture: {
       caption:
-        "One scenario definition, two implementations, one normalized trace the guard can compare.",
+        "One scenario, two engines, one trace format. The guard is what makes two implementations safe.",
       layers: [
         {
           label: "Input",
@@ -314,69 +311,69 @@ export const caseStudies = [
         },
       ],
       note:
-        "The two implementations share a format, not code. That is what makes the drift guard meaningful — and what makes it possible for them to drift at all.",
+        "The Go engine and the TypeScript port share a format, not code. That's what makes the guard meaningful, and also what makes drift possible.",
     },
     decisions: [
       {
-        title: "Determinism is the product",
+        title: "Determinism first",
         body:
-          "Virtual time, a seeded scheduler, stable event ordering, and sequence numbers assigned by the recorder. Two runs of the same scenario must produce the same bytes, or the simulator is not a lab.",
+          "Virtual time, a seeded scheduler, stable ordering, and sequence numbers from the recorder. If two runs differ, the simulator is broken.",
         tradeoff:
-          "Every scenario has to be explicit. There is no 'just sleep 200ms' and no ambient concurrency to lean on.",
+          "Every scenario is explicit. No ambient concurrency, no sleeps. More work to write a scenario, less work to trust it.",
       },
       {
         title: "JSONL is the contract",
         body:
-          "The Go engine and the TypeScript port both emit line-delimited events with the same schema. The port stays idiomatic instead of being a transliteration, and the guard compares meaning at the event boundary.",
+          "Both implementations emit line-delimited events with the same schema. The port stays idiomatic instead of being a line-by-line translation.",
         tradeoff:
-          "Schema versioning and normalization become real work. A loose contract lets drift hide in fields nobody checks.",
+          "Schemas drift. Normalization becomes real code. A loose contract lets a difference hide in a field nobody checks.",
       },
       {
-        title: "A drift guard in CI",
+        title: "Put the guard in CI",
         body:
-          "The guard replays a scenario through both implementations, normalizes the traces, and fails the build on a semantic mismatch. It is the only reason two implementations are safer than one.",
+          "Replay a scenario through both engines, normalize the traces, fail the build on a semantic mismatch. Without it, two implementations are twice the risk.",
         tradeoff:
-          "Normalization can hide a real difference. The guard itself needs tests, including negative cases that must fail.",
+          "Normalization can hide a real bug. The guard needs its own negative tests, or it's just a green checkmark.",
       },
       {
-        title: "Explain from causality",
+        title: "Explain the cause, not the shape",
         body:
-          "Events carry links to their causes. The browser panel unwinds one event back through the chain, so 'why did suspicion arrive late?' has an answer in the trace instead of a guess in the UI.",
+          "Events link to their causes. The browser panel can unwind \"why did suspicion arrive late?\" through the trace instead of guessing in the UI.",
         tradeoff:
-          "The engine has to record causality, not just outcomes. That is more state and more discipline in every scenario.",
+          "The engine records more state. Every scenario pays for it.",
       },
     ],
     challenges: [
       {
-        title: "Time precision across languages",
+        title: "Time formatting",
         problem:
-          "Go and TypeScript format and compare time differently. A trace can look identical in a screenshot and differ in the bytes the guard compares.",
+          "Go and TypeScript format time differently. A trace can look identical on screen and differ in the bytes the guard compares.",
         solution:
-          "Integer virtual ticks everywhere, canonical formatting at the boundary, and normalization rules that are tested rather than assumed.",
+          "Integer ticks, canonical formatting at the boundary, and tests for the normalization rules.",
       },
       {
-        title: "Event ordering ties",
+        title: "Same tick, different order",
         problem:
-          "Two events at the same virtual tick can be emitted in different orders by the two implementations, producing a false drift signal.",
+          "Two events at the same virtual tick came out in different orders and the guard screamed about drift that didn't exist.",
         solution:
-          "Deterministic tie-breakers and sequence IDs assigned once, at recording time. Ordering is part of the contract, not an accident of iteration.",
+          "Sequence IDs and deterministic tie-breakers. Ordering is part of the contract.",
       },
       {
-        title: "The guard had blind spots",
+        title: "The guard was lying",
         problem:
-          "Auditing the guard found normalization rules that dropped fields — the comparison was passing because it was not looking.",
+          "I audited the guard and found normalization rules dropping fields. It was passing because it wasn't looking.",
         solution:
-          "Field-coverage checks and negative fixtures that must fail. The guard now proves it can detect drift, not just report success.",
+          "Field coverage checks and negative fixtures that must fail. Now the guard proves it can see drift.",
       },
     ],
     outcome: [
-      "Aegis Lab runs four failure scenarios in the browser with byte-identical repeat runs, causal explanations, and a drift guard that has caught real mismatches.",
-      "The most useful outcome was philosophical: 'two implementations agree' is not evidence until you have tested the agreement mechanism itself.",
+      "Aegis Lab runs four scenarios in the browser. Repeat runs are byte-identical, and the guard has caught real mismatches. I trust it more now that I've tried to break it.",
+      "The bigger lesson: \"two implementations agree\" doesn't mean much until you've tested the agreement itself.",
     ],
     next: [
-      "More failure modes: membership changes, clock skew, partial recovery.",
-      "Property-based scenario generation with shrinking.",
-      "A public trace format so other simulators can be compared.",
+      "Membership changes and clock skew.",
+      "Property-based scenarios with shrinking.",
+      "A trace format other simulators can use.",
     ],
     related: [
       {
@@ -395,8 +392,8 @@ export const caseStudies = [
     live: "https://myshoplet.com",
     github: null,
     summary:
-      "An e-commerce platform that moved Nigerian small businesses from WhatsApp threads to a real storefront — vendor tools, Paystack checkout, and a delivery state machine.",
-    role: "Full-stack engineer — storefront, orders, vendor tools, payments",
+      "A storefront and order system for Nigerian small businesses, built for vendors who started on WhatsApp and need something that can keep up.",
+    role: "Full-stack engineer. Storefront, orders, vendor tools, payments.",
     duration: "Ongoing",
     stack: ["Next.js", "TypeScript", "Paystack", "Vercel"],
     metrics: [
@@ -405,18 +402,18 @@ export const caseStudies = [
       { value: "1", label: "storefront, many shops" },
     ],
     problem: [
-      "A huge number of small businesses sell entirely through WhatsApp. The catalogue is a camera roll, the order book is a chat, payment proof is a screenshot, and delivery status lives in someone's memory.",
-      "The result is predictable: lost orders, duplicate payments, vendors who cannot answer 'where is my order?', and a business that cannot grow past the person typing replies.",
+      "A lot of small businesses in Nigeria sell through WhatsApp. The catalogue is a camera roll. The order book is a chat. Payment proof is a screenshot. Delivery status is whatever the vendor remembers.",
+      "It works until it doesn't. Orders get lost, customers pay twice, and nobody can answer \"where is my order?\" without scrolling.",
     ],
     constraints: [
-      "Mobile-first, low-bandwidth users on inconsistent networks.",
-      "Paystack as the payment rail, including bank-transfer and confirmation realities.",
-      "Vendors need autonomy without seeing each other's data.",
-      "The platform has to work for businesses that are not technical.",
+      "Mobile first, and the network is not always there.",
+      "Paystack, including bank transfers and the messy confirmation step.",
+      "Vendors need to run their own shop without seeing each other's orders.",
+      "The people using it are not technical. If onboarding needs a call, it's too complicated.",
     ],
     architecture: {
       caption:
-        "Storefront, order state machine, vendor console, and payment reconciliation around one order record.",
+        "One order record. The storefront, vendor console, and delivery timeline are views over it.",
       layers: [
         {
           label: "Customer",
@@ -436,69 +433,69 @@ export const caseStudies = [
         },
       ],
       note:
-        "The order record is the source of truth. Chat, email, and dashboards are views over it, never the place where state actually changes.",
+        "If chat says one thing and the order record says another, the order record wins.",
     },
     decisions: [
       {
-        title: "An order state machine, not status strings",
+        title: "Orders move through states",
         body:
-          "Orders move through explicit transitions: placed, paid, accepted, packed, dispatched, delivered, cancelled. Illegal transitions are rejected instead of silently overwriting a string.",
+          "Placed, paid, accepted, packed, dispatched, delivered, cancelled. Illegal transitions get rejected. I don't want a stale webhook to move a delivered order back to pending.",
         tradeoff:
-          "More code and more states to explain. In exchange, 'lost order' becomes a visible state instead of a mystery.",
+          "More states to explain and more code. But \"lost order\" becomes a visible state instead of a support mystery.",
       },
       {
-        title: "Webhook idempotency and reconciliation",
+        title: "Payment webhooks are not trustworthy",
         body:
-          "Paystack events can repeat and arrive out of order. Events are stored by ID, transitions are guarded, and a reconciliation view shows payments that do not match an order.",
+          "Paystack events repeat. They arrive late. They arrive out of order. I store event IDs, guard transitions, and keep a reconciliation view for payments that don't match an order.",
         tradeoff:
-          "An extra table and more moving parts. The alternative is charging someone twice and finding out from a support message.",
+          "A table and a lot of edge cases. The alternative is charging someone twice and hearing about it on WhatsApp.",
       },
       {
-        title: "Vendor-scoped data from day one",
+        title: "Tenant boundaries in the data layer",
         body:
-          "Every vendor query carries a tenant boundary. The console cannot accidentally return another shop's orders because the data layer does not offer an unscoped read.",
+          "Every vendor query is scoped. The console can't accidentally return another shop's orders because there is no unscoped read to call.",
         tradeoff:
-          "More plumbing in every endpoint. It is much cheaper than retrofitting isolation after the first data leak.",
+          "More plumbing in every endpoint. Still cheaper than retrofitting isolation after a leak.",
       },
       {
-        title: "Design for the network people actually have",
+        title: "Build for a bad connection",
         body:
-          "Small payloads, resilient forms, and optimistic UI that degrades to a clear retry. The checkout does not assume fibre.",
+          "Small payloads, forms that survive a refresh, and a retry that doesn't lose the cart. Checkout doesn't assume fibre.",
         tradeoff:
-          "Fewer flashy interactions and more edge-case handling. The product feels calmer because it is built for interruption.",
+          "Fewer fancy interactions. The app feels quieter, which is fine.",
       },
     ],
     challenges: [
       {
-        title: "Payments that arrive twice",
+        title: "The webhook that arrived twice",
         problem:
-          "A repeated webhook can double-credit an order or move it backwards after fulfilment.",
+          "A repeated Paystack event double-credited an order, and then a stale event tried to move it backwards.",
         solution:
-          "Event deduplication plus transition guards. A paid order cannot return to pending because a stale event arrived late.",
+          "Dedupe by event ID and guard every transition. Paid doesn't go back to pending.",
       },
       {
-        title: "Vendor onboarding without support tickets",
+        title: "Vendor onboarding",
         problem:
-          "Non-technical vendors need to add products, set prices, and fulfil orders without a call.",
+          "Non-technical vendors needed to add products and fulfil orders without calling me.",
         solution:
-          "A constrained console with sensible defaults, inline validation, and a preview of the storefront before publishing.",
+          "A constrained console with defaults, inline validation, and a storefront preview before publishing.",
       },
       {
-        title: "Delivery truth",
+        title: "Where is my order?",
         problem:
-          "Customers ask 'where is my order?' and the answer only exists in a chat.",
+          "The answer lived in a chat.",
         solution:
-          "Delivery states owned by the vendor or admin, with a customer-facing timeline. The answer is a page, not a person.",
+          "Delivery states owned by the vendor or admin, with a customer timeline. The answer is a page now.",
       },
     ],
     outcome: [
-      "Myshoplet runs 65+ daily orders across 100+ active vendors. The platform replaced a chat-based workflow with an order record that can be tracked, audited, and supported.",
-      "The engineering lesson is unglamorous: in commerce, the hard part is not the storefront. It is making money and state agree when the network, the webhook, and the human all misbehave.",
+      "Myshoplet runs 65+ orders a day across 100+ vendors. It replaced a chat workflow with an order record that can be tracked and supported.",
+      "The lesson wasn't about the storefront. It was about making money and state agree when the network, the webhook, and the human all do something unexpected.",
     ],
     next: [
-      "Vendor analytics that answer 'what should I restock?'",
-      "Inventory sync across channels.",
-      "Courier integrations with real tracking events.",
+      "Tell vendors what to restock.",
+      "Sync inventory across channels.",
+      "Real courier tracking instead of manual states.",
     ],
     related: [],
   },
@@ -512,8 +509,8 @@ export const caseStudies = [
     live: "https://274lab.com",
     github: null,
     summary:
-      "A 26-week JAMB practice platform: timed weekly quizzes, JAMB's exact +4/−1 scoring, per-subject analytics, consistency tiers, and a Go backend that owns the clock.",
-    role: "Full-stack engineer — product, quiz engine, analytics, backend",
+      "A 26-week JAMB practice platform with weekly timed quizzes, real +4/−1 scoring, and a backend that owns the clock.",
+    role: "Full-stack engineer. Product, quiz engine, analytics, backend.",
     duration: "Ongoing",
     stack: ["React", "Vite", "Go", "PostgreSQL", "Paystack"],
     metrics: [
@@ -522,20 +519,20 @@ export const caseStudies = [
       { value: "26", label: "weeks of structured practice" },
     ],
     problem: [
-      "JAMB decides university admission for roughly two million Nigerian students a year, and most of them prepare by grinding random past questions. They get an answer key, not a profile of themselves.",
-      "That produces three predictable failures: no feedback loop, no weekly cadence, and practice under the wrong scoring model. UTME is +4 for a correct answer and −1 for a wrong one, yet most students practise as if every guess is free.",
-      "274Lab turns the last 274 days before the exam into a 26-week training cycle: one timed quiz window per week, real JAMB scoring, per-subject weaknesses, and a leaderboard that rewards consistency instead of cramming.",
+      "JAMB is one exam, four subjects, 200 minutes, and it decides where a lot of Nigerian students go to university. Most preparation is still random past questions. You get an answer key, not a picture of what you're bad at.",
+      "Three things go wrong. Nobody measures weak topics. Nobody practices weekly. And almost nobody practices with the real scoring: +4 for correct, −1 for wrong, 0 for blank. Guessing feels free until exam day.",
+      "274Lab turns the last 274 days into 26 weeks. One timed quiz window a week. Real scoring. A breakdown that tells you which subject is dragging the total down.",
     ],
     constraints: [
-      "A fixed Friday/Saturday quiz window with a server-enforced deadline.",
-      "25 shuffled questions per subject, with shuffled options, under exam timing.",
-      "JAMB's exact +4 / −1 / 0 scoring — practice must match the real risk-reward.",
-      "Installable on low-end Android phones, often on unreliable networks.",
-      "A small operations budget: one backend and Postgres, not a service mesh.",
+      "Quiz window: Friday and Saturday, one hour. The server decides when it closes.",
+      "25 questions per subject, shuffled, with the options shuffled too.",
+      "JAMB scoring exactly. Practice should hurt the same way the exam does.",
+      "It has to run on cheap Android phones and bad networks.",
+      "One backend and Postgres. I don't have an ops team.",
     ],
     architecture: {
       caption:
-        "The quiz window, scoring, access, and read models are backend concerns. The client renders a session it does not own.",
+        "The client shows the quiz. The backend owns the window, the score, and access.",
       layers: [
         {
           label: "Client",
@@ -559,83 +556,83 @@ export const caseStudies = [
         },
       ],
       note:
-        "The client timer is a display. If the client and the server disagree about the deadline, the server is right.",
+        "The countdown is a display. The server's clock is the one that counts.",
     },
     decisions: [
       {
-        title: "Score like the real exam",
+        title: "Score it like JAMB",
         body:
-          "Every quiz uses JAMB's formula: +4 for correct, −1 for wrong, 0 for unanswered. The backend computes the score from stored answers, so a student learns the actual cost of guessing before exam day.",
+          "+4, −1, 0. The backend computes it from stored answers. Students should learn the cost of a guess before the exam does it for them.",
         tradeoff:
-          "The result is harsher than a percentage. That is the point, but it has to be explained clearly so a low score reads as information rather than punishment.",
+          "Scores look harsh. A 42% can be a decent result under negative marking. The product has to explain that without sounding like an excuse.",
       },
       {
         title: "The server owns the window",
         body:
-          "A quiz is only writable during the active week's Friday/Saturday window, and submissions are checked against server time with an explicit deadline error. The countdown is a courtesy, not the authority.",
+          "Answers are only accepted during the active window, checked against server time. Refresh the page, change the clock, it doesn't matter.",
         tradeoff:
-          "More careful handling of slow networks and last-second submissions. Refreshing the page or changing a device clock buys nothing.",
+          "Last-second submissions on bad networks are a pain. There's a grace window and an explicit deadline state. I still don't love how it feels.",
       },
       {
-        title: "Shuffle the paper, keep the record",
+        title: "Shuffle, but keep the paper",
         body:
-          "Questions and options are shuffled per attempt to make memorisation useless. The served order is stored, so the result review can show exactly what the student saw.",
+          "Questions and options are shuffled per attempt. The served order is stored so the review shows exactly what the student saw.",
         tradeoff:
-          "More state per attempt and a stricter review model. It prevents the worst support conversation: 'that question did not look like that when I took it.'",
+          "More state per attempt. Worth it. \"That question looked different when I took it\" is a bad support thread.",
       },
       {
-        title: "Gate access at the API",
+        title: "Check access at the API",
         body:
-          "Two free quizzes, then a low-friction Paystack subscription. Entitlement is checked in the backend on every quiz path, not hidden in the UI.",
+          "Two free quizzes, then a Paystack subscription. Entitlement is checked in the backend, not hidden in the UI.",
         tradeoff:
-          "Access checks spread across the quiz and content surfaces. It is much cheaper than auditing revenue after the fact.",
+          "Access checks spread across quiz and content routes. Still cheaper than auditing revenue after the fact.",
       },
       {
-        title: "Read models for the social layer",
+        title: "Read models for leaderboards",
         body:
-          "Leaderboards, consistency tiers, and per-subject averages are projections over attempts. The write path stays small, and the dashboard stays fast when a cohort finishes together.",
+          "Leaderboards, tiers, and averages are projections over attempts. The write path stays small, and the dashboard stays fast when a cohort finishes together.",
         tradeoff:
-          "Eventual consistency. A rank can lag by a refresh interval, which is acceptable if the interface is honest about it.",
+          "A rank can lag. I show it as a snapshot instead of pretending it's live.",
       },
       {
-        title: "Meet students on the phone they have",
+        title: "Meet the phone they have",
         body:
-          "The product ships as an installable PWA with push notifications and a weekly WhatsApp report for parents or teachers. No app-store gate, no fibre assumption.",
+          "Installable PWA, push notifications, and a weekly WhatsApp report for parents or teachers. No app store, no fibre.",
         tradeoff:
-          "Platform limits, especially around iOS push. The web app has to degrade cleanly instead of pretending every device is the same.",
+          "iOS push is limited. The app degrades instead of pretending every device is the same.",
       },
     ],
     challenges: [
       {
-        title: "Deadlines on a bad connection",
+        title: "The last-second submit",
         problem:
-          "A student submits at the last second on a slow network and the client and server disagree about whether the answer counted.",
+          "A student submits at 59:59 on a slow connection. The client says it counted. The server isn't so sure.",
         solution:
-          "Server timestamps, a bounded grace window, and an explicit deadline state instead of silently accepting or rejecting. The countdown is rendered from the server's window.",
+          "Server timestamps, a bounded grace window, and an explicit deadline state. The client stops being the authority.",
       },
       {
-        title: "Exam-season bursts",
+        title: "Everyone starts at once",
         problem:
-          "Traffic arrives in clusters when a cohort starts together, and an expensive leaderboard query can take the result page down.",
+          "A cohort opens the quiz together and the leaderboard query takes the result page down.",
         solution:
-          "Projections for leaderboards and averages, indexed attempt reads, and rate limits that protect the API without blocking legitimate bursts. There is a load-test harness in the repo for exactly this.",
+          "Projections, indexed reads, rate limits. There's a load-test harness in the repo because this happened.",
       },
       {
-        title: "Patches mode after June 21",
+        title: "Patches mode",
         problem:
-          "Late in the season, students need targeted help, not another generic quiz. The product has to notice which subject is dragging the total down.",
+          "After June 21, some students need targeted help, not another generic quiz.",
         solution:
-          "Flag subjects whose average falls below 50% and prioritize their key points in the notification feed, with a visibly different dashboard state. Intervention becomes a product behavior, not a manual email.",
+          "Flag subjects under 50%, prioritize them in the notification feed, and change the dashboard state so it's obvious.",
       },
     ],
     outcome: [
-      "274Lab is live with 250+ students and 800+ quizzes taken. Timing, scoring, entitlement, and analytics are backend concerns, so the product can be trusted when it matters.",
-      "The most valuable constraint was the small operations budget. It forced a simple architecture — one Go service, Postgres, and read models — instead of a pile of services that would be harder to keep correct.",
+      "274Lab is live with 250+ students and 800+ quizzes. Timing, scoring, access, and analytics all live on the server, which is where they belong.",
+      "Keeping it to one Go service and Postgres was the right call. I've seen what happens when a small product gets a service mesh.",
     ],
     next: [
-      "Adaptive practice driven by per-topic weakness.",
-      "Cohort analytics for teachers and schools.",
-      "A resilient offline mode for patchy networks.",
+      "Adaptive practice based on weak topics.",
+      "Teacher and school dashboards.",
+      "Offline mode that doesn't corrupt attempts.",
     ],
     related: [],
   },

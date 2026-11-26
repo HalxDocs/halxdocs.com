@@ -2,17 +2,17 @@ const engagements = [
   {
     label: "Backend engineering",
     description:
-      "Go or TypeScript services, APIs, queues, data models, and the unglamorous reliability work around them.",
+      "Go or TypeScript services, APIs, queues, and the data model underneath. I like the reliability work most people skip.",
   },
   {
     label: "Platform engineering",
     description:
-      "Internal tools, developer experience, CI/CD, observability, and the paved road between them.",
+      "Internal tools, CI/CD, and observability. I care about the parts that quietly make a team slower.",
   },
   {
     label: "Software engineering",
     description:
-      "End-to-end product work: schema, API, interface, deployment, and the first real users.",
+      "Product work from schema to shipped UI. I'm comfortable owning the whole thing when the team is small.",
   },
   {
     label: "Technical training",
@@ -22,19 +22,19 @@ const engagements = [
   {
     label: "Consulting",
     description:
-      "Architecture reviews, incident postmortems, and scaling audits that end in a written decision.",
+      "Architecture reviews, incident write-ups, and scaling audits. You get a written decision, not a slide deck.",
   },
   {
     label: "Collaborations",
     description:
-      "Open-source, research, or a product that needs a backend brain for a season.",
+      "Open-source, research, or a product that needs a backend person for a season.",
   },
 ];
 
 const fits = [
-  "You have a backend that needs to survive real traffic, not just a demo.",
-  "You are turning a prototype into a product and want the foundations right.",
-  "You want engineers who reason about failure instead of discovering it in production.",
+  "You have a backend that needs to survive real traffic.",
+  "You're turning a prototype into a product and want the foundations right.",
+  "You want someone who thinks about failure before it happens.",
 ];
 
 export default function Opportunities() {
@@ -49,13 +49,13 @@ export default function Opportunities() {
       </div>
 
       <h2 id="opportunities-title" className="opp-title">
-        Let&apos;s build something that has to stay up.
+        Hire me, or bring me in for a season.
       </h2>
 
       <p className="opp-intro">
-        I&apos;m open to backend engineering, platform engineering, and software
-        engineering roles — plus technical training, consulting, and collaborations where
-        a systems mindset helps.
+        I&apos;m looking for backend engineering, platform engineering, and software
+        engineering roles. I also take on technical training, consulting, and
+        collaborations when the problem is interesting enough.
       </p>
 
       <div className="opp-grid">

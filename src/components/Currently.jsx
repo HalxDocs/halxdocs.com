@@ -4,12 +4,12 @@ const lanes = [
     items: [
       {
         name: "reqit sync boundary",
-        note: "A sync design that does not turn a local-first tool into another hosted account.",
+        note: "Trying to add sync without turning a local-first tool into another account. Not sure it's possible yet.",
         status: "In progress",
       },
       {
         name: "DLQ Inspector adapters",
-        note: "More brokers behind the same recovery model. Dry-run stays the default.",
+        note: "More brokers behind the same recovery model. Dry-run first, always.",
         status: "Prototyping",
       },
       {
@@ -24,12 +24,12 @@ const lanes = [
     items: [
       {
         name: "Raft membership changes",
-        note: "What happens when cluster configuration changes while the cluster is already unstable.",
+        note: "What happens when the cluster config changes while the cluster is already unhappy.",
         status: "Reading",
       },
       {
         name: "Idempotency key design",
-        note: "Keys that survive retries, replays, and an impatient operator at 2am.",
+        note: "Keys that survive retries, replays, and someone hitting the button twice.",
         status: "Notes",
       },
       {
@@ -49,7 +49,7 @@ const lanes = [
       },
       {
         name: "Platform engineering",
-        note: "Golden paths, operators, and developer experience that survives a growing team.",
+        note: "Golden paths and developer experience that survive a team growing.",
         status: "Ongoing",
       },
       {
@@ -73,12 +73,11 @@ export default function Currently() {
             Currently working on
           </h2>
         </div>
-        <span className="now-updated font-mono">Updated · November 2026</span>
+        <span className="now-updated font-mono">Last updated · November 2026</span>
       </div>
 
       <p className="now-intro">
-        A living snapshot of what is on the bench — shipped work, open questions, and the
-        things I am learning on purpose.
+        What&apos;s on my desk right now. I update this when it stops being true.
       </p>
 
       <div className="now-lanes">
@@ -108,7 +107,7 @@ export default function Currently() {
       </div>
 
       <p className="now-foot">
-        The through-line: reliability is a feature, not a phase.
+        I&apos;ll keep this honest as things ship or get dropped.
       </p>
     </section>
   );

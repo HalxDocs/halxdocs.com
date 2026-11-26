@@ -7,7 +7,7 @@ const posts = [
     title: "Dead-Letter Queues: Designing Safe Message Recovery in Distributed Systems",
     date: "November 2026",
     excerpt:
-      "Why failed messages need more than a DLQ: delivery guarantees, idempotency, validation, dry-runs, rate limits, circuit breakers, and auditable recovery in Go.",
+      "Why replaying a failed batch is never just a button, and what a safe recovery path actually needs.",
     tag: "Distributed Systems",
   },
   {
@@ -15,7 +15,7 @@ const posts = [
     title: "Every API Request Now Leaves a Signed Receipt",
     date: "November 2026",
     excerpt:
-      "reqit 2.6.0 writes a redacted, hash-chained, signed run receipt for every execution — what is inside one, how verification works, and where the guarantees stop.",
+      "reqit 2.6.0 writes a redacted, hash-chained, signed receipt for every run. What is inside one, how verification works, and where the guarantee stops.",
     tag: "Release",
   },
   {
@@ -23,7 +23,7 @@ const posts = [
     title: "One Engine, Many Doors",
     date: "November 2026",
     excerpt:
-      "How one Go package carries requests for a desktop app, CLI, runner, scheduler, load tester, and MCP server — and how that center holds.",
+      "One Go package sits behind reqit's desktop app, CLI, runner, scheduler, load tester, and MCP server. Here's how that holds up.",
     tag: "Architecture",
   },
   {
@@ -31,7 +31,7 @@ const posts = [
     title: "Building an HTTP Request Engine in Go",
     date: "November 2026",
     excerpt:
-      "Connection pooling, authentication, context timeouts, and timing every phase of a request with Go's httptrace — what actually happens behind the Send button.",
+      "What happens between hitting Send and getting a response: connection reuse, auth, timeouts, and timing each phase with httptrace.",
     tag: "Engineering",
   },
   {
@@ -39,7 +39,7 @@ const posts = [
     title: "Two Implementations, One Truth",
     date: "November 2026",
     excerpt:
-      "Keeping a Go simulator and its TypeScript port from quietly describing different worlds — and what happened when I audited the guard itself.",
+      "A Go simulator and a TypeScript port can both look right and still describe different systems. Here's how I check, and what happened when I audited the check.",
     tag: "Case Study",
   },
   {
@@ -47,7 +47,7 @@ const posts = [
     title: "Learning Raft by Building It in Go",
     date: "October 2026",
     excerpt:
-      "What implementing a consensus algorithm actually teaches you about distributed systems — from RPC communication and timeouts to why agreeing is harder than connecting.",
+      "What building Raft actually taught me about distributed systems, from RPC and timeouts to why agreeing is harder than connecting.",
     tag: "Distributed Systems",
   },
   {
@@ -55,7 +55,7 @@ const posts = [
     title: "Why I Built Reqit",
     date: "October 2026",
     excerpt:
-      "Reqit started with a problem I was experiencing myself: a heavy API client, forced accounts, and paid collaboration. So I built something fast, local-first, and Git-native.",
+      "reqit started with a small annoyance: an API client that wanted an account before it would send a request. So I built the one I wanted.",
     tag: "Build Story",
   },
 ];
@@ -63,7 +63,7 @@ const posts = [
 const paths = [
   {
     title: "New to distributed systems",
-    note: "Start with the ideas, then the failure modes.",
+    note: "Start here if consensus and at-least-once still feel abstract.",
     posts: [
       { label: "Learning Raft in Go", to: "/blog/learning-raft-in-go" },
       { label: "Dead-letter queues", to: "/blog/dead-letter-queues-safe-recovery" },
@@ -71,7 +71,7 @@ const paths = [
   },
   {
     title: "Inside reqit",
-    note: "One engine, its boundaries, and the receipts it leaves.",
+    note: "How one Go package ended up behind everything reqit does.",
     posts: [
       { label: "Why I built reqit", to: "/blog/why-i-built-reqit" },
       { label: "The HTTP engine", to: "/blog/http-request-engine-in-go" },
@@ -81,7 +81,7 @@ const paths = [
   },
   {
     title: "Production judgment",
-    note: "What breaks, what it costs, and how to prove the fix.",
+    note: "Failure stories, and what I'd do differently.",
     posts: [
       { label: "Two implementations, one truth", to: "/blog/two-implementations-one-truth" },
       { label: "Safe DLQ recovery", to: "/blog/dead-letter-queues-safe-recovery" },
@@ -125,7 +125,7 @@ export default function Blog() {
           marginBottom: 32,
         }}
       >
-        Thoughts on building products, tools, and systems — from real work, real bugs, real problems.
+        Things I&apos;ve had to figure out while building. Mostly from bugs, outages, and code I had to maintain.
       </p>
 
       <div className="reading-paths">
@@ -221,8 +221,7 @@ export default function Blog() {
         <div>
           <h2>Open to backend, platform, and consulting work.</h2>
           <p>
-            If you want the longer version of any of these systems — or need one built
-            properly — I&apos;m reachable.
+            I can walk through any of these in more detail, or help you build one.
           </p>
         </div>
         <div className="work-cta-actions">

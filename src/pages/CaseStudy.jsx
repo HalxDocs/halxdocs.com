@@ -95,6 +95,7 @@ export default function CaseStudy() {
   const index = caseStudies.findIndex((item) => item.slug === study.slug);
   const previousStudy = caseStudies[(index - 1 + caseStudies.length) % caseStudies.length];
   const nextStudy = caseStudies[(index + 1) % caseStudies.length];
+  const showPrevious = caseStudies.length > 2;
 
   return (
     <article className="cs-page">
@@ -146,12 +147,12 @@ export default function CaseStudy() {
       </div>
 
       <section className="cs-section">
-        <SectionLabel>The problem</SectionLabel>
+        <SectionLabel>What was wrong</SectionLabel>
         <Paragraphs items={study.problem} />
       </section>
 
       <section className="cs-section">
-        <SectionLabel>Constraints</SectionLabel>
+        <SectionLabel>What I had to work with</SectionLabel>
         <ul className="cs-list">
           {study.constraints.map((item) => (
             <li key={item}>{item}</li>
@@ -160,12 +161,12 @@ export default function CaseStudy() {
       </section>
 
       <section className="cs-section">
-        <SectionLabel>Architecture</SectionLabel>
+        <SectionLabel>How it fits together</SectionLabel>
         <Architecture architecture={study.architecture} />
       </section>
 
       <section className="cs-section">
-        <SectionLabel>Decisions &amp; trade-offs</SectionLabel>
+        <SectionLabel>Choices I made</SectionLabel>
         <div className="cs-decisions">
           {study.decisions.map((decision, decisionIndex) => (
             <div key={decision.title} className="cs-decision">
@@ -176,7 +177,7 @@ export default function CaseStudy() {
                 <h3>{decision.title}</h3>
                 <p>{decision.body}</p>
                 <p className="cs-tradeoff">
-                  <span className="font-mono">Trade-off</span>
+                  <span className="font-mono">What it costs</span>
                   {decision.tradeoff}
                 </p>
               </div>
@@ -186,7 +187,7 @@ export default function CaseStudy() {
       </section>
 
       <section className="cs-section">
-        <SectionLabel>What broke, and what fixed it</SectionLabel>
+        <SectionLabel>What broke</SectionLabel>
         <div className="cs-challenges">
           {study.challenges.map((challenge, challengeIndex) => (
             <div key={challenge.title} className="cs-challenge">
@@ -210,12 +211,12 @@ export default function CaseStudy() {
       </section>
 
       <section className="cs-section">
-        <SectionLabel>Outcome</SectionLabel>
+        <SectionLabel>Where it landed</SectionLabel>
         <Paragraphs items={study.outcome} />
       </section>
 
       <section className="cs-section">
-        <SectionLabel>Next</SectionLabel>
+        <SectionLabel>Still open</SectionLabel>
         <ul className="cs-list">
           {study.next.map((item) => (
             <li key={item}>{item}</li>
@@ -237,23 +238,33 @@ export default function CaseStudy() {
         </section>
       )}
 
-      <nav className="cs-pager" aria-label="Case studies">
-        <Link to={`/work/${previousStudy.slug}`} className="cs-pager-link">
-          <span className="font-mono">← Previous</span>
-          <strong>{previousStudy.name}</strong>
-        </Link>
-        <Link to={`/work/${nextStudy.slug}`} className="cs-pager-link cs-pager-next">
-          <span className="font-mono">Next →</span>
-          <strong>{nextStudy.name}</strong>
-        </Link>
-      </nav>
+      {caseStudies.length > 1 && (
+        <nav
+          className={`cs-pager${showPrevious ? "" : " cs-pager-single"}`}
+          aria-label="Case studies"
+        >
+          {showPrevious && (
+            <Link to={`/work/${previousStudy.slug}`} className="cs-pager-link">
+              <span className="font-mono">← Previous</span>
+              <strong>{previousStudy.name}</strong>
+            </Link>
+          )}
+          <Link
+            to={`/work/${nextStudy.slug}`}
+            className="cs-pager-link cs-pager-next"
+          >
+            <span className="font-mono">Next →</span>
+            <strong>{nextStudy.name}</strong>
+          </Link>
+        </nav>
+      )}
 
       <div className="cs-cta">
         <div>
-          <h2>Building something like this?</h2>
+          <h2>Working on something similar?</h2>
           <p>
-            I&apos;m open to backend, platform, and product work — and to talking through
-            the hard parts before they become incidents.
+            I&apos;m happy to talk through the hard parts before they turn into
+            incidents.
           </p>
         </div>
         <div className="cs-cta-actions">

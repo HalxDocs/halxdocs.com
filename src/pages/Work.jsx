@@ -116,8 +116,8 @@ export default function Work() {
       <h1 className="work-h1">How the systems actually work.</h1>
 
       <p className="work-intro">
-        Five deep dives into architecture, trade-offs, and the parts that broke. Written
-        from the code, not the pitch deck.
+        Five projects, written up properly: what I was trying to fix, what I chose, and
+        what went wrong. No pitch deck.
       </p>
 
       <div className="work-domains font-mono">
@@ -170,10 +170,10 @@ export default function Work() {
 
       <div className="work-cta">
         <div>
-          <h2>Want the longer version?</h2>
+          <h2>Want to talk through one of these?</h2>
           <p>
-            I can walk through the architecture, the failure modes, and the decisions
-            behind any of these.
+            I&apos;m happy to walk through the architecture, the failure modes, and the
+            parts that still bother me.
           </p>
         </div>
         <div className="work-cta-actions">
