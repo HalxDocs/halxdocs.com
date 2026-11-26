@@ -1,5 +1,6 @@
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Sun, Moon } from "lucide-react";
+import { Menu, Moon, Sun, X } from "lucide-react";
 
 const navLinks = [
   { to: "/", label: "Home" },
@@ -9,30 +10,34 @@ const navLinks = [
   { to: "/guestbook", label: "Guestbook" },
 ];
 
+function isActive(pathname, to) {
+  return pathname === to || (to !== "/" && pathname.startsWith(to));
+}
+
 export default function Navbar({ dark, onToggleDark }) {
   const { pathname } = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [menuOpen]);
 
   return (
-    <header
-      className="site-header"
-      style={{
-        maxWidth: 640,
-        margin: "0 auto",
-        padding: "20px 20px 0",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "flex-end",
-        gap: 18,
-      }}
-    >
-      <nav className="nav-links" style={{ display: "flex", gap: 18 }}>
+    <header className="site-header">
+      <nav className="nav-links" aria-label="Main navigation">
         {navLinks.map((l) => {
-          const active = pathname === l.to || (l.to !== "/" && pathname.startsWith(l.to));
+          const active = isActive(pathname, l.to);
           return (
             <Link
               key={l.to}
               to={l.to}
               className="nav-link"
+              aria-current={active ? "page" : undefined}
               style={{
                 fontSize: 13,
                 color: active ? "var(--text)" : "var(--text-muted)",
@@ -45,7 +50,7 @@ export default function Navbar({ dark, onToggleDark }) {
                 if (!active) e.currentTarget.style.color = "var(--text)";
               }}
               onMouseLeave={(e) => {
-                if (!active) e.currentTarget.style.color = "var(--text-muted)";
+                e.currentTarget.style.color = active ? "var(--text)" : "var(--text-muted)";
               }}
             >
               {l.label}
@@ -55,26 +60,55 @@ export default function Navbar({ dark, onToggleDark }) {
       </nav>
 
       <button
+        type="button"
+        className="nav-toggle"
+        aria-label={menuOpen ? "Close menu" : "Open menu"}
+        aria-expanded={menuOpen}
+        aria-controls="mobile-nav"
+        onClick={() => setMenuOpen((open) => !open)}
+      >
+        {menuOpen ? <X size={14} /> : <Menu size={14} />}
+        <span>{menuOpen ? "Close" : "Menu"}</span>
+      </button>
+
+      <button
+        type="button"
+        className="theme-toggle"
         onClick={onToggleDark}
         aria-label="Toggle theme"
-        style={{
-          width: 22,
-          height: 22,
-          border: "none",
-          background: "transparent",
-          cursor: "pointer",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          color: "var(--text-dim)",
-          padding: 0,
-          transition: "color 0.15s",
-        }}
         onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
         onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-dim)")}
       >
         {dark ? <Sun size={13} /> : <Moon size={13} />}
       </button>
+
+      {menuOpen && (
+        <>
+          <button
+            type="button"
+            className="nav-backdrop"
+            aria-label="Close menu"
+            onClick={() => setMenuOpen(false)}
+          />
+          <nav id="mobile-nav" className="nav-menu" aria-label="Mobile navigation">
+            {navLinks.map((l) => {
+              const active = isActive(pathname, l.to);
+              return (
+                <Link
+                  key={l.to}
+                  to={l.to}
+                  className="nav-menu-link"
+                  aria-current={active ? "page" : undefined}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <span>{l.label}</span>
+                  {active && <span className="nav-menu-current font-mono">HERE</span>}
+                </Link>
+              );
+            })}
+          </nav>
+        </>
+      )}
     </header>
   );
 }

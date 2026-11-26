@@ -350,40 +350,113 @@ button {
   text-underline-offset: 3px;
 }
 
-/* ─── Navigation: more air on phones without wrapping ─── */
-@media (max-width: 430px) {
+/* ─── Navigation ─── */
+.site-header {
+  position: relative;
+  z-index: 40;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 20px 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 18px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 18px;
+}
+
+.nav-toggle {
+  display: none;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 0;
+  border: none;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.theme-toggle {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-dim);
+  padding: 0;
+  transition: color 0.15s;
+}
+
+.nav-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  border: none;
+  background: transparent;
+  cursor: default;
+}
+
+.nav-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 20px;
+  z-index: 41;
+  width: min(240px, calc(100vw - 40px));
+  padding: 6px;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  background: var(--bg);
+  box-shadow: 3px 3px 0 var(--text);
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-menu-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 44px;
+  padding: 0 10px;
+  border-radius: 4px;
+  font-size: 13px;
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.nav-menu-link:hover,
+.nav-menu-link[aria-current="page"] {
+  background: var(--surface);
+  color: var(--text);
+}
+
+.nav-menu-current {
+  font-size: 8.5px;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+}
+
+@media (max-width: 560px) {
   .site-header {
-    padding-top: 22px !important;
+    gap: 14px;
   }
 
   .nav-links {
-    gap: 15px !important;
+    display: none;
   }
 
-  .nav-link {
-    padding: 4px 0;
-    font-size: 12.5px !important;
-    line-height: 1.4;
-  }
-}
-
-@media (max-width: 370px) {
-  .nav-links {
-    gap: 12px !important;
-  }
-
-  .nav-link {
-    font-size: 12px !important;
-  }
-}
-
-@media (max-width: 330px) {
-  .nav-links {
-    gap: 9px !important;
-  }
-
-  .nav-link {
-    font-size: 11.5px !important;
+  .nav-toggle {
+    display: inline-flex;
   }
 }
 
@@ -866,14 +939,90 @@ button {
 }
 
 @media (max-width: 560px) {
+  .cs-index-row {
+    padding: 28px 0 24px;
+  }
+
+  .cs-index-head {
+    gap: 10px;
+  }
+
+  .cs-index-title {
+    font-size: 18px;
+  }
+
+  .cs-index-status {
+    padding: 3px 6px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 8px;
+  }
+
+  .cs-index-kicker {
+    margin-top: 4px;
+  }
+
+  .cs-index-summary {
+    margin-top: 14px;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .cs-index-meta {
+    margin-top: 16px;
+    gap: 10px;
+  }
+
+  .cs-index-foot {
+    display: block;
+    margin-top: 20px;
+  }
+
+  .cs-index-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .cs-index-metric span {
+    font-size: 8px;
+    line-height: 1.4;
+  }
+
+  .cs-index-link {
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 18px;
+    padding: 12px 0 0;
+    border-bottom: none;
+    border-top: 1px solid var(--border);
+    font-size: 10.5px;
+  }
+
+  .more-work {
+    margin-top: 48px;
+  }
+
   .more-work-row {
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
+    padding: 18px 0;
+  }
+
+  .more-work-desc {
+    font-size: 12.5px;
   }
 
   .more-work-links {
     flex-direction: row;
-    gap: 14px;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 2px;
+  }
+
+  .more-work-links a {
+    padding: 4px 0;
+    font-size: 10.5px;
   }
 }
 

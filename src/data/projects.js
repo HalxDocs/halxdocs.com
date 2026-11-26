@@ -60,7 +60,6 @@ export const projects = [
     live: "https://jsonstack.dev",
     github: "https://github.com/HalxDocs/json-formatter",
     category: "tools",
-    featured: true,
     stack: ["React", "TypeScript", "Vite"],
   },
   {
@@ -69,7 +68,6 @@ export const projects = [
       "A store for a beauty brand that used to take orders in WhatsApp DMs. Paystack checkout, inventory, and a small admin dashboard.",
     live: "https://norahsbeautyhub.pxxl.click",
     category: "products",
-    featured: true,
     stack: ["React", "Paystack", "Vercel"],
   },
   {
@@ -79,7 +77,6 @@ export const projects = [
     live: "https://npmjs.com/package/@halxdocs/contextpack",
     github: "https://github.com/HalxDocs/contextpack",
     category: "tools",
-    featured: true,
     stack: ["TypeScript", "Node.js", "npm"],
   },
   {
@@ -88,7 +85,6 @@ export const projects = [
       "A searchable archive of API shutdowns and the migration notes they left behind.",
     live: "/api-graveyard",
     category: "products",
-    featured: true,
     stack: ["React", "Vite", "TypeScript"],
   },
   {
@@ -97,7 +93,6 @@ export const projects = [
       "A database TUI for people who would rather not open a GUI. Connect, query, and edit from the terminal.",
     github: "https://github.com/HalxDocs/lazydb",
     category: "tools",
-    featured: true,
     stack: ["Go", "bubbletea", "SQLite"],
   },
 
@@ -108,7 +103,6 @@ export const projects = [
       "Self-hosted SSO for Go apps. One integration in your service, SAML or OIDC to each customer's IdP, and a single binary to deploy.",
     github: "https://github.com/HalxDocs/keyway",
     category: "tools",
-    featured: true,
     stack: ["Go", "SAML", "OIDC"],
   },
   {
@@ -117,7 +111,6 @@ export const projects = [
       "One command to run a local service stack with health checks, logs, and a shutdown that actually kills everything.",
     github: "https://github.com/HalxDocs/dashdev",
     category: "tools",
-    featured: true,
     stack: ["Go", "YAML", "Docker"],
   },
   {
@@ -161,7 +154,6 @@ export const projects = [
       "A Go SDK for the Bachs payments API: checkouts, subscriptions, payouts, and webhooks, with sandbox defaults.",
     github: "https://github.com/HalxDocs/bachs-go",
     category: "tools",
-    featured: true,
     stack: ["Go", "REST", "Webhooks"],
   },
 
